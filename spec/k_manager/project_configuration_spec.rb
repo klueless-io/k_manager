@@ -28,14 +28,14 @@ RSpec.describe KManager::Configuration::Project do
 
     describe '#configure' do
       let(:block) do
-        -> (config) do
+        lambda do |config|
           # config.target_folders.add(:src, custom_target_folder1)
           # config.target_folders.add(:dst, custom_target_folder2)
-  
+
           # config.template_folders.add(:global , custom_global_template_folder)
           # config.template_folders.add(:domain , custom_domain_template_folder)
           # config.template_folders.add(:app    , custom_template_folder)
-            
+
           config.github.user = 'user'
           config.github.personal_access_token = 'pat'
           config.github.personal_access_token_delete = 'pat_d'
@@ -43,12 +43,12 @@ RSpec.describe KManager::Configuration::Project do
       end
 
       it { is_expected.not_to be_nil }
-        # puts JSON.pretty_generate(subject.to_h)
-        # is_expected.to have_attributes(
-        #   user: 'user',
-        #   personal_access_token: 'pat',
-        #   personal_access_token_delete: 'pat_d'
-        # )
+      # puts JSON.pretty_generate(subject.to_h)
+      # is_expected.to have_attributes(
+      #   user: 'user',
+      #   personal_access_token: 'pat',
+      #   personal_access_token_delete: 'pat_d'
+      # )
     end
   end
 
@@ -79,5 +79,4 @@ RSpec.describe KManager::Configuration::Project do
 
     # it { subject.github; puts JSON.pretty_generate(KUtil.data.to_hash(subject)) }
   end
-
 end

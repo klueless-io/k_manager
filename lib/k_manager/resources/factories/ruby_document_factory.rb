@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # # frozen_string_literal: true
 # require 'csv'
 
@@ -15,21 +16,21 @@
 #           KDsl.target_resource = self
 
 #           Object.class_eval content
-  
+
 #           # Only DSL's will add new resource_documents
 #           if documents.length > 0
 #             resource.resource_type = KDsl::Resources::Resource::TYPE_RUBY_DSL
 #           end
-  
+
 #         rescue => exeption
 #           # Report the error but still add the document so that you can see
 #           # it in the ResourceDocument list, it will be marked as Error
 #           resource.error = exeption
-  
+
 #           L.exception resource.error
 #         ensure
 #           KDsl.target_resource = nil
-  
+
 #           # A regular ruby file would not add resource_documents
 #           # so create one manually
 #           add_document(new_document) if documents.length === 0
@@ -44,9 +45,9 @@
 #                 # Report the error but still add the document so that you can see
 #                 # it in the ResourceDocument list, it will be marked as Error
 #                 document.error = exeption
-        
+
 #                 L.exception @error
-#               end                      
+#               end
 #             end
 #           end
 #         end

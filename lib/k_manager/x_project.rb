@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # # frozen_string_literal: true
 
 # module KDsl
@@ -33,7 +34,7 @@
 #       #
 #       # This list does not keep the wild card pattern.
 #       # See: :watch_path_patterns if you need that
-#       # 
+#       #
 #       # It does expand the ** for situations where there
 #       # is a file in that child path
 #       attr_reader :watch_paths
@@ -109,7 +110,6 @@
 #         resource_documents.find { |rd| rd.unique_key == unique_key }
 #       end
 
-#       # rubocop:disable Metrics/AbcSize
 #       def get_resource_documents_by_type(type = nil, namespace = nil)
 #         type ||= KDsl.config.default_document_type
 #         type = type.to_s
@@ -218,7 +218,6 @@
 #       #     # should run such as Klue.structure or Klue.artifact
 #       #     # When they run they can figure out for themselves what file called them by
 #       #     # storing @current_processing_file into a document propert
-#       #     # rubocop:disable Security/Eval
 
 #       #     # This code is not thread safe
 #       #     # SET self as the current project so that we can register within in the document
@@ -271,7 +270,7 @@
 #           add_resource(file)
 #         end
 #       end
- 
+
 #       def update_resources(files)
 #         files.each do |file|
 #           update_resource(file)
@@ -451,11 +450,10 @@
 
 #       # private_class_method :new
 
-
 #       # def process_code(caller, code, source_file = nil)
 #       #   # L.kv 'process_code.caller', caller
 #       #   # L.kv 'process_code.source_file', source_file
-        
+
 #       #   @current_processing_file = source_file
 
 #       #   if source_file.blank?
@@ -471,9 +469,9 @@
 #       #   # L.block code
 
 #       #   begin
-#       #     # Anything can potentially run, but generally one of the Klue.factory_methods 
+#       #     # Anything can potentially run, but generally one of the Klue.factory_methods
 #       #     # should run such as Klue.structure or Klue.artifact
-#       #     # When they run they can figure out for themselves what file called them by 
+#       #     # When they run they can figure out for themselves what file called them by
 #       #     # storing @current_processing_file into a document property
 #       #     eval(code)
 #       #   rescue Klue::Dsl::DslError => exception
@@ -486,8 +484,8 @@
 #       #     L.kv '@current_processing_file', @current_processing_file
 #       #     L.kv '@current_state', current_state
 #       #     L.kv '@current_register_file', @current_register_file
-    
-#       #     L.exception(exception)          
+
+#       #     L.exception(exception)
 #       #   end
 #       #   @current_processing_file = nil
 #       # end
@@ -543,7 +541,7 @@
 #       #   project_root  = Pathname.new(base_resource_path)
 #       #   relative      = absolute_path.relative_path_from(project_root)
 #       #   rel_dir, file = relative.split
-        
+
 #       #   rel_dir.to_s
 #       # end
 
@@ -553,7 +551,7 @@
 #       #     print_main_properties
 #       #     L.line
 #       #   end
-        
+
 #       #   print_dsls
 #       # end
 
@@ -585,16 +583,16 @@
 #       end
 
 #       # def default_dsl_data(**data)
-#       #   { 
+#       #   {
 #       #     namespace: nil,
-#       #     k_key: nil, 
+#       #     k_key: nil,
 #       #     k_type: nil,
-#       #     state: nil, 
+#       #     state: nil,
 #       #     save_at: nil,
 #       #     last_at: nil,
 #       #     data: nil,
 #       #     last_data: nil,
-#       #     source: nil, 
+#       #     source: nil,
 #       #     file: nil,
 #       #     rel_folder: nil
 #       #   }.merge(data)
@@ -602,7 +600,7 @@
 
 #       # def save_register_file(unique_key, key, type, namespace)
 #       #   k = @dsls[unique_key]
-    
+
 #       #   if k.present? && k[:file].present? && k[:file] != @current_register_file
 #       #     print_dsls
 
@@ -619,7 +617,7 @@
 
 #       #     raise Klue::Dsl::DslError, "Duplicate DSL key found #{unique_key} in different files"
 #       #   end
-    
+
 #       #   if k.present?
 #       #     L.line
 #       #     L.kv 'Warning', 'DSL already registered'
@@ -635,8 +633,8 @@
 #       #   else
 #       #     @dsls[unique_key] = default_dsl_data(
 #       #       namespace: namespace,
-#       #       k_key: key, 
-#       #       k_type: type, 
+#       #       k_key: key,
+#       #       k_type: type,
 #       #       state: :registered,
 #       #       source: :file,
 #       #       file: @current_register_file,
@@ -652,8 +650,8 @@
 #       #     # New Record
 #       #     @dsls[unique_key] = default_dsl_data(
 #       #       namespace: namespace,
-#       #       k_key: key, 
-#       #       k_type: type, 
+#       #       k_key: key,
+#       #       k_type: type,
 #       #       state: :loaded,
 #       #       save_at: Time.now.utc,
 #       #       data: dsl.get_data(),
@@ -679,7 +677,7 @@
 #       #     @dsls[unique_key] = default_dsl_data(
 #       #       namespace: namespace,
 #       #       k_key: key,
-#       #       k_type: type, 
+#       #       k_type: type,
 #       #       state: :loaded,
 #       #       save_at: Time.now.utc,
 #       #       data: dsl.get_data(),
