@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # # frozen_string_literal: true
 
 # module KDsl
@@ -53,7 +54,7 @@
 #       #   project_root  = Pathname.new(base_resource_path)
 #       #   relative      = absolute_path.relative_path_from(project_root)
 #       #   rel_dir, file = relative.split
-        
+
 #       #   rel_dir.to_s
 #       # end
 
@@ -63,7 +64,7 @@
 #       #     print_main_properties
 #       #     L.line
 #       #   end
-        
+
 #       #   print_dsls
 #       # end
 
@@ -84,16 +85,16 @@
 #       # private
 
 #       # def default_dsl_data(**data)
-#       #   { 
+#       #   {
 #       #     namespace: nil,
-#       #     k_key: nil, 
+#       #     k_key: nil,
 #       #     k_type: nil,
-#       #     state: nil, 
+#       #     state: nil,
 #       #     save_at: nil,
 #       #     last_at: nil,
 #       #     data: nil,
 #       #     last_data: nil,
-#       #     source: nil, 
+#       #     source: nil,
 #       #     file: nil,
 #       #     rel_folder: nil
 #       #   }.merge(data)
@@ -101,7 +102,7 @@
 
 #       # def save_register_file(unique_key, key, type, namespace)
 #       #   k = @dsls[unique_key]
-    
+
 #       #   if k.present? && k[:file].present? && k[:file] != @current_register_file
 #       #     print_dsls
 
@@ -118,7 +119,7 @@
 
 #       #     raise Klue::Dsl::DslError, "Duplicate DSL key found #{unique_key} in different files"
 #       #   end
-    
+
 #       #   if k.present?
 #       #     L.line
 #       #     L.kv 'Warning', 'DSL already registered'
@@ -134,8 +135,8 @@
 #       #   else
 #       #     @dsls[unique_key] = default_dsl_data(
 #       #       namespace: namespace,
-#       #       k_key: key, 
-#       #       k_type: type, 
+#       #       k_key: key,
+#       #       k_type: type,
 #       #       state: :registered,
 #       #       source: :file,
 #       #       file: @current_register_file,
@@ -151,8 +152,8 @@
 #       #     # New Record
 #       #     @dsls[unique_key] = default_dsl_data(
 #       #       namespace: namespace,
-#       #       k_key: key, 
-#       #       k_type: type, 
+#       #       k_key: key,
+#       #       k_type: type,
 #       #       state: :loaded,
 #       #       save_at: Time.now.utc,
 #       #       data: dsl.get_data(),
@@ -178,7 +179,7 @@
 #       #     @dsls[unique_key] = default_dsl_data(
 #       #       namespace: namespace,
 #       #       k_key: key,
-#       #       k_type: type, 
+#       #       k_type: type,
 #       #       state: :loaded,
 #       #       save_at: Time.now.utc,
 #       #       data: dsl.get_data(),

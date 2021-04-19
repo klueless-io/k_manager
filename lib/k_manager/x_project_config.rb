@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # # frozen_string_literal: true
 
 # module KDsl
@@ -5,7 +6,7 @@
 #     # Configuration data for the manager.
 #     #
 #     # You may want to have multiple managers and so it is useful to
-#     # store the configuration in an object that can be passed. 
+#     # store the configuration in an object that can be passed.
 #     class ProjectConfig
 #       # Base path for project resources (defaults to current working directory)
 #       # Usually set to centralized path that is reused across projects
@@ -67,15 +68,15 @@
 #       def github_user
 #         ENV['GITHUB_USER']
 #       end
-      
+
 #       def github_personal_access_token
 #         ENV['GITHUB_PERSONAL_ACCESS_TOKEN']
 #       end
-      
+
 #       def github_personal_access_token_delete
 #         ENV['GITHUB_PERSONAL_ACCESS_TOKEN_DELETE']
 #       end
-    
+
 #       def base_cache_path
 #         if @base_cache_path.nil?
 #           File.join(base_path, '.cache')

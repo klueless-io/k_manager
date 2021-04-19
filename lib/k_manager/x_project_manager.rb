@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # # frozen_string_literal: true
 
 # # Provide access to the DSL Manager
@@ -63,14 +64,14 @@
 #         L.block 'Stopping'
 
 #       end
-      
+
 #       # require 'io/console'
 #       def wait_key
 #         sleep
 #         # print "press any key to stop\r"
 #         # STDIN.getch
 #         # print "xxxxxxxxxxxx\r" # extra space to overwrite in case next sentence is short
-#       end                                                                                                                        
+#       end
 
 #       # Register document with a project
 #       #
