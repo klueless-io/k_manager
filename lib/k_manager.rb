@@ -5,7 +5,8 @@ require 'k_ext/github'
 require 'k_log'
 
 require 'k_manager/version'
-require 'k_manager/configuration/project'
+require 'k_manager/configuration/project_config'
+require 'k_manager/project'
 
 module KManager
   # raise KManager::Error, 'Sample message'
@@ -13,7 +14,7 @@ module KManager
 
   class << self
     def new_project_config(&block)
-      config = KManager::Configuration::Project.new
+      config = KManager::Configuration::ProjectConfig.new
       block.call(config) if block_given?
       config
     end
