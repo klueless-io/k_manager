@@ -2,13 +2,12 @@
 
 module KDsl
   module Resources
-    # Resource represents a file in the project 
+    # Resource represents a file in the project
     #
     # Resources currently represent DSL's but I think I can have support for
     # other types of files such as (PORO, Ruby, JSON, CSV) and be able to use
     # them easily.
     class Resource
-
       # Resources must belong to a factory
       attr_reader :project
 
@@ -87,10 +86,11 @@ module KDsl
         raise ::KDsl::Error, 'Unknown source' unless [SOURCE_FILE].include? source
 
         resource = Resource.new(
-            project: project,
-            source: source,
-            file: file,
-            watch_path: watch_path)
+          project: project,
+          source: source,
+          file: file,
+          watch_path: watch_path
+        )
 
         resource.document_factory = KDsl::Resources::Factories::DocumentFactory.instance(resource, source, file)
         resource
@@ -117,9 +117,9 @@ module KDsl
           L.kv 'SOURCE_FILE', SOURCE_FILE
           if File.exist?(file)
             begin
-            @content = File.read(file)
-            rescue => ex
-              L.error ex
+              @content = File.read(file)
+            rescue StandardError => e
+              L.error e
             end
           else
             @error = KDsl::Error.new("Source file not found: #{file}")
@@ -139,7 +139,7 @@ module KDsl
         document_factory.parse_content
         @status = :loaded
       end
-  
+
       def exist?
         source === SOURCE_FILE && File.exist?(file)
       end
@@ -181,7 +181,7 @@ module KDsl
 
       # example:  /Users/david/dev/kgems/k_dsl/spec/factories/dsls
       def base_resource_path_expanded
-        @base_resource_path ||=  File.expand_path(project.config.base_resource_path)
+        @base_resource_path ||= File.expand_path(project.config.base_resource_path)
       end
 
       def infer_document_key
@@ -234,9 +234,7 @@ module KDsl
             end
           when :document_data
             # Data Only
-            documents.each do |document|
-              document.debug
-            end
+            documents.each(&:debug)
           end
         end
       end
