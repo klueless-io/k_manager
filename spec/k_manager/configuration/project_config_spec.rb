@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe KManager::Configuration::Project do
+RSpec.describe KManager::Configuration::ProjectConfig do
   include KLog::Logging
 
   # let(:custom_target_folder1) { '~/my-target-folder1' }
