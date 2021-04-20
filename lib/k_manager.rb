@@ -6,6 +6,13 @@ require 'k_log'
 
 require 'k_manager/version'
 require 'k_manager/configuration/project_config'
+require 'k_manager/resources/base_resource'
+require 'k_manager/resources/file_resource'
+require 'k_manager/resources/csv_file_resource'
+require 'k_manager/resources/json_file_resource'
+require 'k_manager/resources/ruby_file_resource'
+require 'k_manager/resources/yaml_file_resource'
+require 'k_manager/resources/unknown_file_resource'
 require 'k_manager/project'
 
 module KManager
