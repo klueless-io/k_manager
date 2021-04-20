@@ -26,31 +26,31 @@ RSpec.describe KManager::Project do
     let(:name) { :my_project }
     let(:config) { nil }
     let(:opts) { {} }
-    let(:block) { ->() {} }
+    let(:block) { -> {} }
 
     context 'minimal initialization' do
       it { is_expected.not_to be_nil }
 
       context '.name' do
         subject { instance.name }
-      
+
         it { is_expected.to eq(:my_project) }
       end
 
-      context '.root_namespace' do
-        subject { instance.root_namespace }
-      
+      context '.namespace' do
+        subject { instance.namespace }
+
         it { is_expected.to eq(:my_project) }
 
-        context 'when root_namespace option provided' do
+        context 'when namespace option provided' do
           context 'as blank value' do
-            let(:opts) { { root_namespace: '' } }
-            
+            let(:opts) { { namespace: '' } }
+
             it { is_expected.to eq('') }
           end
           context 'as custom value' do
-            let(:opts) { { root_namespace: :custom } }
-            
+            let(:opts) { { namespace: :custom } }
+
             it { is_expected.to eq(:custom) }
           end
         end
@@ -58,29 +58,15 @@ RSpec.describe KManager::Project do
 
       context '.config' do
         subject { instance.config }
-      
+
         it { is_expected.not_to be_nil }
       end
+
+      context '.resources' do
+        subject { instance.resources }
+
+        it { is_expected.to be_empty }
+      end
     end
-
-    # context '.target_folders' do
-    #   subject { instance.target_folders }
-
-    #   it { is_expected.not_to be_nil }
-    # end
-
-    # context '.template_folders' do
-    #   subject { instance.template_folders }
-
-    #   it { is_expected.not_to be_nil }
-    # end
-
-    # context '.github' do
-    #   subject { instance.github }
-
-    #   it { is_expected.not_to be_nil }
-    # end
-
-    # it { subject.github; puts JSON.pretty_generate(KUtil.data.to_hash(subject)) }
   end
 end

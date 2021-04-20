@@ -1,0 +1,14 @@
+- martin:
+    name: David
+    job: Developer
+    skills:
+      - python
+      - perl
+      - pascal
+- tabitha:
+    name: Jin
+    job: Developer
+    skills:
+      - lisp
+      - fortran
+      - erlang
