@@ -3,7 +3,7 @@
 module KManager
   module Resources
     # Represents a YAML file resource.
-    class YamlFileResource < FileResource
+    class YamlFileResource < KManager::Resources::FileResource
       def initialize(**opts)
         super(**opts)
         @type = :yaml

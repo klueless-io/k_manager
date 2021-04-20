@@ -6,7 +6,7 @@ module KManager
     #
     # File resources have the benefit that file watchers can watch them
     # locally and reload these resources on change.
-    class FileResource < BaseResource
+    class FileResource < KManager::Resources::BaseResource
       # Full path to file
       #
       # example: /Users/davidcruwys/dev/kgems/k_dsl/spec/factories/dsls/common-auth/admin_user.rb
@@ -24,7 +24,7 @@ module KManager
         def instance(**opts)
           file = opts[:file]
 
-          extension = File.extname(file).downcase
+          extension = ::File.extname(file).downcase
 
           case extension
           when '.rb'
