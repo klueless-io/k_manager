@@ -27,6 +27,9 @@ module KManager
     end
 
     def add_resource(resource)
+      # Need to check if this and resource.attach_project need to delegate to each other
+      # Need to check that resources can't be added twice
+      # Tests are required
       @resources << resource
     end
 

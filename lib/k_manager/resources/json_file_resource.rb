@@ -3,7 +3,7 @@
 module KManager
   module Resources
     # Represents a JSON file resource.
-    class JsonFileResource < FileResource
+    class JsonFileResource < KManager::Resources::FileResource
       def initialize(**opts)
         super(**opts)
         @type = :json

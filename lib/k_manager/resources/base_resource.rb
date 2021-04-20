@@ -70,6 +70,7 @@ module KManager
       def attach_project(project)
         @project = project
         @project.add_resource(self)
+        self
       end
     end
   end
