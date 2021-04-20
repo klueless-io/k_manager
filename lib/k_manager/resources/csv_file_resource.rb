@@ -3,7 +3,7 @@
 module KManager
   module Resources
     # Represents a CSV file resource.
-    class CsvFileResource < FileResource
+    class CsvFileResource < KManager::Resources::FileResource
       def initialize(**opts)
         super(**opts)
         @type = :csv
