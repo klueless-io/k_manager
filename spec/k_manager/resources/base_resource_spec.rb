@@ -6,7 +6,7 @@ RSpec.describe KManager::Resources::BaseResource do
   context 'initialize' do
     subject { instance }
 
-    let(:instance) { described_class.new(opts) }
+    let(:instance) { described_class.new(**opts) }
     let(:opts) { {} }
     let(:project1) { KManager::Project.new(:project1) }
 
@@ -67,6 +67,50 @@ RSpec.describe KManager::Resources::BaseResource do
 
           context 'project.resources' do
             it { expect { instance.attach_project(project1) }.to change(project1.resources, :length).from(0).to(1) }
+          end
+        end
+      end
+    end
+  end
+
+  context 'fire actions' do
+    subject { instance }
+
+    let(:instance) { described_class.new }
+
+    context 'when initialized' do
+      it { is_expected.to have_attributes(status: :initialized) }
+
+      context 'if using invalid action :load_document' do
+        before { instance.fire_action(:load_document) }
+
+        context 'status remains unchanged' do
+          it { is_expected.to have_attributes(status: :initialized) }
+        end
+      end
+
+      context 'when using next action :load_content' do
+        before { instance.fire_action(:load_content) }
+
+        context 'advance the status' do
+          it { is_expected.to have_attributes(status: :content_loaded) }
+        end
+
+        context 'when content_loaded' do
+          context 'if using invalid action :load_document' do
+            before { instance.fire_action(:load_document) }
+
+            context 'status remains unchanged' do
+              it { is_expected.to have_attributes(status: :content_loaded) }
+            end
+          end
+
+          context 'when using next action :register_document' do
+            before { instance.fire_action(:register_document) }
+
+            context 'advance the status' do
+              it { is_expected.to have_attributes(status: :documents_registered) }
+            end
           end
         end
       end

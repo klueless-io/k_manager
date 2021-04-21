@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'k_doc'
 require 'k_builder'
 require 'k_ext/github'
 require 'k_log'
