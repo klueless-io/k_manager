@@ -20,6 +20,8 @@ module KManager
     # a document gets created for each DSL, but for all other files, there is
     # generally only one document.
     class BaseResource
+      include KLog::Logging
+
       # Status of the resource
       # - :initialized
       # - :content_loading
@@ -71,6 +73,59 @@ module KManager
         @project = project
         @project.add_resource(self)
         self
+      end
+
+      # Fire actions and keep track of status as they fire
+      #
+      # @param [Symbol] action what action is to be fired
+      #  - :load_content for loading text content
+      #  - :register_document for registering 1 or more documents (name and namespace) against the resource
+      #  - :load_document for parsing the content into a document
+      def fire_action(action)
+        if action == :load_content && @status == :initialized
+          load_content_action
+        elsif action == :register_document && @status == :content_loaded
+          register_document_action
+        elsif action == :load_document && @status == :documents_registered
+          load_document_action
+        else
+          puts 'unknown'
+        end
+      end
+
+      def load_content
+        log.warn 'you need to implement load_content'
+      end
+
+      def register_document
+        log.warn 'you need to implement register_document'
+      end
+
+      def load_document
+        log.warn 'you need to implement load_document'
+      end
+
+      private
+
+      def load_content_action
+        @status = :content_loading
+        @content = nil
+        load_content
+        @status = :content_loaded
+      end
+
+      def register_document_action
+        @status = :documents_registering
+        register_document
+        # document_factory.create_documents
+        @status = :documents_registered
+      end
+
+      def load_document_action
+        @status = :documents_loading
+        load_document
+        # document_factory.parse_content
+        @status = :documents_loaded
       end
     end
   end

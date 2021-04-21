@@ -7,6 +7,8 @@ module KManager
     # File resources have the benefit that file watchers can watch them
     # locally and reload these resources on change.
     class FileResource < KManager::Resources::BaseResource
+      include KLog::Logging
+
       # Full path to file
       #
       # example: /Users/davidcruwys/dev/kgems/k_dsl/spec/factories/dsls/common-auth/admin_user.rb
@@ -38,6 +40,18 @@ module KManager
           else
             KManager::Resources::UnknownFileResource.new(file: file)
           end
+        end
+      end
+
+      def load_content
+        if File.exist?(file)
+          begin
+            @content = File.read(file)
+          rescue StandardError => e
+            log.error e
+          end
+        else
+          log.error "Source file not found: #{file}"
         end
       end
 

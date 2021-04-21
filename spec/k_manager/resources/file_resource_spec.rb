@@ -3,13 +3,13 @@
 require 'spec_helper'
 
 RSpec.describe KManager::Resources::FileResource do
+  let(:instance) { described_class.new(**opts) }
+  let(:opts) { { file: file } }
+  let(:file) { '/path/to/file' }
+  let(:project1) { KManager::Project.new(:project1) }
+
   context 'initialize' do
     subject { instance }
-
-    let(:instance) { described_class.new(**opts) }
-    let(:opts) { { file: file } }
-    let(:file) { '/path/to/file' }
-    let(:project1) { KManager::Project.new(:project1) }
 
     context 'minimal initialization' do
       it { is_expected.not_to be_nil }
@@ -53,6 +53,34 @@ RSpec.describe KManager::Resources::FileResource do
       context 'when text file' do
         let(:file) { 'file.txt' }
         it { is_expected.to be_a(KManager::Resources::UnknownFileResource) }
+      end
+    end
+
+    context 'fire actions' do
+      subject { instance }
+
+      it { is_expected.to have_attributes(status: :initialized, content: be_nil) }
+
+      context 'when action fired :load_content' do
+        before { instance.fire_action(:load_content) }
+
+        context 'when file exists' do
+          let(:file) { 'spec/samples/.builder/data_files/person.json' }
+
+          it { is_expected.to have_attributes(status: :content_loaded) }
+
+          context '.content' do
+            subject { instance.content }
+
+            it { is_expected.not_to be_empty }
+          end
+        end
+
+        context 'when file does not exist' do
+          let(:file) { '/path/to/file' }
+
+          it { is_expected.to have_attributes(status: :content_loaded, content: be_nil) }
+        end
       end
     end
   end
