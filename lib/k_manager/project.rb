@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module KManager
+  require 'handlebars/helpers/string_formatting/dasherize'
+
   # A project represents all the DSL and Data resources that are available, it keeps a track of
   # the in memory state of the resources, are they loaded into memory or not.
   class Project
@@ -31,6 +33,11 @@ module KManager
       # Need to check that resources can't be added twice
       # Tests are required
       @resources << resource
+    end
+
+    # Infer key is the project name stored in dash-case
+    def infer_key
+      Handlebars::Helpers::StringFormatting::Dasherize.new.parse(name.to_s.gsub('_', '-'))
     end
 
     private

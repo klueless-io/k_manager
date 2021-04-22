@@ -22,7 +22,7 @@ RSpec.describe KManager::Project do
   context 'initialize' do
     subject { instance }
 
-    let(:instance) { described_class.new(name, config, opts, &block) }
+    let(:instance) { described_class.new(name, config, **opts, &block) }
     let(:name) { :my_project }
     let(:config) { nil }
     let(:opts) { {} }
@@ -35,6 +35,18 @@ RSpec.describe KManager::Project do
         subject { instance.name }
 
         it { is_expected.to eq(:my_project) }
+      end
+
+      context '.infer_key' do
+        subject { instance.infer_key }
+
+        it { is_expected.to eq('my-project') }
+
+        context 'when project name is has complex characters' do
+          let(:name) { 'The quick_brown Fox99' }
+
+          it { is_expected.to eq('the-quick-brown-fox99') }
+        end
       end
 
       context '.namespace' do

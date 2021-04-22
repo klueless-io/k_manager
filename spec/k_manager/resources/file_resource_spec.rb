@@ -55,31 +55,37 @@ RSpec.describe KManager::Resources::FileResource do
         it { is_expected.to be_a(KManager::Resources::UnknownFileResource) }
       end
     end
+  end
 
-    context 'fire actions' do
-      subject { instance }
+  context 'fire actions' do
+    subject { instance }
 
-      it { is_expected.to have_attributes(status: :initialized, content: be_nil) }
+    it { is_expected.to have_attributes(status: :initialized, content: be_nil) }
 
-      context 'when action fired :load_content' do
-        before { instance.fire_action(:load_content) }
+    context 'when action fired :load_content' do
+      before { instance.fire_action(:load_content) }
 
-        context 'when file exists' do
-          let(:file) { 'spec/samples/.builder/data_files/person.json' }
+      context 'when file does not exist' do
+        let(:file) { '/path/to/file' }
 
-          it { is_expected.to have_attributes(status: :content_loaded) }
+        it { is_expected.to have_attributes(status: :content_loaded, content: be_nil) }
+      end
 
-          context '.content' do
-            subject { instance.content }
+      context 'when file exists' do
+        let(:file) { 'spec/samples/.builder/data_files/PersonDetails.json' }
 
-            it { is_expected.not_to be_empty }
-          end
+        it { is_expected.to have_attributes(status: :content_loaded) }
+
+        context '.content' do
+          subject { instance.content }
+
+          it { is_expected.not_to be_empty }
         end
 
-        context 'when file does not exist' do
-          let(:file) { '/path/to/file' }
+        context '.infer_key' do
+          subject { instance.infer_key }
 
-          it { is_expected.to have_attributes(status: :content_loaded, content: be_nil) }
+          it { is_expected.to eq('person-details') }
         end
       end
     end

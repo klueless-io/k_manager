@@ -8,7 +8,7 @@ RSpec.describe KManager::Resources::JsonFileResource do
 
     let(:instance) { described_class.instance(**opts) }
     let(:opts) { { file: file } }
-    let(:file) { 'spec/samples/.builder/data_files/person.json' }
+    let(:file) { 'spec/samples/.builder/data_files/PersonDetails.json' }
     let(:project1) { KManager::Project.new(:project1) }
 
     context 'minimal initialization' do
