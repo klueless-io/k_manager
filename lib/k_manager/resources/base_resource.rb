@@ -97,6 +97,10 @@ module KManager
         log.warn 'you need to implement load_content'
       end
 
+      def add_document(document)
+        @documents << document
+      end
+
       def register_document
         log.warn 'you need to implement register_document'
       end
