@@ -2,6 +2,8 @@
 
 module KManager
   module Resources
+    require 'handlebars/helpers/string_formatting/dasherize'
+
     # A file resource represents context that is loaded via a file.
     #
     # File resources have the benefit that file watchers can watch them
@@ -30,17 +32,23 @@ module KManager
 
           case extension
           when '.rb'
-            KManager::Resources::RubyFileResource.new(file: file)
+            KManager::Resources::RubyFileResource.new(**opts)
           when '.csv'
-            KManager::Resources::CsvFileResource.new(file: file)
+            KManager::Resources::CsvFileResource.new(**opts)
           when '.json'
-            KManager::Resources::JsonFileResource.new(file: file)
+            KManager::Resources::JsonFileResource.new(**opts)
           when '.yaml'
-            KManager::Resources::YamlFileResource.new(file: file)
+            KManager::Resources::YamlFileResource.new(**opts)
           else
-            KManager::Resources::UnknownFileResource.new(file: file)
+            KManager::Resources::UnknownFileResource.new(**opts)
           end
         end
+      end
+
+      # Infer key is the file name without the extension stored in dash-case
+      def infer_key
+        file_name = Pathname.new(@file).basename.sub_ext('').to_s
+        Handlebars::Helpers::StringFormatting::Dasherize.new.parse(file_name)
       end
 
       def load_content
@@ -53,6 +61,10 @@ module KManager
         else
           log.error "Source file not found: #{file}"
         end
+      end
+
+      def register_document
+        # document_factory.create_documents
       end
 
       private
