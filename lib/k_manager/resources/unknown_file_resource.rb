@@ -9,10 +9,6 @@ module KManager
         @type = :unknown
       end
 
-      def register_document
-        @document = super
-      end
-
       def load_document
         @document.data = {}
       end

@@ -5,8 +5,13 @@ require 'k_builder'
 require 'k_ext/github'
 require 'k_log'
 
+require 'k_manager/create_document'
 require 'k_manager/version'
 require 'k_manager/configuration/project_config'
+require 'k_manager/documents/document_tags'
+require 'k_manager/documents/basic_document'
+require 'k_manager/documents/model_document'
+require 'k_manager/documents/builder_document'
 require 'k_manager/resources/base_resource'
 require 'k_manager/resources/file_resource'
 require 'k_manager/resources/csv_file_resource'
@@ -17,6 +22,8 @@ require 'k_manager/resources/unknown_file_resource'
 require 'k_manager/project'
 
 module KManager
+  extend CreateDocument
+
   # raise KManager::Error, 'Sample message'
   class Error < StandardError; end
 
@@ -26,6 +33,12 @@ module KManager
       block.call(config) if block_given?
       config
     end
+
+    # Instance of the currently focused resource
+    # if document get created dynamically due to class_eval then they
+    # can attach themselves to the currently focussed resource via
+    # KManager.target_resource.add_document(document)
+    attr_accessor :target_resource
 
     # def configuration
     #   @configuration ||= KManager::Configuration.new

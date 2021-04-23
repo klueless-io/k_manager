@@ -80,5 +80,33 @@ RSpec.describe KManager::Resources::RubyFileResource do
         end
       end
     end
+
+    context 'when action fired :load_document' do
+      context 'after load_document' do
+        before do
+          instance.fire_action(:load_content)
+          instance.fire_action(:register_document)
+          instance.fire_action(:load_document)
+        end
+
+        context 'did the ruby file load?' do
+          subject { defined?(Simple) }
+
+          it { is_expected.to be_truthy }
+        end
+
+        context '.status' do
+          subject { instance.status }
+
+          it { is_expected.to eq(:documents_loaded) }
+        end
+
+        context '.document.data' do
+          subject { instance.document.data }
+
+          it { is_expected.to eq({}) }
+        end
+      end
+    end
   end
 end
