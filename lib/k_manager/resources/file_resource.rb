@@ -63,6 +63,7 @@ module KManager
         end
       end
 
+      # This can move down to base_resource, but I will need handle infer_key in base
       def register_document
         # log.kv 'Key', infer_key
         # log.kv 'Type', @type

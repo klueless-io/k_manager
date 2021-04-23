@@ -2,10 +2,10 @@
 
 require 'spec_helper'
 
-RSpec.describe KManager::Resources::CsvFileResource do
+RSpec.describe KManager::Resources::RubyFileResource do
   let(:instance) { described_class.instance(**opts) }
   let(:opts) { { file: file } }
-  let(:file) { 'spec/samples/.builder/data_files/countries.csv' }
+  let(:file) { 'spec/samples/.builder/data_files/simple.rb' }
   let(:project1) { KManager::Project.new(:project1) }
 
   context 'initialize' do
@@ -13,12 +13,12 @@ RSpec.describe KManager::Resources::CsvFileResource do
 
     context 'minimal initialization' do
       it { is_expected.not_to be_nil }
-      it { is_expected.to be_a(KManager::Resources::CsvFileResource) }
+      it { is_expected.to be_a(KManager::Resources::RubyFileResource) }
 
       context '.type' do
         subject { instance.type }
 
-        it { is_expected.to eq(:csv) }
+        it { is_expected.to eq(:ruby) }
       end
     end
   end
@@ -68,43 +68,15 @@ RSpec.describe KManager::Resources::CsvFileResource do
         it { is_expected.to have_attributes(length: 1) }
       end
 
-      context '.document' do
-        subject { instance.document }
+      context '.documents.first' do
+        subject { instance.documents.first }
 
-        it { is_expected.to have_attributes(unique_key: 'countries-csv') }
+        it { is_expected.to have_attributes(unique_key: 'simple-ruby') }
 
         context 'when project with namespace' do
           let(:opts) { { project: project1, file: file } }
 
-          it { is_expected.to have_attributes(unique_key: 'project1-countries-csv') }
-        end
-      end
-    end
-
-    context 'when action fired :load_document' do
-      before do
-        instance.fire_action(:load_content)
-        instance.fire_action(:register_document)
-        instance.fire_action(:load_document)
-      end
-
-      context '.status' do
-        subject { instance.status }
-
-        it { is_expected.to eq(:documents_loaded) }
-      end
-
-      context '.document.data' do
-        subject { instance.document.data }
-
-        it do
-          is_expected.to include(
-            include(code: 'AU', country: 'Australia'),
-            include(code: 'NZ', country: 'New Zealand'),
-            include(code: 'CA', country: 'Canada'),
-            include(code: 'UK', country: 'England'),
-            include(code: 'US', country: 'United States')
-          )
+          it { is_expected.to have_attributes(unique_key: 'project1-simple-ruby') }
         end
       end
     end
