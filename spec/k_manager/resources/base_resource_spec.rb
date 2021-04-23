@@ -31,6 +31,12 @@ RSpec.describe KManager::Resources::BaseResource do
         it { is_expected.to eq(:unknown) }
       end
 
+      context '.infer_key' do
+        subject { instance.infer_key }
+
+        it { is_expected.to be_nil }
+      end
+
       context '.content' do
         subject { instance.content }
 

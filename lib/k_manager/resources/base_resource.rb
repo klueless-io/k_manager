@@ -101,12 +101,43 @@ module KManager
         document
       end
 
+      # What identifying key does this resource have?
+      #
+      # Child resources will have different ways of working this out,
+      # eg. File Resources will use the file name.
+      def infer_key
+        nil
+      end
+
       def load_content
         log.warn 'you need to implement load_content'
       end
 
       def register_document
         log.warn 'you need to implement register_document'
+      end
+
+      def create_container
+        KDoc::Container.new(
+          key: infer_key,
+          type: type,
+          namespace: '',
+          project_key: project&.infer_key
+        )
+      end
+
+      def attach_container(container, set_document: true, add_documents: true)
+        # log.kv 'Key', infer_key
+        # log.kv 'Type', @type
+        # Need to support file namespaces, but to do that you need to have a root namespace defined that
+        # would limit the size of the namespace and currently I need more information before that can happen
+        # log.kv 'Namespace', ''
+        # log.kv 'Project Key', project&.infer_key
+
+        # log.kv 'Unique Key', container.unique_key
+
+        @document = container     if set_document
+        add_document(container)   if add_documents
       end
 
       def load_document

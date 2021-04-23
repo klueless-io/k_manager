@@ -11,11 +11,6 @@ module KManager
         @type = :csv
       end
 
-      # Maybe this gets done in a lower level
-      def register_document
-        @document = super
-      end
-
       def load_document
         data = []
         CSV.parse(content, headers: true, header_converters: :symbol).each do |row|

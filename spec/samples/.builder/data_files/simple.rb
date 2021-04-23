@@ -1,7 +1,5 @@
 class Simple
-  def print
-    puts 'simple'
+  def hello
+    'world'
   end
 end
-
-Simple.new.print
