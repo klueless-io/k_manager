@@ -21,62 +21,62 @@ RSpec.describe KManager::Resources::CsvFileResource do
         it { is_expected.to eq(:csv) }
       end
     end
+  end
 
-    context 'fire actions' do
-      subject { instance }
+  context 'fire actions' do
+    subject { instance }
 
-      it { is_expected.to have_attributes(status: :initialized, content: be_nil) }
+    it { is_expected.to have_attributes(status: :initialized, content: be_nil) }
 
-      context 'when action fired :load_content' do
-        before { instance.fire_action(:load_content) }
+    context 'when action fired :load_content' do
+      before { instance.fire_action(:load_content) }
 
-        context '.status' do
-          subject { instance.status }
+      context '.status' do
+        subject { instance.status }
 
-          it { is_expected.to eq(:content_loaded) }
-        end
-
-        context '.content' do
-          subject { instance.content }
-
-          it { is_expected.not_to be_empty }
-        end
-
-        context '.documents' do
-          subject { instance.documents }
-
-          it { is_expected.to be_empty }
-        end
+        it { is_expected.to eq(:content_loaded) }
       end
 
-      context 'when action fired :register_document' do
-        before do
-          instance.fire_action(:load_content)
-          instance.fire_action(:register_document)
-        end
+      context '.content' do
+        subject { instance.content }
 
-        context '.status' do
-          subject { instance.status }
+        it { is_expected.not_to be_empty }
+      end
 
-          it { is_expected.to eq(:documents_registered) }
-        end
+      context '.documents' do
+        subject { instance.documents }
 
-        context '.documents' do
-          subject { instance.documents }
+        it { is_expected.to be_empty }
+      end
+    end
 
-          it { is_expected.to have_attributes(length: 1) }
-        end
+    context 'when action fired :register_document' do
+      before do
+        instance.fire_action(:load_content)
+        instance.fire_action(:register_document)
+      end
 
-        context '.documents.first' do
-          subject { instance.documents.first }
+      context '.status' do
+        subject { instance.status }
 
-          it { is_expected.to have_attributes(unique_key: 'countries_csv') }
+        it { is_expected.to eq(:documents_registered) }
+      end
 
-          context 'when project with namespace' do
-            let(:opts) { { project: project1, file: file } }
+      context '.documents' do
+        subject { instance.documents }
 
-            it { is_expected.to have_attributes(unique_key: 'project1_countries_csv') }
-          end
+        it { is_expected.to have_attributes(length: 1) }
+      end
+
+      context '.documents.first' do
+        subject { instance.documents.first }
+
+        it { is_expected.to have_attributes(unique_key: 'countries-csv') }
+
+        context 'when project with namespace' do
+          let(:opts) { { project: project1, file: file } }
+
+          it { is_expected.to have_attributes(unique_key: 'project1-countries-csv') }
         end
       end
     end
