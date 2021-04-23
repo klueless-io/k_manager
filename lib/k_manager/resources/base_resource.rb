@@ -47,6 +47,8 @@ module KManager
       # Content of resource, use read content to load this property
       attr_reader :content
 
+      attr_accessor :document
+
       # List of documents derived from this resource
       #
       # Most resources will create one document, but a DSL can generate
@@ -66,6 +68,7 @@ module KManager
         @type = :unknown
 
         attach_project(opts[:project]) if opts[:project]
+        @document = nil
         @documents = []
       end
 
@@ -93,12 +96,13 @@ module KManager
         end
       end
 
-      def load_content
-        log.warn 'you need to implement load_content'
-      end
-
       def add_document(document)
         @documents << document
+        document
+      end
+
+      def load_content
+        log.warn 'you need to implement load_content'
       end
 
       def register_document

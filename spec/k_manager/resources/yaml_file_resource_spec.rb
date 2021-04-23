@@ -68,8 +68,8 @@ RSpec.describe KManager::Resources::YamlFileResource do
         it { is_expected.to have_attributes(length: 1) }
       end
 
-      context '.documents.first' do
-        subject { instance.documents.first }
+      context '.document' do
+        subject { instance.document }
 
         it { is_expected.to have_attributes(unique_key: 'developers-yaml') }
 
@@ -77,6 +77,30 @@ RSpec.describe KManager::Resources::YamlFileResource do
           let(:opts) { { project: project1, file: file } }
 
           it { is_expected.to have_attributes(unique_key: 'project1-developers-yaml') }
+        end
+      end
+    end
+
+    context 'when action fired :load_document' do
+      before do
+        instance.fire_action(:load_content)
+        instance.fire_action(:register_document)
+        instance.fire_action(:load_document)
+      end
+
+      context '.status' do
+        subject { instance.status }
+
+        it { is_expected.to eq(:documents_loaded) }
+      end
+
+      context '.document.data' do
+        subject { instance.document.data }
+
+        it do
+          is_expected
+            .to include({ 'martin' => { 'name' => 'David', 'job' => 'Developer', 'skills' => %w[python perl pascal] } })
+            .and include({ 'tabitha' => { 'name' => 'Jin', 'job' => 'Developer', 'skills' => %w[lisp fortran erlang] } })
         end
       end
     end

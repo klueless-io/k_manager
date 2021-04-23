@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'csv'
+
 module KManager
   module Resources
     # Represents a CSV file resource.
@@ -8,6 +10,23 @@ module KManager
         super(**opts)
         @type = :csv
       end
+
+      # Maybe this gets done in a lower level
+      def register_document
+        @document = super
+      end
+
+      def load_document
+        data = []
+        CSV.parse(content, headers: true, header_converters: :symbol).each do |row|
+          data << row.to_h
+        end
+        @document.data = data
+      end
+
+      # def debug
+      #   tp @document.data, @document.data.first.to_h.keys
+      # end
     end
   end
 end

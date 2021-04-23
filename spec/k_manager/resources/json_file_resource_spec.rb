@@ -68,8 +68,8 @@ RSpec.describe KManager::Resources::JsonFileResource do
         it { is_expected.to have_attributes(length: 1) }
       end
 
-      context '.documents.first' do
-        subject { instance.documents.first }
+      context '.document' do
+        subject { instance.document }
 
         it { is_expected.to have_attributes(unique_key: 'person-details-json') }
 
@@ -78,6 +78,26 @@ RSpec.describe KManager::Resources::JsonFileResource do
 
           it { is_expected.to have_attributes(unique_key: 'project1-person-details-json') }
         end
+      end
+    end
+
+    context 'when action fired :load_document' do
+      before do
+        instance.fire_action(:load_content)
+        instance.fire_action(:register_document)
+        instance.fire_action(:load_document)
+      end
+
+      context '.status' do
+        subject { instance.status }
+
+        it { is_expected.to eq(:documents_loaded) }
+      end
+
+      context '.document.data' do
+        subject { instance.document.data }
+
+        it { is_expected.to include({ 'firstName' => 'Rack', 'lastName' => 'Jackson', 'gender' => 'man', 'age' => 24 }) }
       end
     end
   end

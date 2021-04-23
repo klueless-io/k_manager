@@ -2,10 +2,10 @@
 
 require 'spec_helper'
 
-RSpec.describe KManager::Resources::CsvFileResource do
+RSpec.describe KManager::Resources::UnknownFileResource do
   let(:instance) { described_class.instance(**opts) }
   let(:opts) { { file: file } }
-  let(:file) { 'spec/samples/.builder/data_files/countries.csv' }
+  let(:file) { 'spec/samples/.builder/data_files/some-file.txt' }
   let(:project1) { KManager::Project.new(:project1) }
 
   context 'initialize' do
@@ -13,12 +13,12 @@ RSpec.describe KManager::Resources::CsvFileResource do
 
     context 'minimal initialization' do
       it { is_expected.not_to be_nil }
-      it { is_expected.to be_a(KManager::Resources::CsvFileResource) }
+      it { is_expected.to be_a(KManager::Resources::UnknownFileResource) }
 
       context '.type' do
         subject { instance.type }
 
-        it { is_expected.to eq(:csv) }
+        it { is_expected.to eq(:unknown) }
       end
     end
   end
@@ -68,15 +68,15 @@ RSpec.describe KManager::Resources::CsvFileResource do
         it { is_expected.to have_attributes(length: 1) }
       end
 
-      context '.document' do
-        subject { instance.document }
+      context '.documents.first' do
+        subject { instance.documents.first }
 
-        it { is_expected.to have_attributes(unique_key: 'countries-csv') }
+        it { is_expected.to have_attributes(unique_key: 'some-file-unknown') }
 
         context 'when project with namespace' do
           let(:opts) { { project: project1, file: file } }
 
-          it { is_expected.to have_attributes(unique_key: 'project1-countries-csv') }
+          it { is_expected.to have_attributes(unique_key: 'project1-some-file-unknown') }
         end
       end
     end
@@ -97,15 +97,7 @@ RSpec.describe KManager::Resources::CsvFileResource do
       context '.document.data' do
         subject { instance.document.data }
 
-        it do
-          is_expected.to include(
-            include(code: 'AU', country: 'Australia'),
-            include(code: 'NZ', country: 'New Zealand'),
-            include(code: 'CA', country: 'Canada'),
-            include(code: 'UK', country: 'England'),
-            include(code: 'US', country: 'United States')
-          )
-        end
+        it { is_expected.to eq({}) }
       end
     end
   end
