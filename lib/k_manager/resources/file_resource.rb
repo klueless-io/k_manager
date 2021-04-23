@@ -63,20 +63,8 @@ module KManager
         end
       end
 
-      # This can move down to base_resource, but I will need handle infer_key in base
       def register_document
-        # log.kv 'Key', infer_key
-        # log.kv 'Type', @type
-        # Need to support file namespaces, but to do that you need to have a root namespace defined that
-        # would limit the size of the namespace and currently I need more information before that can happen
-        # log.kv 'Namespace', ''
-        # log.kv 'Project Key', project&.infer_key
-
-        container = KDoc::Container.new(key: infer_key, type: type, namespace: '', project_key: project&.infer_key)
-
-        log.kv 'Unique Key', container.unique_key
-
-        add_document(container)
+        attach_container(create_container)
       end
 
       private

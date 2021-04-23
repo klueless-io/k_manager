@@ -9,10 +9,6 @@ module KManager
         @type = :json
       end
 
-      def register_document
-        @document = super
-      end
-
       def load_document
         data = JSON.parse(content)
         @document.data = data
