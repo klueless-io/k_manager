@@ -117,16 +117,16 @@ module KManager
         log.warn 'you need to implement register_document'
       end
 
-      def create_container
-        KDoc::Container.new(
+      def create_document
+        KManager::Documents::BasicDocument.new(
           key: infer_key,
           type: type,
           namespace: '',
-          project_key: project&.infer_key
+          project: project
         )
       end
 
-      def attach_container(container, set_document: true, add_documents: true)
+      def attach_document(document, set_document: true, add_documents: true)
         # log.kv 'Key', infer_key
         # log.kv 'Type', @type
         # Need to support file namespaces, but to do that you need to have a root namespace defined that
@@ -134,10 +134,10 @@ module KManager
         # log.kv 'Namespace', ''
         # log.kv 'Project Key', project&.infer_key
 
-        # log.kv 'Unique Key', container.unique_key
+        # log.kv 'Unique Key', document.unique_key
 
-        @document = container     if set_document
-        add_document(container)   if add_documents
+        @document = document     if set_document
+        add_document(document)   if add_documents
       end
 
       def load_document

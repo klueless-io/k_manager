@@ -2,9 +2,20 @@
 
 module KManager
   module Documents
-    class SimpleDocument
+    # A basic document stores a simple data object with tags for
+    # unique key, type, namespace and project.
+    class BasicDocument < KDoc::Container
       include KLog::Logging
-      include KManager::Documents::DocumentTags
+      include KManager::Documents::DocumentTaggable
+
+      def initialize(**opts)
+        super(opts)
+        initialize_document_tags(**opts)
+      end
+
+      def default_document_type
+        :basic
+      end
     end
   end
 end

@@ -64,7 +64,7 @@ module KManager
       end
 
       def register_document
-        attach_container(create_container)
+        attach_document(create_document)
       end
 
       private
