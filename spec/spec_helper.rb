@@ -3,6 +3,8 @@
 require 'pry'
 require 'bundler/setup'
 require 'k_manager'
+require 'mocks/sample_document'
+
 # require 'k_usecases'
 
 RSpec.configure do |config|

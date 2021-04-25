@@ -4,7 +4,7 @@ module KManager
   module Documents
     class DataDocument
       include KLog::Logging
-      include KManager::Documents::DocumentTags
+      include KManager::Documents::DocumentTaggable
     end
   end
 end
