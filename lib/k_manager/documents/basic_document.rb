@@ -9,7 +9,7 @@ module KManager
       include KManager::Documents::DocumentTaggable
 
       def initialize(**opts)
-        super(opts)
+        super(**opts)
         initialize_document_tags(**opts)
       end
 

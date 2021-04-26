@@ -10,7 +10,7 @@ module KManager
       end
 
       def load_document
-        @document.data = {}
+        document.data = {}
       end
 
       # def debug

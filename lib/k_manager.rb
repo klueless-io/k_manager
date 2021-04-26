@@ -39,18 +39,6 @@ module KManager
     # can attach themselves to the currently focussed resource via
     # KManager.target_resource.add_document(document)
     attr_accessor :target_resource
-
-    # def configuration
-    #   @configuration ||= KManager::Configuration.new
-    # end
-
-    # def reset_configuration
-    #   @configuration = KManager::Configuration.new
-    # end
-
-    # def configure
-    #   yield(configuration)
-    # end
   end
 end
 
