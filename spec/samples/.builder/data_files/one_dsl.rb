@@ -1,7 +1,2 @@
-class Simple
-  def print
-    puts 'simple'
-  end
-end
-
-Simple.new.print
+puts 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+puts KManager.model

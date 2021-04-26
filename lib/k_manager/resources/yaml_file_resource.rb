@@ -11,11 +11,11 @@ module KManager
 
       def load_document
         data = YAML.safe_load(content)
-        @document.data = data
+        document.data = data
       end
 
       #         def debug
-      #           L.ostruct(KDsl::Util.data.to_struct(@document.data))
+      #           L.ostruct(KDsl::Util.data.to_struct(self.document.data))
       #         end
     end
   end

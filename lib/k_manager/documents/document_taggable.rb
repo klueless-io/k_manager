@@ -32,6 +32,9 @@ module KManager
       # When using a DSL data file, this will be manually configured
       attr_reader :namespace
 
+      # Resource that this document belongs to (optional)
+      attr_accessor :resource
+
       # Project that this document belongs to (optional)
       attr_reader :project
 
@@ -45,9 +48,10 @@ module KManager
 
       def initialize_document_tags(**opts)
         @key = opts[:key] || SecureRandom.alphanumeric(4)
-        @type = opts[:type] || default_document_type # KDoc.opinion.default_model_type
+        @type = opts[:type] || default_document_type
         @namespace = opts[:namespace] || ''
-        @project = opts[:project]
+        @resource = opts[:resource]
+        @project = @resource&.project
         @project_key = project&.infer_key
       end
 
