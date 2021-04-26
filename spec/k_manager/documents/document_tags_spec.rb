@@ -5,19 +5,21 @@ require 'spec_helper'
 RSpec.describe KManager::Documents::DocumentTaggable do
   let(:instance) { SampleDocument.new(**opts) }
 
+  let(:project) { KManager::Project.new(:my_project) }
+
   let(:opts) do
     {
       key: key,
       type: type,
       namespace: namespace,
-      project: project
+      resource: resource
     }
   end
 
   let(:key) { nil }
   let(:type) { nil }
   let(:namespace) { nil }
-  let(:project) { nil }
+  let(:resource) { nil }
 
   describe '#constructor' do
     subject { instance }
@@ -28,6 +30,7 @@ RSpec.describe KManager::Documents::DocumentTaggable do
           key: match(/^[A-Za-z0-9]{4}$/),
           type: :sample,
           namespace: '',
+          resource: nil,
           project: nil,
           error: nil
         )
@@ -46,7 +49,7 @@ RSpec.describe KManager::Documents::DocumentTaggable do
       context 'when type nil' do
         let(:type) { nil }
 
-        it { is_expected.to eq(:sample) } # eq(KDoc.opinion.default_model_type) }
+        it { is_expected.to eq(:sample) }
       end
 
       context 'when type :some_data_type' do
@@ -82,10 +85,22 @@ RSpec.describe KManager::Documents::DocumentTaggable do
       end
 
       context 'when project :controller' do
-        let(:project) { KManager::Project.new(:my_project) }
+        let(:resource) { KManager::Resources::BaseResource.new(project: project) }
 
         it { is_expected.to eq('my-project') }
       end
+    end
+  end
+
+  describe '.resource' do
+    subject { instance.resource }
+
+    it { is_expected.to be_nil }
+
+    context 'set resource' do
+      before { instance.resource = KManager::Resources::BaseResource.new }
+
+      it { is_expected.not_to be_nil }
     end
   end
 
@@ -107,8 +122,8 @@ RSpec.describe KManager::Documents::DocumentTaggable do
 
           it { expect(subject).to eq('controllers-some-name-controller') }
 
-          context 'and project' do
-            let(:project) { KManager::Project.new(:my_project) }
+          context 'and resource with project' do
+            let(:resource) { KManager::Resources::BaseResource.new(project: project) }
 
             it { expect(subject).to eq('my-project-controllers-some-name-controller') }
           end

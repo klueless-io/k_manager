@@ -2,10 +2,10 @@
 
 RSpec.describe KManager::CreateDocument do
   context 'module methods' do
-    context '.document' do
-      subject { KManager.document }
+    context '.model' do
+      subject { KManager.model }
 
-      it { is_expected.not_to be_empty }
+      it { is_expected.not_to be_nil }
     end
   end
 
@@ -14,10 +14,10 @@ RSpec.describe KManager::CreateDocument do
 
     let(:instance) { described_class }
 
-    context '.document' do
-      subject { document }
+    context '.model' do
+      subject { model }
 
-      it { is_expected.to eq('some_document') }
+      it { is_expected.to be_a(KManager::Documents::ModelDocument) }
     end
   end
 end

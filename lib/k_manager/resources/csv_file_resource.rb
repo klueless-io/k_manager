@@ -16,11 +16,11 @@ module KManager
         CSV.parse(content, headers: true, header_converters: :symbol).each do |row|
           data << row.to_h
         end
-        @document.data = data
+        document.data = data
       end
 
       # def debug
-      #   tp @document.data, @document.data.first.to_h.keys
+      #   tp self.document.data, self.document.data.first.to_h.keys
       # end
     end
   end

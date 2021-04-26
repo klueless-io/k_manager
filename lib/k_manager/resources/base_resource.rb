@@ -47,8 +47,6 @@ module KManager
       # Content of resource, use read content to load this property
       attr_reader :content
 
-      attr_accessor :document
-
       # List of documents derived from this resource
       #
       # Most resources will create one document, but a DSL can generate
@@ -68,7 +66,6 @@ module KManager
         @type = :unknown
 
         attach_project(opts[:project]) if opts[:project]
-        @document = nil
         @documents = []
       end
 
@@ -76,6 +73,10 @@ module KManager
         @project = project
         @project.add_resource(self)
         self
+      end
+
+      def document
+        @document ||= documents&.first
       end
 
       # Fire actions and keep track of status as they fire
@@ -96,11 +97,6 @@ module KManager
         end
       end
 
-      def add_document(document)
-        @documents << document
-        document
-      end
-
       # What identifying key does this resource have?
       #
       # Child resources will have different ways of working this out,
@@ -117,27 +113,22 @@ module KManager
         log.warn 'you need to implement register_document'
       end
 
+      # This might be better off in a factory method
+      # Klue.basic
       def create_document
         KManager::Documents::BasicDocument.new(
           key: infer_key,
           type: type,
           namespace: '',
-          project: project
+          resource: self
         )
       end
 
-      def attach_document(document, set_document: true, add_documents: true)
-        # log.kv 'Key', infer_key
-        # log.kv 'Type', @type
-        # Need to support file namespaces, but to do that you need to have a root namespace defined that
-        # would limit the size of the namespace and currently I need more information before that can happen
-        # log.kv 'Namespace', ''
-        # log.kv 'Project Key', project&.infer_key
+      # TODO: Unit Test
+      def attach_document(document, change_resource_type: nil)
+        @type = change_resource_type if change_resource_type
 
-        # log.kv 'Unique Key', document.unique_key
-
-        @document = document     if set_document
-        add_document(document)   if add_documents
+        add_document(document)
       end
 
       def load_document
@@ -145,6 +136,12 @@ module KManager
       end
 
       private
+
+      def add_document(document)
+        # First document in list goes into .document
+        @documents << document
+        document
+      end
 
       def load_content_action
         @status = :content_loading
