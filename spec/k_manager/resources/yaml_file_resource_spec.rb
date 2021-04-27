@@ -103,6 +103,12 @@ RSpec.describe KManager::Resources::YamlFileResource do
             .and include({ 'tabitha' => { 'name' => 'Jin', 'job' => 'Developer', 'skills' => %w[lisp fortran erlang] } })
         end
       end
+
+      describe '#debug' do
+        subject { instance.debug }
+
+        it { subject }
+      end
     end
   end
 end

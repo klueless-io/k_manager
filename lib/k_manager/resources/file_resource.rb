@@ -67,6 +67,22 @@ module KManager
         attach_document(create_document)
       end
 
+      # rubocop:disable  Metrics/AbcSize
+      def debug
+        log.section_heading('resource')
+        log.kv 'source'   , source                                                , 15
+        log.kv 'file'     , file                                                  , 15
+        log.kv 'type'     , type                                                  , 15
+        log.kv 'infer_key', infer_key                                             , 15
+        log.kv 'status'   , status                                                , 15
+        # log.kv 'project'  , project
+        log.kv 'content'  , content.nil? ? '' : content[0..100].gsub("\n", '\n')  , 15
+        log.kv 'documents', documents.length                                      , 15
+
+        documents.each(&:debug)
+      end
+      # rubocop:enable  Metrics/AbcSize
+
       private
 
       def guard

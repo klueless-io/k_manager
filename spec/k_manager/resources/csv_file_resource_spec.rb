@@ -107,6 +107,12 @@ RSpec.describe KManager::Resources::CsvFileResource do
           )
         end
       end
+
+      describe '#debug' do
+        subject { instance.debug }
+
+        it { subject }
+      end
     end
   end
 end
