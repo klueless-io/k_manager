@@ -55,6 +55,12 @@ RSpec.describe KManager::Documents::BasicDocument do
           unique_key: 'my-project-spaceman-abc-xyz'
         )
       end
+
+      describe '#debug' do
+        subject { instance.debug }
+
+        it { subject }
+      end
     end
   end
 end

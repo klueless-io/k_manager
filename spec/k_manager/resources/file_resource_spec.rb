@@ -87,6 +87,12 @@ RSpec.describe KManager::Resources::FileResource do
 
           it { is_expected.to eq('person-details') }
         end
+
+        describe '#debug' do
+          subject { instance.debug }
+
+          it { subject }
+        end
       end
     end
   end

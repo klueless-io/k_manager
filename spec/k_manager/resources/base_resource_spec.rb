@@ -117,6 +117,12 @@ RSpec.describe KManager::Resources::BaseResource do
             context 'advance the status' do
               it { is_expected.to have_attributes(status: :documents_registered) }
             end
+
+            describe '#debug' do
+              subject { instance.debug }
+
+              it { subject }
+            end
           end
         end
       end

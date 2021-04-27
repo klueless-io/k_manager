@@ -81,6 +81,12 @@ RSpec.describe KManager::Resources::RubyFileResource do
           )
           .and have_attributes(document: have_attributes(unique_key: 'simple-ruby'))
       end
+
+      describe '#debug' do
+        subject { instance.debug }
+
+        fit { subject }
+      end
     end
   end
 end

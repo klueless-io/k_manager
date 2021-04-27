@@ -14,16 +14,12 @@ module KManager
 
         Object.class_eval content
 
-        # # Only DSL's will add new resource_documents
-        # if documents.length > 0
-        #   resource.resource_type = KDsl::Resources::Resource::TYPE_RUBY_DSL
-        # end
-        # rescue StandardError => exception
-        # Report the error but still add the document so that you can see
-        # it in the ResourceDocument list, it will be marked as Error
-        # resource.error = exception
+      # rescue StandardError => exception
+      #   # Report the error but still add the document so that you can see
+      #   # it in the ResourceDocument list, it will be marked as Error
+      #   resource.error = exception
 
-        # L.exception resource.error
+      #   L.exception resource.error
       ensure
         KManager.target_resource = nil
 

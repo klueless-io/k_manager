@@ -73,6 +73,22 @@ module KManager
             .join('-')
         end
       end
+
+      # rubocop:disable Metrics/AbcSize
+      def debug
+        log.section_heading(self.class.name)
+
+        log.kv 'unique_key'   , unique_key  , 15
+        log.kv 'key'          , key         , 15
+        log.kv 'type'         , type        , 15
+        log.kv 'namespace'    , namespace   , 15
+        # log.kv 'resource'     , resource    , 15
+        # log.kv 'project'      , project     , 15
+        log.kv 'project_key'  , project_key , 15
+        log.kv 'data'         , data.nil? ? '' : data.to_s[0..100].gsub("\n", '\n'), 15
+        log.kv 'error'        , error       , 15
+      end
+      # rubocop:enable Metrics/AbcSize
     end
   end
 end

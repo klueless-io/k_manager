@@ -99,6 +99,12 @@ RSpec.describe KManager::Resources::JsonFileResource do
 
         it { is_expected.to include({ 'firstName' => 'Rack', 'lastName' => 'Jackson', 'gender' => 'man', 'age' => 24 }) }
       end
+
+      describe '#debug' do
+        subject { instance.debug }
+
+        it { subject }
+      end
     end
   end
 end
