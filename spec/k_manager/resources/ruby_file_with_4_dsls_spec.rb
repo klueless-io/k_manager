@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe KManager::Resources::RubyFileResource do
   let(:instance) { described_class.instance(**opts) }
   let(:opts) { { file: file } }
-  let(:file) { 'spec/samples/.builder/data_files/dsl-1-key.rb' }
+  let(:file) { 'spec/samples/.builder/data_files/dsl-4-keys.rb' }
   let(:project1) { KManager::Project.new(:project1) }
 
   context 'fire actions' do

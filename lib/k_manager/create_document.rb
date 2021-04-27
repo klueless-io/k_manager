@@ -2,7 +2,8 @@
 
 module KManager
   module CreateDocument
-    def model(**opts)
+    def model(key = nil, **opts)
+      opts = { key: key }.merge(opts) unless key.nil?
       document = new_document(KManager::Documents::ModelDocument, **opts)
 
       attach_to_resource(document, change_resource_type: :dsl)
@@ -17,8 +18,11 @@ module KManager
     #
     # @param [Class<DocumentTaggable>] klass type of document to create
     def new_document(klass, **opts)
+      key = KManager.target_resource.documents.length.zero? ? KManager.target_resource.infer_key : nil
+
       opts = {
-        resource: KManager.target_resource
+        resource: KManager.target_resource,
+        key: key
       }.merge(opts)
 
       klass.new(**opts)
