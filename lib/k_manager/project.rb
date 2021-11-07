@@ -18,6 +18,9 @@ module KManager
     # List of resources attached to this project
     attr_reader :resources
 
+    # May replace config with default channel name
+    # Channels represent configurations that are independent of project or builder,
+    # but a project may want to have a default channel that it supplies
     def initialize(name, config = nil, **opts)
       raise KType::Error, 'Provide a project name' unless name.is_a?(String) || name.is_a?(Symbol)
 
@@ -43,6 +46,7 @@ module KManager
     private
 
     def initialize_opts(opts)
+      # How am I really using project name spacing?
       # project name is often a good default for the namespace
       @namespace = opts[:namespace] || name
     end

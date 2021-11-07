@@ -9,7 +9,7 @@ RSpec.describe KManager::Configuration::ProjectConfig do
   # let(:custom_target_folder2) { '~/my-target-folder2' }
 
   # let(:expected_target_folder1) { File.expand_path(custom_target_folder1) }
-  # let(:expected_target_folder2) { File.expand_path(custom_target_folder2) }
+   # let(:expected_target_folder2) { File.expand_path(custom_target_folder2) }
 
   # let(:custom_template_folder) { '~/my-template-folder' }
   # let(:custom_domain_template_folder) { '~/my-template-folder-domain' }

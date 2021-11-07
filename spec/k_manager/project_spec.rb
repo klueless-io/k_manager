@@ -42,7 +42,7 @@ RSpec.describe KManager::Project do
 
         it { is_expected.to eq('my-project') }
 
-        context 'when project name is has complex characters' do
+        context 'when project name has complex characters' do
           let(:name) { 'The quick_brown Fox99' }
 
           it { is_expected.to eq('the-quick-brown-fox99') }

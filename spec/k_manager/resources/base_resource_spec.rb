@@ -19,8 +19,14 @@ RSpec.describe KManager::Resources::BaseResource do
         it { is_expected.to eq(:initialized) }
       end
 
-      context '.source' do
-        subject { instance.source }
+      context '.uri' do
+        subject { instance.uri }
+
+        it { is_expected.to be_nil }
+      end
+
+      context '.scheme' do
+        subject { instance.scheme }
 
         it { is_expected.to eq(:unknown) }
       end

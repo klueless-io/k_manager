@@ -1,0 +1,71 @@
+: SCENARIO 1
+cd /Users/davidcruwys/dev/kgems/k_manager/spec/samples
+
+include('**/*')
+exclude('.builder/raw_data/deprecated/**/*')
+exclude('.target/unwatched/**/*')
+
+include('**/*')
+exclude('.builder/raw_data/deprecated/**/*')
+exclude('.target/unwatched/**/*')
+
+
+
+: SCENARIO 2
+cd /Users/davidcruwys/dev/kgems/k_manager/spec/samples/.builder
+include('**/*')
+exclude('raw_data/deprecated/**/*')
+
+cd /Users/davidcruwys/dev/kgems/k_manager/spec/samples/.templates
+include('**/*')
+
+
+
+: SCENARIO 3
+cd /Users/davidcruwys/dev/kgems/k_manager/spec/samples
+
+exclude('**/*')
+include('.target/unwatched/**/*')
+
+
+/Users/davidcruwys/dev/kgems/k_manager/spec/samples
+
+files: []
+files_exclude (file_patterns): []
+
+.
+./target
+./target/look-at-my-eyes.txt
+NUP: ./target/unwatched
+NUP: ./target/unwatched/nothing-to-see.txt
+NUP: ./target/unwatched/what-you-looking-at.txt
+NUP: ./target/unwatched/new-file.txt
+NUP: ./target/move-along.txt
+./target/watched
+./target/watched/look-at-me.txt
+./target/watched/over-here.txt
+./.templates
+./.templates/sample-xmen.rb
+./.templates/sample.rb
+./.templates/sample-xmen.cs
+./.templates/sample.cs
+./.builder
+./.builder/config
+./.builder/config/builder_config.rb
+./.builder/config/app_settings.rb
+./.builder/raw_data
+./.builder/raw_data/countries.csv
+./.builder/raw_data/PersonDetails.json
+./.builder/raw_data/some-file.txt
+./.builder/raw_data/developers.yaml
+./.builder/raw_data/deprecated
+./.builder/raw_data/deprecated/some-other-file.txt
+./.builder/setup.rb
+./.builder/data_files
+./.builder/data_files/countries.csv
+./.builder/data_files/simple.rb
+./.builder/data_files/PersonDetails.json
+./.builder/data_files/some-file.txt
+./.builder/data_files/dsl-4-keys.rb
+./.builder/data_files/developers.yaml
+./.builder/data_files/dsl-1-key.rb

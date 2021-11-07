@@ -12,6 +12,8 @@ require 'k_manager/documents/document_taggable'
 require 'k_manager/documents/basic_document'
 require 'k_manager/documents/model_document'
 require 'k_manager/documents/builder_document'
+require 'k_manager/resources/file_set'
+require 'k_manager/resources/resource_set'
 require 'k_manager/resources/base_resource'
 require 'k_manager/resources/file_resource'
 require 'k_manager/resources/csv_file_resource'
@@ -20,6 +22,7 @@ require 'k_manager/resources/ruby_file_resource'
 require 'k_manager/resources/yaml_file_resource'
 require 'k_manager/resources/unknown_file_resource'
 require 'k_manager/project'
+require 'k_manager/container'
 
 module KManager
   extend CreateDocument

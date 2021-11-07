@@ -22,6 +22,12 @@ module KManager
     class BaseResource
       include KLog::Logging
 
+      attr_reader :uri # https://ruby-doc.org/stdlib-2.6.1/libdoc/uri/rdoc/URI/Generic.html
+      
+      def scheme
+        uri&.scheme&.to_sym || :unknown
+      end
+
       # Status of the resource
       # - :initialized
       # - :content_loading
@@ -35,7 +41,7 @@ module KManager
       # Where is the source of content
       #
       # Implement in child classes, examples: :file, :uri, :dynamic
-      attr_reader :source
+      # attr_reader :scheme
 
       # Where is the type of the
       #
@@ -62,8 +68,8 @@ module KManager
       # @option opts [Project] :project attach the resource to a project
       def initialize(**opts)
         @status = :initialized
-        @source = :unknown
-        @type = :unknown
+        # @scheme = :unknown
+        @type   = :unknown
 
         attach_project(opts[:project]) if opts[:project]
         @documents = []
@@ -138,7 +144,7 @@ module KManager
       # rubocop:disable Metrics/AbcSize
       def debug
         log.section_heading('resource')
-        log.kv 'source'   , source                                                , 15
+        log.kv 'scheme'   , scheme                                                , 15
         log.kv 'type'     , type                                                  , 15
         log.kv 'status'   , status                                                , 15
         # log.kv 'project'  , project
