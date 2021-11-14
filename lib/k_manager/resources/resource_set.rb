@@ -33,7 +33,6 @@ module KManager
     # @param [Array] exclude Exclude file patterns
     def attach_files(*patterns, exclude: nil)
       files = FileList.new(*patterns).exclude(exclude)
-      binding.pry
       files.exclude(*exclude) if exclude && exclude.is_a?(Array)
       files.exclude(exclude) if exclude && !exclude.is_a?(Array)
       @file_list += files

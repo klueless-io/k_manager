@@ -1,0 +1,11 @@
+subject
+.
+target
+target/.
+target/.dot_files
+target/.dot_files/.
+target/.dot_files/.one
+target/.dot_files/.two
+target/look-at-my-eyes.txt
+target/unwatched
+target/unwatched/.
