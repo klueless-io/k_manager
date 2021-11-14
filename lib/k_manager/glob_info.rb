@@ -23,12 +23,12 @@ module KManager
         glob_entries = []
       
         glob_infos.each do |glob_info|
-          found = glob_entries.find_index { |entry| entry.path == glob_info.path && entry.glob == glob_info.glob }
+          found = glob_entries.find_index { |entry| entry.working_directory == glob_info.working_directory && entry.glob == glob_info.glob }
   
           if found
             glob_entries[found].exclusions = (glob_entries[found].exclusions + glob_info.exclusions).uniq
           else
-            glob_entries << glob_info.entry
+            glob_entries << GlobEntry.new(glob_info.working_directory, glob_info.glob, glob_info.flags, glob_info.exclusions)
           end
         end
         glob_entries

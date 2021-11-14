@@ -10,6 +10,7 @@ module KManager
 
     def initialize(key, path_name, pwd, relative_path)
       # super(relative_path)
+      binding.pry
       @key = key
       @path_name = path_name
       @pwd = pwd
@@ -20,7 +21,7 @@ module KManager
     #
     # The Realpath is based on the current directory at the time this entry was created
     def realpath
-      path_name.realpath(pwd)
+      path_name.realpath(pwd).to_s
     end
   end
 end

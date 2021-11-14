@@ -106,7 +106,7 @@ module KManager
     end
 
     def absolute_paths
-      path_entries.map { |entry| entry.absolute_path }
+      path_entries.map { |entry| entry.realpath }
     end
 
     def pwd

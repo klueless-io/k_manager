@@ -115,6 +115,57 @@ RSpec.describe KManager::FileSet do
     end
   end
 
+  describe '.path_entries' do
+    before { instance.glob(glob, exclude: exclude, flags: flags, use_defaults: use_defaults) }
+
+    let(:glob)  { '.builder/config/*' }
+    let(:flags) { File::FNM_DOTMATCH }
+
+    fdescribe '.path_entries' do
+      subject { instance.path_entries }
+
+      it do
+        binding.pry
+        puts subject
+        # is_expected
+        #   .to have_attributes(length: 2)
+        #   .and include(
+        #     '.builder/config/app_settings.rb',
+        #     '.builder/config/builder_config.rb'
+        #   )
+      end
+    end
+
+
+    describe '.relative_paths' do
+      subject { instance.relative_paths }
+
+      it do
+        puts subject
+        is_expected
+          .to have_attributes(length: 2)
+          .and include(
+            '.builder/config/app_settings.rb',
+            '.builder/config/builder_config.rb'
+          )
+      end
+    end
+
+    describe '.absolute_paths' do
+      subject { instance.absolute_paths }
+
+      it do
+        puts subject
+        is_expected
+          .to have_attributes(length: 2)
+          .and include(
+            File.expand_path('.builder/config/app_settings.rb'),
+            File.expand_path('.builder/config/builder_config.rb')
+          )
+      end
+    end
+  end
+
   describe '#remove' do
     subject { instance.relative_paths }
 
