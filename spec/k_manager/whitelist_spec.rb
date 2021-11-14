@@ -24,8 +24,6 @@ RSpec.describe KManager::Whitelist do
             .to  have_attributes(length: 1)
             .and include(have_attributes(glob: 'xyz/**/*', path: pwd, exclusions: []))
         end
-        # ABSOLUTE
-        # .and include(have_attributes(glob: '**/*', path: File.join(pwd, 'xyz'), exclusions: []))
 
         context 'with exclusions' do
           before { instance.add('xyz/**/*', ['*.wtf', /^bob.*/]) }
@@ -35,8 +33,6 @@ RSpec.describe KManager::Whitelist do
               .to  have_attributes(length: 1)
               .and include(have_attributes(glob: 'xyz/**/*', path: pwd, exclusions: ['*.wtf', /^bob.*/]))
           end
-          # ABSOLUTE
-          # .and include(have_attributes(glob: '**/*', path: File.join(pwd, 'xyz'), exclusions: ['*.wtf', /^bob.*/]))
         end
       end
 
@@ -52,8 +48,6 @@ RSpec.describe KManager::Whitelist do
             .to  have_attributes(length: 1)
             .and include(have_attributes(glob: 'xyz/**/*', path: pwd, exclusions: []))
         end
-        # ABSOLUTE
-        # .and include(have_attributes(glob: '**/*', path: File.join(pwd, 'xyz'), exclusions: []))
 
         context 'with exclusions (duplicates and new)' do
           before do
@@ -67,8 +61,6 @@ RSpec.describe KManager::Whitelist do
               .to  have_attributes(length: 1)
               .and include(have_attributes(glob: 'xyz/**/*', path: pwd, exclusions: ['*.wtf', /^bob.*/, '*.rofl']))
           end
-          # ABSOLUTE
-          # .and include(have_attributes(glob: '**/*', path: File.join(pwd, 'xyz'), exclusions: ['*.wtf', /^bob.*/, '*.rofl']))
         end
       end
 
@@ -81,9 +73,6 @@ RSpec.describe KManager::Whitelist do
             .and include(have_attributes(glob: 'xyz/**/*', path: pwd, exclusions: []))
             .and include(have_attributes(glob: 'abc/**/*', path: pwd, exclusions: []))
         end
-        # ABSOLUTE
-        # .and include(have_attributes(glob: '**/*', path: File.join(pwd, 'xyz'), exclusions: []))
-        # .and include(have_attributes(glob: '**/*', path: File.join(pwd, 'abc'), exclusions: []))
 
         context 'with exclusions' do
           before do

@@ -19,11 +19,9 @@ RSpec.describe KManager::GlobInfo do
         let(:glob)  { '*.*' }
         it do
           is_expected.to have_attributes(
-            path: pwd,
+            working_directory: pwd,
             glob: '*.*'
           )
-          # absolute_path: pwd,
-          # absolute_glob: '*.*'
         end
       end
 
@@ -31,11 +29,9 @@ RSpec.describe KManager::GlobInfo do
         let(:glob)  { 'some_path/*' }
         it do
           is_expected.to have_attributes(
-            path: pwd,
+            working_directory: pwd,
             glob: 'some_path/*'
           )
-          # absolute_path: File.join(pwd, 'some_path'),
-          # absolute_glob: '*'
         end
       end
   
@@ -43,11 +39,9 @@ RSpec.describe KManager::GlobInfo do
         let(:glob)  { 'some_path/**/' }
         it do
           is_expected.to have_attributes(
-            path: pwd,
+            working_directory: pwd,
             glob: 'some_path/**/'
           )
-          # absolute_path: File.join(pwd, 'some_path'),
-          # absolute_glob: '**/'
         end
       end
   
@@ -55,11 +49,9 @@ RSpec.describe KManager::GlobInfo do
         let(:glob)  { 'some_path/*.*' }
         it do
           is_expected.to have_attributes(
-            path: pwd,
+            working_directory: pwd,
             glob: 'some_path/*.*'
           )
-          # absolute_path: File.join(pwd, 'some_path'),
-          # absolute_glob: '*.*'
         end
       end
   
@@ -67,11 +59,9 @@ RSpec.describe KManager::GlobInfo do
         let(:glob)  { '../*.*' }
         it do
           is_expected.to have_attributes(
-            path: pwd,
+            working_directory: pwd,
             glob: '../*.*',
           )
-          # absolute_path: File.expand_path('..', pwd),
-          # absolute_glob: '*.*'
         end
       end
   
@@ -79,11 +69,9 @@ RSpec.describe KManager::GlobInfo do
         let(:glob)  { './*.*' }
         it do
           is_expected.to have_attributes(
-            path: pwd,
+            working_directory: pwd,
             glob: '*.*',
           )
-          # absolute_path: pwd,
-          # absolute_glob: '*.*'
         end
       end
   
@@ -91,11 +79,9 @@ RSpec.describe KManager::GlobInfo do
         let(:glob)  { 'spec/k_manager/../../spec/../what_*.tf' }
         it do
           is_expected.to have_attributes(
-            path: pwd,
+            working_directory: pwd,
             glob: 'what_*.tf',
           )
-          # absolute_path: pwd,
-          # absolute_glob: 'what_*.tf'
         end
       end
   
@@ -103,11 +89,9 @@ RSpec.describe KManager::GlobInfo do
         let(:glob)  { 'xmen/**/bob/**/*.the_builder' }
         it do
           is_expected.to have_attributes(
-            path: pwd,
+            working_directory: pwd,
             glob: 'xmen/**/bob/**/*.the_builder',
           )
-          # absolute_path: File.join(pwd, 'xmen'),
-          # absolute_glob: '**/bob/**/*.the_builder'
         end
       end
     end
@@ -164,7 +148,7 @@ RSpec.describe KManager::GlobInfo do
 
     it do
       is_expected.to have_attributes(
-        path: pwd,
+        working_directory: pwd,
         glob: '*.*',
         exclusions: ['*.wtf']
       )

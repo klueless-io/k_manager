@@ -1,14 +1,11 @@
 # frozen_string_literal: true
-module KManager
-  class GlobInfo
 
-    attr_reader :path
-    attr_reader :glob
-    attr_reader :flags
-    attr_reader :exclusions
+module KManager
+  class GlobInfo # GlobConfig, GlobBuilder
+    include GlobProps
 
     def initialize(glob, exclude = nil, flags = File::FNM_PATHNAME | File::FNM_EXTGLOB)
-      @path = Dir.pwd
+      @working_directory = Dir.pwd
       @glob = Pathname.new(glob).cleanpath.to_s
       @glob += File::SEPARATOR if glob.ends_with?(File::SEPARATOR)
       @flags = flags
@@ -18,12 +15,24 @@ module KManager
     end
 
     def entry
-      entry = GlobEntry.new
-      entry.path = self.path
-      entry.glob = self.glob
-      entry.flags = self.flags
-      entry.exclusions = self.exclusions
-      entry
+      GlobEntry.new(working_directory, glob, flags, exclusions)
+    end
+
+    class << self
+      def build_glob_entries(glob_infos)
+        glob_entries = []
+      
+        glob_infos.each do |glob_info|
+          found = glob_entries.find_index { |entry| entry.path == glob_info.path && entry.glob == glob_info.glob }
+  
+          if found
+            glob_entries[found].exclusions = (glob_entries[found].exclusions + glob_info.exclusions).uniq
+          else
+            glob_entries << glob_info.entry
+          end
+        end
+        glob_entries
+      end
     end
 
     private
@@ -34,60 +43,5 @@ module KManager
       return [exclude] if exclude.is_a?(String) || exclude.is_a?(Regexp) || exclude.respond_to?(:call)
       exclude.select { |ex| ex.is_a?(String) || ex.is_a?(Regexp) || ex.respond_to?(:call) }
     end
-
-    # Flatten (or normalize the path and glob)
-    #
-    # Move NON glob relative folders to the end of the path
-    #
-    #
-    # example (when current dir is /xmen):
-    #
-    # original_glob : some_path/**/
-    # path:         : /xmen/some_path
-    # glob:         : **/
-    #
-    # original_glob : some_path/*.*
-    # path:         : /xmen/some_path
-    # glob:         : *.*
-    #
-    # original_glob : some_path/*
-    # path:         : /xmen/some_path
-    # glob:         : *
-    #
-    # original_glob : ../*
-    # path:         : /xmen
-    # glob:         : *
-
-    # original_glob : spec/k_manager/../../../k_manager/spec/../what_*.tf
-    # path:         : /xmen
-    # glob:         : what_*.tf
-
-
-    # original_path will be become path
-    # original_glob will be become glob
-
-    # path will be become absolute_path
-    # glob will be become absolute_glob
-
-    # def absolute_path_glob
-    #   abs_path = [path]
-    #   abs_glob = []
-
-    #   glob_parts = Pathname(glob).each_filename.to_a
-
-    #   has_glob = false
-    #   glob_parts.each do |part|
-    #     if has_glob || GLOB_PATTERN.match?(part)
-    #       has_glob = true
-    #       abs_glob << part
-    #     else
-    #       abs_path << part
-    #     end
-    #   end
-
-    #   abs_glob << File::SEPARATOR if glob.ends_with?(File::SEPARATOR)
-    #   @absolute_glob = File.join(abs_glob)
-    #   @absolute_path = File.expand_path(File.join(abs_path))
-    # end
   end
 end

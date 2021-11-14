@@ -1,17 +1,20 @@
 # frozen_string_literal: true
+
 module KManager
-  # Rename to Glob
+  # Glob entry can be used to find <PathEntries> that match a Glob
+  # with optional exclusion patterns and flags
   class GlobEntry
-    attr_accessor :path
-    attr_accessor :glob
-    attr_accessor :exclusions
-    attr_accessor :flags
+    include GlobProps
+
+    def initialize(working_directory, glob, flags, exclusions)
+      @working_directory = working_directory
+      @glob = glob
+      @flags = flags
+      @exclusions = exclusions
+    end
 
     def path_entries
-      # @exclude_procs = DEFAULT_IGNORE_PROCS.dup
-      # @exclude_patterns = DEFAULT_IGNORE_PATTERNS.dup
-
-      Dir.chdir(path) do
+      Dir.chdir(working_directory) do
         Dir.glob(glob, flags)
           .reject { |file| exclusions.any? { |pattern| pattern_match?(pattern, file) } }
           .map do |file|
@@ -45,8 +48,6 @@ module KManager
     end
   end
 end
-
-
 # File.fnmatch('?',   '/', File::FNM_PATHNAME)  #=> false : wildcard doesn't match '/' on FNM_PATHNAME
 # File.fnmatch('*',   '/', File::FNM_PATHNAME)  #=> false : ditto
 # File.fnmatch('[/]', '/', File::FNM_PATHNAME)  #=> false : ditto

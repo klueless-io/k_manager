@@ -105,7 +105,7 @@ RSpec.describe KManager::FileSet do
   end
 
   describe '.whitelist' do
-    subject { instance.whitelist.entries.length }
+    subject { instance.whitelist.glob_entries.length }
 
     context 'when #glob simple glob' do
       let(:glob)  { '.templates/*' }
@@ -325,12 +325,10 @@ RSpec.describe KManager::FileSet do
         context 'when deep folder/all file and FNM_DOTMATCH (includes .DOT files, .DOT folders and folder/.DOTs)' do
           let(:glob)  { '**/*' }
           # let(:match_paths)  { match(types: %i[folder file dot_fold]) }
-          let(:match_paths)  { match() } #(types: %i[folder file dot_fold]) }
+          let(:match_paths)  { match(types: %i[folder file dot_fold]) }
           let(:flags) { File::FNM_DOTMATCH }
       
-          fit { 
-            binding.pry
-            is_expected.to have_attributes(length: match_paths.length).and eq(match_paths)}
+          it { is_expected.to have_attributes(length: match_paths.length).and eq(match_paths) }
 
           context 'and exclude folders (this is a default pattern)' do
             let(:use_defaults) { true }
@@ -340,7 +338,7 @@ RSpec.describe KManager::FileSet do
             it { is_expected.to have_attributes(length: match_paths.length).and eq(match_paths)}
           end
 
-          context 'and file does not contain xmen' do
+          context 'and file contains xmen' do
             let(:match_paths)  { match(types: %i[file], include_tags: %i[xmen]) }
             let(:exclude) do
               lambda do |path| 
@@ -363,7 +361,12 @@ RSpec.describe KManager::FileSet do
         context 'when deep folder/all file (includes .DOT files, .DOT folders) but NOT (folder/.DOTs)' do
           let(:glob) { '{.[^\.]*,*,**}/**/{.[^\.]*,**}/{.[^\.]*,*,**}' }
           let(:match_paths)  { match(types: %i[folder file]) }
-      
+          # { type: :file    , dot: true , tags: %i[txt  builder    ], path: '.builder/data_files/some-file.txt'},
+          # { type: :folder  , dot: true , tags: %i[txt  builder    ], path: '.builder/folder.txt'},
+          # { type: :dot_fold, dot: true , tags: %i[     builder    ], path: '.builder/folder.txt/.'},
+          # { type: :file    , dot: true , tags: %i[txt  builder    ], path: '.builder/folder.txt/odd1.txt'},
+          # { type: :folder  , dot: true , tags: %i[     builder    ], path: '.builder/raw_data'},
+    
           it { is_expected.to have_attributes(length: match_paths.length).and eq(match_paths)}
 
           context 'and exclude folders (this is a default pattern)' do
@@ -408,8 +411,6 @@ RSpec.describe KManager::FileSet do
     context 'advanced scenarios' do
       context 'when deep folder/all file with FNM_PATHNAME (no .DOT files or .DOT folders or folder/.DOTs)' do
         before {
-          instance.glob('**/*')
-
           instance.glob('.builder/**/*.rb')
           instance.glob('target/**/*.txt', exclude: ['target/unwatched*', /move-along/])
           instance.glob('.templates/sample-{y,z}men.*')

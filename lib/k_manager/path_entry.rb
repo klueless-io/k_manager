@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module KManager
   class PathEntry # < Pathname
     # unique absolute path name (/abc, /abc/.)
@@ -25,3 +26,55 @@ module KManager
 end
 
 # relative_path() if its in two places
+
+# Useful Pathname methods
+#
+# p.directory?
+# p.root?
+# p.absolute?
+# p.relative?
+# p.exist?
+# p.file?
+# p.size?
+# p.zero?
+# p.ftype
+# p.empty?
+# p.each_line
+# p.read
+# p.readlines
+
+# p.readable?
+# p.birthtime
+
+# p.join
+# p.mkpath
+# p.find
+# p.entries
+# p.stat
+# p.each_entry
+# p.relative_path_from
+
+# p.expand_path
+# p.realdirpath
+# p.realpath
+# p.extname
+# p.basename
+# p.dirname
+# p.relative_path_from
+# p.to_path
+# p.parent
+# p.split
+# p.size
+# p.cleanpath
+# p.children
+# p.mkdir
+# p.rmdir
+# p.glob
+# p.fnmatch
+# p.fnmatch?
+# p.delete
+# p.each_filename
+# p.each_line
+
+# p.read
+# p.readlines
