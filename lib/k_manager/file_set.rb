@@ -25,10 +25,22 @@ module KManager
       /~$/
     ]
 
+    IGNORE_LAMBDAS = {
+      # Match Examples: 'target/deep/a', 'target/deep/a/.', 'target/deep/a/b', 'target/deep/a/b/.'
+      folder: lambda { |path| File.directory?(path) },
+      
+      # Match Examples: 'target/deep/a', 'target/deep/a/b'
+      folder_current: lambda { |path| File.directory?(path) && !path.ends_with?('.') },
+
+      # Match Examples: 'target/deep/a/.', 'target/deep/a/b/.'
+      folder_current_dot: lambda { |path| File.directory?(path) && path.ends_with?('.') },
+    }
+
     # proc { |fn| fn =~ /(^|[\/\\])core$/ && !File.directory?(fn) }
     DEFAULT_IGNORE_LAMBDAS = [
-      proc { |path| File.directory?(path) }
+      IGNORE_LAMBDAS[:folder]
     ]
+    
     
     # Expression to detect standard file GLOB pattern
     GLOB_PATTERN = %r{[*?\[\{]}
@@ -102,11 +114,11 @@ module KManager
     end
 
     def relative_paths
-      path_entries.map { |entry| entry.relative_path }
+      path_entries.map { |entry| entry.to_path } # relative_path }
     end
 
     def absolute_paths
-      path_entries.map { |entry| entry.realpath }
+      path_entries.map { |entry| entry.realpath.to_s }
     end
 
     def pwd
@@ -116,6 +128,10 @@ module KManager
     def remove(path)
       path = abs_path(path)
       file_set.delete(path)
+    end
+
+    def debug
+      path_entries.each(&:debug)
     end
 
     private

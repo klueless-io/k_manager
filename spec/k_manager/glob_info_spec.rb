@@ -84,7 +84,7 @@ RSpec.describe KManager::GlobInfo do
           )
         end
       end
-  
+
       context 'when glob xmen/**/bob/**/*.the_builder' do
         let(:glob)  { 'xmen/**/bob/**/*.the_builder' }
         it do

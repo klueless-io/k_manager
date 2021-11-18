@@ -13,15 +13,19 @@ module KManager
       @exclusions = exclusions
     end
 
+    # Dealing with edge cases:
+    # https://bugs.ruby-lang.org/issues/17280
+
     def path_entries
       Dir.chdir(working_directory) do
         Dir.glob(glob, flags)
           .reject { |file| exclusions.any? { |pattern| pattern_match?(pattern, file) } }
           .map do |file|
-            pathname = Pathname.new(file)
-            key = pathname.realpath.to_s
-            key = File.join(key, '.') if file.ends_with?('.')
-            PathEntry.new(key, pathname, Dir.pwd, file)
+            # pathname = Pathname.new(file)
+            # key = pathname.realpath.to_s
+            # key = File.join(key, '.') if file.ends_with?('.')
+            # PathEntry.new(key, pathname, Dir.pwd, file)
+            PathEntry.new(file)
           end
       end
     end

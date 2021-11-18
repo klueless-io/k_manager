@@ -2,12 +2,6 @@
 
 require 'spec_helper'
 
-      #   # let(:glob)  { '{.[^\.]*,*}/**/*' }
-      #   let(:glob)  { '{.[^\.]*,*,**}/**/{.[^\.]*,*,**}/{.[^\.]*,*,**}' }
-      #   # let(:glob)  { '**/*' }
-      #   # let(:glob)  { '**/*' }
-      #   let(:exclude) { /\.one|b[12].txt/ }
-
 RSpec.describe KManager::FileSet do
   around(:each) do |example|
     Dir.chdir("spec/samples") do
@@ -15,76 +9,108 @@ RSpec.describe KManager::FileSet do
     end
   end
 
+  # https://bugs.ruby-lang.org/issues/17280
+  #
+  # There is two separate issues when looking at FNM_DOTMATCH
+  # 1. When the recursive glob is used ("**/*"), then the same folder shows up under two paths, once in the parent directory and once in its own directory.
+  #    - example: 
+  #               .builder/config
+  #               .builder/config/.
+  # 2. When a non-recursive glob is used and the reference to the parent folder (..) shows up (this is always excluded in recursive mode, even without FNM_DOTMATCH).
+  #    - example: 
+  #               .builder/config/..
+  #
+  # The first issue we can solve by skipping the current directory entry if it is . and we are in recursive mode and the current path (parent directory) matches the previous entry in the resulting array. This approach works as glob uses a depth-first search and not a breadth-first search, as long as . is the first entry in the directory.
+  # The second issue we can solve by not matching .. entry if the glob is magical == 2 (* sets that).
   let(:match_rules) {
     [
-      { type: :dot_fold, dot: true , tags: %i[                ], path: '.'},
-      { type: :folder  , dot: true , tags: %i[     builder    ], path: '.builder'},
-      { type: :dot_fold, dot: true , tags: %i[     builder    ], path: '.builder/.'},
-      { type: :folder  , dot: true , tags: %i[     builder    ], path: '.builder/config'},
-      { type: :dot_fold, dot: true , tags: %i[     builder    ], path: '.builder/config/.'},
-      { type: :file    , dot: true , tags: %i[ruby builder    ], path: '.builder/config/app_settings.rb'},
-      { type: :file    , dot: true , tags: %i[ruby builder    ], path: '.builder/config/builder_config.rb'},
-      { type: :folder  , dot: true , tags: %i[     builder    ], path: '.builder/data_files'},
-      { type: :dot_fold, dot: true , tags: %i[     builder    ], path: '.builder/data_files/.'},
-      { type: :file    , dot: true , tags: %i[json builder    ], path: '.builder/data_files/PersonDetails.json'},
-      { type: :file    , dot: true , tags: %i[csv  builder    ], path: '.builder/data_files/countries.csv'},
-      { type: :file    , dot: true , tags: %i[yaml builder    ], path: '.builder/data_files/developers.yaml'},
-      { type: :file    , dot: true , tags: %i[ruby builder    ], path: '.builder/data_files/dsl-1-key.rb'},
-      { type: :file    , dot: true , tags: %i[ruby builder    ], path: '.builder/data_files/dsl-4-keys.rb'},
-      { type: :file    , dot: true , tags: %i[ruby builder    ], path: '.builder/data_files/simple.rb'},
-      { type: :file    , dot: true , tags: %i[txt  builder    ], path: '.builder/data_files/some-file.txt'},
-      { type: :folder  , dot: true , tags: %i[txt  builder    ], path: '.builder/folder.txt'},
-      { type: :dot_fold, dot: true , tags: %i[     builder    ], path: '.builder/folder.txt/.'},
-      { type: :file    , dot: true , tags: %i[txt  builder    ], path: '.builder/folder.txt/odd1.txt'},
-      { type: :folder  , dot: true , tags: %i[     builder    ], path: '.builder/raw_data'},
-      { type: :dot_fold, dot: true , tags: %i[     builder    ], path: '.builder/raw_data/.'},
-      { type: :file    , dot: true , tags: %i[json builder    ], path: '.builder/raw_data/PersonDetails.json'},
-      { type: :file    , dot: true , tags: %i[csv  builder    ], path: '.builder/raw_data/countries.csv'},
-      { type: :folder  , dot: true , tags: %i[     builder    ], path: '.builder/raw_data/deprecated'},
-      { type: :dot_fold, dot: true , tags: %i[     builder    ], path: '.builder/raw_data/deprecated/.'},
-      { type: :file    , dot: true , tags: %i[txt  builder    ], path: '.builder/raw_data/deprecated/some-other-file.txt'},
-      { type: :file    , dot: true , tags: %i[yaml builder    ], path: '.builder/raw_data/developers.yaml'},
-      { type: :file    , dot: true , tags: %i[txt  builder    ], path: '.builder/raw_data/some-file.txt'},
-      { type: :file    , dot: true , tags: %i[ruby builder    ], path: '.builder/setup.rb'},
-      { type: :folder  , dot: true , tags: %i[                ], path: '.templates'},
-      { type: :dot_fold, dot: true , tags: %i[                ], path: '.templates/.'},
-      { type: :file    , dot: true , tags: %i[cs   xmen       ], path: '.templates/sample-xmen.cs'},
-      { type: :file    , dot: true , tags: %i[ruby ymen       ], path: '.templates/sample-ymen.rb'},
-      { type: :file    , dot: true , tags: %i[cs   zmen       ], path: '.templates/sample-zmen.cs'},
-      { type: :file    , dot: true , tags: %i[ruby zmen       ], path: '.templates/sample-zmen.rb'},
-      { type: :folder  , dot: false, tags: %i[          target], path: 'target'},
-      { type: :dot_fold, dot: false, tags: %i[          target], path: 'target/.'},
-      { type: :folder  , dot: true , tags: %i[          target], path: 'target/.dot_files'},
-      { type: :dot_fold, dot: true , tags: %i[          target], path: 'target/.dot_files/.'},
-      { type: :file    , dot: true , tags: %i[          target], path: 'target/.dot_files/.one'},
-      { type: :file    , dot: true , tags: %i[          target], path: 'target/.dot_files/.two'},
-      { type: :folder  , dot: false, tags: %i[          target], path: 'target/deep'},
-      { type: :dot_fold, dot: false, tags: %i[          target], path: 'target/deep/.'},
-      { type: :folder  , dot: false, tags: %i[          target], path: 'target/deep/a'},
-      { type: :dot_fold, dot: false, tags: %i[          target], path: 'target/deep/a/.'},
-      { type: :folder  , dot: false, tags: %i[          target], path: 'target/deep/a/b'},
-      { type: :dot_fold, dot: false, tags: %i[          target], path: 'target/deep/a/b/.'},
-      { type: :folder  , dot: false, tags: %i[          target], path: 'target/deep/a/b/c'},
-      { type: :dot_fold, dot: false, tags: %i[          target], path: 'target/deep/a/b/c/.'},
-      { type: :folder  , dot: false, tags: %i[          target], path: 'target/deep/a/b/c/d'},
-      { type: :dot_fold, dot: false, tags: %i[          target], path: 'target/deep/a/b/c/d/.'},
-      { type: :folder  , dot: true , tags: %i[          target], path: 'target/deep/a/b/c/d/.dot_files'},
-      { type: :dot_fold, dot: true , tags: %i[          target], path: 'target/deep/a/b/c/d/.dot_files/.'},
-      { type: :file    , dot: true , tags: %i[          target], path: 'target/deep/a/b/c/d/.dot_files/.one'},
-      { type: :file    , dot: true , tags: %i[          target], path: 'target/deep/a/b/c/d/.dot_files/.two'},
-      { type: :folder  , dot: false, tags: %i[          target], path: 'target/deep/a/b/c/d/e'},
-      { type: :dot_fold, dot: false, tags: %i[          target], path: 'target/deep/a/b/c/d/e/.'},
-      { type: :file    , dot: false, tags: %i[txt  xmen target], path: 'target/deep/a/b/c/d/e/xmen.txt'},
-      { type: :file    , dot: false, tags: %i[txt       target], path: 'target/look-at-my-eyes.txt'},
-      { type: :file    , dot: false, tags: %i[txt       target], path: 'target/move-along.txt'},
-      { type: :folder  , dot: false, tags: %i[          target], path: 'target/unwatched'},
-      { type: :dot_fold, dot: false, tags: %i[          target], path: 'target/unwatched/.'},
-      { type: :file    , dot: false, tags: %i[txt       target], path: 'target/unwatched/nothing-to-see.txt'},
-      { type: :file    , dot: false, tags: %i[txt       target], path: 'target/unwatched/what-you-looking-at.txt'},
-      { type: :folder  , dot: false, tags: %i[          target], path: 'target/watched'},
-      { type: :dot_fold, dot: false, tags: %i[          target], path: 'target/watched/.'},
-      { type: :file    , dot: false, tags: %i[txt       target], path: 'target/watched/look-at-me.txt'},
-      { type: :file    , dot: false, tags: %i[txt       target], path: 'target/watched/over-here.txt' }
+      { type: :parent_folder      , dot: true , tags: %i[                ], path: '..'},
+      { type: :folder_dot         , dot: true , tags: %i[                ], path: '.'},
+      { type: :folder             , dot: true , tags: %i[     builder    ], path: '.builder'},
+      { type: :parent_folder      , dot: true , tags: %i[     builder    ], path: '.builder/..'},
+      { type: :folder_dot         , dot: true , tags: %i[     builder    ], path: '.builder/.'},
+      { type: :folder             , dot: true , tags: %i[     builder    ], path: '.builder/config'},
+      { type: :parent_folder      , dot: true , tags: %i[     builder    ], path: '.builder/config/..'},
+      { type: :folder_dot         , dot: true , tags: %i[     builder    ], path: '.builder/config/.'},
+      { type: :file               , dot: true , tags: %i[ruby builder    ], path: '.builder/config/app_settings.rb'},
+      { type: :file               , dot: true , tags: %i[ruby builder    ], path: '.builder/config/builder_config.rb'},
+      { type: :folder             , dot: true , tags: %i[     builder    ], path: '.builder/data_files'},
+      { type: :parent_folder      , dot: true , tags: %i[     builder    ], path: '.builder/data_files/..'},
+      { type: :folder_dot         , dot: true , tags: %i[     builder    ], path: '.builder/data_files/.'},
+      { type: :file               , dot: true , tags: %i[json builder    ], path: '.builder/data_files/PersonDetails.json'},
+      { type: :file               , dot: true , tags: %i[csv  builder    ], path: '.builder/data_files/countries.csv'},
+      { type: :file               , dot: true , tags: %i[yaml builder    ], path: '.builder/data_files/developers.yaml'},
+      { type: :file               , dot: true , tags: %i[ruby builder    ], path: '.builder/data_files/dsl-1-key.rb'},
+      { type: :file               , dot: true , tags: %i[ruby builder    ], path: '.builder/data_files/dsl-4-keys.rb'},
+      { type: :file               , dot: true , tags: %i[ruby builder    ], path: '.builder/data_files/simple.rb'},
+      { type: :file               , dot: true , tags: %i[txt  builder    ], path: '.builder/data_files/some-file.txt'},
+      { type: :folder             , dot: true , tags: %i[txt  builder    ], path: '.builder/folder.txt'},
+      { type: :parent_folder      , dot: true , tags: %i[     builder    ], path: '.builder/folder.txt/..'},
+      { type: :folder_dot         , dot: true , tags: %i[     builder    ], path: '.builder/folder.txt/.'},
+      { type: :file               , dot: true , tags: %i[txt  builder    ], path: '.builder/folder.txt/odd1.txt'},
+      { type: :folder             , dot: true , tags: %i[     builder    ], path: '.builder/raw_data'},
+      { type: :parent_folder      , dot: true , tags: %i[     builder    ], path: '.builder/raw_data/..'},
+      { type: :folder_dot         , dot: true , tags: %i[     builder    ], path: '.builder/raw_data/.'},
+      { type: :file               , dot: true , tags: %i[json builder    ], path: '.builder/raw_data/PersonDetails.json'},
+      { type: :file               , dot: true , tags: %i[csv  builder    ], path: '.builder/raw_data/countries.csv'},
+      { type: :folder             , dot: true , tags: %i[     builder    ], path: '.builder/raw_data/deprecated'},
+      { type: :parent_folder      , dot: true , tags: %i[     builder    ], path: '.builder/raw_data/deprecated/..'},
+      { type: :folder_dot         , dot: true , tags: %i[     builder    ], path: '.builder/raw_data/deprecated/.'},
+      { type: :file               , dot: true , tags: %i[txt  builder    ], path: '.builder/raw_data/deprecated/some-other-file.txt'},
+      { type: :file               , dot: true , tags: %i[yaml builder    ], path: '.builder/raw_data/developers.yaml'},
+      { type: :file               , dot: true , tags: %i[txt  builder    ], path: '.builder/raw_data/some-file.txt'},
+      { type: :file               , dot: true , tags: %i[ruby builder    ], path: '.builder/setup.rb'},
+      { type: :folder             , dot: true , tags: %i[                ], path: '.templates'},
+      { type: :parent_folder      , dot: true , tags: %i[                ], path: '.templates/..'},
+      { type: :folder_dot         , dot: true , tags: %i[                ], path: '.templates/.'},
+      { type: :file               , dot: true , tags: %i[cs   xmen       ], path: '.templates/sample-xmen.cs'},
+      { type: :file               , dot: true , tags: %i[ruby ymen       ], path: '.templates/sample-ymen.rb'},
+      { type: :file               , dot: true , tags: %i[cs   zmen       ], path: '.templates/sample-zmen.cs'},
+      { type: :file               , dot: true , tags: %i[ruby zmen       ], path: '.templates/sample-zmen.rb'},
+      { type: :folder             , dot: false, tags: %i[          target], path: 'target'},
+      { type: :parent_folder      , dot: false, tags: %i[          target], path: 'target/..'},
+      { type: :folder_dot         , dot: false, tags: %i[          target], path: 'target/.'},
+      { type: :folder             , dot: true , tags: %i[          target], path: 'target/.dot_files'},
+      { type: :parent_folder      , dot: true , tags: %i[          target], path: 'target/.dot_files/..'},
+      { type: :folder_dot         , dot: true , tags: %i[          target], path: 'target/.dot_files/.'},
+      { type: :file               , dot: true , tags: %i[          target], path: 'target/.dot_files/.one'},
+      { type: :file               , dot: true , tags: %i[          target], path: 'target/.dot_files/.two'},
+      { type: :folder             , dot: false, tags: %i[          target], path: 'target/deep'},
+      { type: :parent_folder      , dot: false, tags: %i[          target], path: 'target/deep/..'},
+      { type: :folder_dot         , dot: false, tags: %i[          target], path: 'target/deep/.'},
+      { type: :folder             , dot: false, tags: %i[          target], path: 'target/deep/a'},
+      { type: :parent_folder      , dot: false, tags: %i[          target], path: 'target/deep/a/..'},
+      { type: :folder_dot         , dot: false, tags: %i[          target], path: 'target/deep/a/.'},
+      { type: :folder             , dot: false, tags: %i[          target], path: 'target/deep/a/b'},
+      { type: :parent_folder      , dot: false, tags: %i[          target], path: 'target/deep/a/b/..'},
+      { type: :folder_dot         , dot: false, tags: %i[          target], path: 'target/deep/a/b/.'},
+      { type: :folder             , dot: false, tags: %i[          target], path: 'target/deep/a/b/c'},
+      { type: :parent_folder      , dot: false, tags: %i[          target], path: 'target/deep/a/b/c/..'},
+      { type: :folder_dot         , dot: false, tags: %i[          target], path: 'target/deep/a/b/c/.'},
+      { type: :folder             , dot: false, tags: %i[          target], path: 'target/deep/a/b/c/d'},
+      { type: :parent_folder      , dot: false, tags: %i[          target], path: 'target/deep/a/b/c/d/..'},
+      { type: :folder_dot         , dot: false, tags: %i[          target], path: 'target/deep/a/b/c/d/.'},
+      { type: :folder             , dot: true , tags: %i[          target], path: 'target/deep/a/b/c/d/.dot_files'},
+      { type: :parent_folder      , dot: true , tags: %i[          target], path: 'target/deep/a/b/c/d/.dot_files/..'},
+      { type: :folder_dot         , dot: true , tags: %i[          target], path: 'target/deep/a/b/c/d/.dot_files/.'},
+      { type: :file               , dot: true , tags: %i[          target], path: 'target/deep/a/b/c/d/.dot_files/.one'},
+      { type: :file               , dot: true , tags: %i[          target], path: 'target/deep/a/b/c/d/.dot_files/.two'},
+      { type: :folder             , dot: false, tags: %i[          target], path: 'target/deep/a/b/c/d/e'},
+      { type: :parent_folder      , dot: false, tags: %i[          target], path: 'target/deep/a/b/c/d/e/..'},
+      { type: :folder_dot         , dot: false, tags: %i[          target], path: 'target/deep/a/b/c/d/e/.'},
+      { type: :file               , dot: false, tags: %i[txt  xmen target], path: 'target/deep/a/b/c/d/e/xmen.txt'},
+      { type: :file               , dot: false, tags: %i[txt       target], path: 'target/look-at-my-eyes.txt'},
+      { type: :file               , dot: false, tags: %i[txt       target], path: 'target/move-along.txt'},
+      { type: :folder             , dot: false, tags: %i[          target], path: 'target/unwatched'},
+      { type: :parent_folder      , dot: false, tags: %i[          target], path: 'target/unwatched/..'},
+      { type: :folder_dot         , dot: false, tags: %i[          target], path: 'target/unwatched/.'},
+      { type: :file               , dot: false, tags: %i[txt       target], path: 'target/unwatched/nothing-to-see.txt'},
+      { type: :file               , dot: false, tags: %i[txt       target], path: 'target/unwatched/what-you-looking-at.txt'},
+      { type: :folder             , dot: false, tags: %i[          target], path: 'target/watched'},
+      { type: :parent_folder      , dot: false, tags: %i[          target], path: 'target/watched/..'},
+      { type: :folder_dot         , dot: false, tags: %i[          target], path: 'target/watched/.'},
+      { type: :file               , dot: false, tags: %i[txt       target], path: 'target/watched/look-at-me.txt'},
+      { type: :file               , dot: false, tags: %i[txt       target], path: 'target/watched/over-here.txt' }
     ]
   }
 
@@ -118,33 +144,26 @@ RSpec.describe KManager::FileSet do
   describe '.path_entries' do
     before { instance.glob(glob, exclude: exclude, flags: flags, use_defaults: use_defaults) }
 
-    let(:glob)  { '.builder/config/*' }
+    let(:match_paths)  { match(types: %i[folder file folder_dot]) }
     let(:flags) { File::FNM_DOTMATCH }
+    let(:glob)  { '.builder/config/*' }
 
-    fdescribe '.path_entries' do
+    describe '.path_entries' do
       subject { instance.path_entries }
 
-      it do
-        binding.pry
-        puts subject
-        # is_expected
-        #   .to have_attributes(length: 2)
-        #   .and include(
-        #     '.builder/config/app_settings.rb',
-        #     '.builder/config/builder_config.rb'
-        #   )
-      end
+      # it { subject.each { |pe| pe.debug } }
+      it { is_expected.to have_attributes(length: 4) }
     end
-
 
     describe '.relative_paths' do
       subject { instance.relative_paths }
 
       it do
-        puts subject
         is_expected
-          .to have_attributes(length: 2)
+          .to have_attributes(length: 4)
           .and include(
+            '.builder/config/..',
+            '.builder/config/.',
             '.builder/config/app_settings.rb',
             '.builder/config/builder_config.rb'
           )
@@ -155,10 +174,11 @@ RSpec.describe KManager::FileSet do
       subject { instance.absolute_paths }
 
       it do
-        puts subject
         is_expected
-          .to have_attributes(length: 2)
+          .to  have_attributes(length: 4)
           .and include(
+            File.expand_path('.builder'),
+            File.expand_path('.builder/config'),
             File.expand_path('.builder/config/app_settings.rb'),
             File.expand_path('.builder/config/builder_config.rb')
           )
@@ -239,7 +259,10 @@ RSpec.describe KManager::FileSet do
     it { is_expected.to be_empty }
     
     context 'simple scenarios' do
-      before { instance.glob(glob, exclude: exclude, flags: flags, use_defaults: use_defaults) }
+      before { 
+        instance.glob(glob, exclude: exclude, flags: flags, use_defaults: use_defaults)
+        File.write(File.expand_path('../b2.txt'), (['subject'] + subject).join("\n"))
+      }
 
       context 'when .templates/*' do
         let(:glob)  { '.templates/*' }
@@ -340,7 +363,7 @@ RSpec.describe KManager::FileSet do
         File.write(File.expand_path('../b3.txt'), (['match_paths'] + match_paths).join("\n"))
       }
 
-      context 'include all folder / all file pattern variations' do
+      context 'include deep folder / file pattern variations' do
         # Examples:
         # -------------------------------
         # target
@@ -356,7 +379,7 @@ RSpec.describe KManager::FileSet do
       
           it { is_expected.to have_attributes(length: match_paths.length).and eq(match_paths)}
 
-          context 'and exclude folders (this is a default pattern)' do
+          context 'and folder exclusion (via default pattern)' do
             let(:use_defaults) { true }
             let(:match_paths)  { match(types: %i[file], dot: false) }
             # let(:exclude) { lambda { |path| File.directory?(path) } }
@@ -375,17 +398,29 @@ RSpec.describe KManager::FileSet do
         # target/.dot_files
         context 'when deep folder/all file and FNM_DOTMATCH (includes .DOT files, .DOT folders and folder/.DOTs)' do
           let(:glob)  { '**/*' }
-          # let(:match_paths)  { match(types: %i[folder file dot_fold]) }
-          let(:match_paths)  { match(types: %i[folder file dot_fold]) }
+          let(:match_paths)  { match(types: %i[file folder folder_dot]) }
           let(:flags) { File::FNM_DOTMATCH }
       
           it { is_expected.to have_attributes(length: match_paths.length).and eq(match_paths) }
 
-          context 'and exclude folders (this is a default pattern)' do
+          context 'and folder exclusion (via default pattern)' do
             let(:use_defaults) { true }
             let(:match_paths)  { match(types: %i[file]) }
-            # let(:exclude) { lambda { |path| File.directory?(path) } }
         
+            it { is_expected.to have_attributes(length: match_paths.length).and eq(match_paths)}
+          end
+
+          context 'with ignore folders - current' do
+            let(:exclude) { KManager::FileSet::IGNORE_LAMBDAS[:folder_current] }
+            let(:match_paths)  { match(types: %i[file folder_dot]) }
+
+            it { is_expected.to have_attributes(length: match_paths.length).and eq(match_paths)}
+          end
+
+          context 'with ignore folders - current_dot' do
+            let(:exclude) { KManager::FileSet::IGNORE_LAMBDAS[:folder_current_dot] }
+            let(:match_paths)  { match(types: %i[file folder]) }
+      
             it { is_expected.to have_attributes(length: match_paths.length).and eq(match_paths)}
           end
 
@@ -412,19 +447,13 @@ RSpec.describe KManager::FileSet do
         context 'when deep folder/all file (includes .DOT files, .DOT folders) but NOT (folder/.DOTs)' do
           let(:glob) { '{.[^\.]*,*,**}/**/{.[^\.]*,**}/{.[^\.]*,*,**}' }
           let(:match_paths)  { match(types: %i[folder file]) }
-          # { type: :file    , dot: true , tags: %i[txt  builder    ], path: '.builder/data_files/some-file.txt'},
-          # { type: :folder  , dot: true , tags: %i[txt  builder    ], path: '.builder/folder.txt'},
-          # { type: :dot_fold, dot: true , tags: %i[     builder    ], path: '.builder/folder.txt/.'},
-          # { type: :file    , dot: true , tags: %i[txt  builder    ], path: '.builder/folder.txt/odd1.txt'},
-          # { type: :folder  , dot: true , tags: %i[     builder    ], path: '.builder/raw_data'},
-    
+
           it { is_expected.to have_attributes(length: match_paths.length).and eq(match_paths)}
 
-          context 'and exclude folders (this is a default pattern)' do
+          context 'and exclude current folders (this is a default pattern)' do
             let(:use_defaults) { true }
             let(:match_paths)  { match(types: %i[file]) }
-            # let(:exclude) { lambda { |path| File.directory?(path) } }
-        
+
             it { is_expected.to have_attributes(length: match_paths.length).and eq(match_paths)}
           end
         end
@@ -448,7 +477,7 @@ RSpec.describe KManager::FileSet do
       
           it { is_expected.to have_attributes(length: match_paths.length).and eq(match_paths)}
 
-          context 'and exclude folders (this is a default pattern)' do
+          context 'and exclude current folders (this is a default pattern)' do
             let(:use_defaults) { true }
             let(:match_paths)  { match(types: %i[file], include_tags: %i[txt]) }
             # let(:exclude) { lambda { |path| File.directory?(path) } }
@@ -465,7 +494,6 @@ RSpec.describe KManager::FileSet do
           instance.glob('.builder/**/*.rb')
           instance.glob('target/**/*.txt', exclude: ['target/unwatched*', /move-along/])
           instance.glob('.templates/sample-{y,z}men.*')
-          # instance.glob('.builder/**/*.rb', exclude: exclude, flags: flags, use_defaults: use_defaults)
 
           File.write(File.expand_path('../b2.txt'), (['subject'] + subject).join("\n"))
           File.write(File.expand_path('../b3.txt'), (['match_paths'] + match_paths).join("\n"))
