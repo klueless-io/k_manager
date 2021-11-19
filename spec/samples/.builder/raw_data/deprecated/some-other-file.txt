@@ -1,1 +1,0 @@
-Some Text in a file that is now deprecated and should not be a registered resource
