@@ -5,6 +5,8 @@ module KManager
     # A resource represents text based content in the project. The content
     # maybe data, interpreted ruby code or a combination of the two.
     #
+    # Any non-binary file that is useful for processing.
+    #
     # Currently resources refer to file based content, but it is envisaged
     # that resources could come from a distributed source such as Gist,
     # WebService, or even FTP.
@@ -21,15 +23,13 @@ module KManager
     # generally only one document.
     class BaseResource
       include KLog::Logging
+      include KDoc::Guarded
 
       attr_reader :uri # https://ruby-doc.org/stdlib-2.6.1/libdoc/uri/rdoc/URI/Generic.html
-      
-      def scheme
-        uri&.scheme&.to_sym || :unknown
-      end
 
+      # TODO: Refactor from status to state and extract to a State class
       # Status of the resource
-      # - :initialized
+      # - :alive (i am alive, or instantiated)
       # - :content_loading
       # - :content_loaded
       # - :documents_registering
@@ -38,17 +38,24 @@ module KManager
       # - :documents_loaded
       attr_reader :status
 
-      # Where is the source of content
+      # What content type does the underlying resource type generally contain
       #
-      # Implement in child classes, examples: :file, :uri, :dynamic
-      # attr_reader :scheme
-
-      # Where is the type of the
+      # Examples:
       #
-      # Implement in child classes, examples: :csv, :json, :ruby, :dsl, :yaml
-      attr_reader :type
+      # :csv        - CSV text content
+      # :json       - JSON text content
+      # :yaml       - YAML text content
+      # :xml        - XML text content
+      # :ruby       - Ruby code file of unknown capability
+      # :ruby_dsl   - Ruby code holding some type of known DSL such as a KDoc
+      #               DISCUSS: should this subtype be delegated to an attribute on a responsible class
+      attr_reader :content_type
 
-      attr_reader :project
+      # TODO
+      attr_reader :area
+
+      # Optional namespace that the resource belongs to.
+      attr_reader :namespace
 
       # Content of resource, use read content to load this property
       attr_reader :content
@@ -66,12 +73,13 @@ module KManager
       #
       # @param [Hash] **opts Options for initializing the resource
       # @option opts [Project] :project attach the resource to a project
-      def initialize(**opts)
-        @status = :initialized
-        # @scheme = :unknown
-        @type   = :unknown
+      def initialize(opts)
+        @status       = :alive
+        @namespace    = value_remove(opts, :namespace)
+        @content_type = @content_type || value_remove(opts, :content_type) || default_content_type
+        @content      = value_remove(opts, :content)
 
-        attach_project(opts[:project]) if opts[:project]
+        # attach_project(opts[:project]) if opts[:project]
         @documents = []
       end
 
@@ -92,14 +100,24 @@ module KManager
       #  - :register_document for registering 1 or more documents (name and namespace) against the resource
       #  - :load_document for parsing the content into a document
       def fire_action(action)
-        if action == :load_content && @status == :initialized
+        if action == :load_content && alive?
           load_content_action
-        elsif action == :register_document && @status == :content_loaded
+        elsif action == :register_document && content_loaded?
           register_document_action
-        elsif action == :load_document && @status == :documents_registered
+        elsif action == :load_document && documents_registered?
           load_document_action
         else
-          puts 'unknown'
+          log.warn "Action: '#{action}' is invalid for status: '#{status}'"
+        end
+      end
+
+      def fire_next_action
+        if alive?
+          fire_action(:load_content)
+        elsif content_loaded?
+          fire_action(:register_document)
+        elsif documents_registered?
+          fire_action(:load_document)
         end
       end
 
@@ -112,29 +130,19 @@ module KManager
       end
 
       def load_content
-        log.warn 'you need to implement load_content'
+        # log.warn 'you need to implement load_content'
       end
 
       def register_document
         log.warn 'you need to implement register_document'
       end
 
-      # This might be better off in a factory method
-      # Klue.basic
-      def create_document
-        KManager::Documents::BasicDocument.new(
-          key: infer_key,
-          type: type,
-          namespace: '',
-          resource: self
-        )
-      end
+      def attach_document(document, change_content_type: nil)
+        @content_type = change_content_type if change_content_type
 
-      # TODO: Unit Test
-      def attach_document(document, change_resource_type: nil)
-        @type = change_resource_type if change_resource_type
-
-        add_document(document)
+        document.owner = self
+        @documents << document
+        document
       end
 
       def load_document
@@ -142,30 +150,76 @@ module KManager
       end
 
       # rubocop:disable Metrics/AbcSize
-      def debug
-        log.section_heading('resource')
-        log.kv 'scheme'   , scheme                                                , 15
-        log.kv 'type'     , type                                                  , 15
-        log.kv 'status'   , status                                                , 15
+      def debug(heading = 'resource')
+        log.section_heading(heading)
+        log.kv 'scheme'       , scheme                                                , 20
+        log.kv 'content_type' , content_type                                          , 20
+        log.kv 'status'       , status                                                , 20
+        log.kv 'content'      , content.nil? ? '' : content[0..100].gsub("\n", '\n')  , 20
+        log.kv 'documents'    , documents.length                                      , 20
+
+        yield if block_given?
+
+        # log.kv 'infer_key', infer_key                                             , 20
         # log.kv 'project'  , project
-        log.kv 'content'  , content.nil? ? '' : content[0..100].gsub("\n", '\n')  , 15
-        log.kv 'documents', documents.length                                      , 15
 
         documents.each(&:debug)
       end
       # rubocop:enable Metrics/AbcSize
 
+      def scheme
+        uri&.scheme&.to_sym || default_scheme
+      end
+
+      # What schema does the underlying resource connect with by default
+      #
+      # Examples:
+      #
+      # :file
+      # :web (http: https: fpt:)
+      # :mem - some type of memory structure
+      def default_scheme
+        :unknown
+      end
+
+      def default_content_type
+        :unknown
+      end
+
+      def alive?
+        @status == :alive
+      end
+
+      def content_loaded?
+        @status == :content_loaded
+      end
+
+      def documents_registered?
+        @status == :documents_registered
+      end
+
+      def documents_loaded?
+        @status == :documents_loaded
+      end
+
+      # Setting the URI can be overridden by WebResource and FileResource
+      def uri=(uri)
+        return if uri.nil?
+
+        @uri = URI(uri) if uri.is_a?(String)
+        @uri = uri if uri.is_a?(URI)
+      end
+
       private
 
-      def add_document(document)
-        # First document in list goes into .document
-        @documents << document
-        document
+      def value_remove(opts, key)
+        return opts.delete(key) if opts.key?(key)
+
+        nil
       end
 
       def load_content_action
         @status = :content_loading
-        @content = nil
         load_content
         @status = :content_loaded
       end

@@ -8,7 +8,7 @@ module KManager
   #  - File
   #
   # Resources can be registered with the ResourceSet using register_* methods
-  # 
+  #
   # somepath
   # somepath/my_dsls
   # somepath/my_dsls/path1
@@ -18,7 +18,6 @@ module KManager
   # somepath/my_data/
   # somepath/my_templates
   class ResourceSet
-
     attr_reader :uri_set
 
     def initialize
@@ -42,7 +41,6 @@ module KManager
 
     # def attach_files(*patterns, excludes: [], )
     #   FileList.new(*patterns).exclude(*excludes)
-    #   binding.pry
     # end
 
     # def find_files(*paths, exclude: [])
@@ -54,8 +52,6 @@ module KManager
 
     private
 
-    def file_list
-    end
-
+    def file_list; end
   end
 end

@@ -15,7 +15,7 @@ module KManager
     # Configuration for this project
     attr_reader :config
 
-    # List of resources attached to this project
+    # List of resources attached to this project (This can be come a fileset)
     attr_reader :resources
 
     # May replace config with default channel name
