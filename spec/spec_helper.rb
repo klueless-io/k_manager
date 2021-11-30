@@ -5,6 +5,8 @@ require 'bundler/setup'
 require 'k_manager'
 require 'mocks/sample_document'
 
+Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
+
 # require 'k_usecases'
 
 RSpec.configure do |config|
