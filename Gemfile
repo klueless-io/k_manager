@@ -23,3 +23,21 @@ group :development, :test do
   gem 'rubocop-rake', require: false
   gem 'rubocop-rspec', require: false
 end
+
+# If local dependency
+if ENV['KLUE_LOCAL_GEMS']&.to_s&.downcase == 'true'
+  group :development, :test do
+    puts 'Using Local GEMs'
+    gem 'handlebars-helpers'      , path: '../handlebars-helpers'
+    gem 'k_builder'               , path: '../k_builder'
+    gem 'k_builder-dotnet'        , path: '../k_builder-dotnet'
+    gem 'k_builder-package_json'  , path: '../k_builder-package_json'
+    gem 'k_builder-webpack5'      , path: '../k_builder-webpack5'
+    gem 'k_decor'                 , path: '../k_decor'
+    gem 'k_doc'                   , path: '../k_doc'
+    gem 'k_domain'                , path: '../k_domain'
+    gem 'k_log'                   , path: '../k_log'
+    gem 'k_type'                  , path: '../k_type'
+    gem 'k_util'                  , path: '../k_util'
+  end
+end

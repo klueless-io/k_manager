@@ -1,30 +1,31 @@
 # frozen_string_literal: true
 
+require 'csv'
+require 'k_log'
 require 'k_doc'
+require 'k_fileset'
 require 'k_builder'
 require 'k_ext/github'
-require 'k_log'
 
-require 'k_manager/create_document'
+# IS THIS NEEDED? this was used for infer_key
+require 'handlebars/helpers/string_formatting/dasherize'
+
 require 'k_manager/version'
 require 'k_manager/configuration/project_config'
-require 'k_manager/documents/document_taggable'
-require 'k_manager/documents/basic_document'
-require 'k_manager/documents/model_document'
-require 'k_manager/documents/builder_document'
 require 'k_manager/resources/resource_set'
 require 'k_manager/resources/base_resource'
 require 'k_manager/resources/file_resource'
-require 'k_manager/resources/csv_file_resource'
-require 'k_manager/resources/json_file_resource'
-require 'k_manager/resources/ruby_file_resource'
-require 'k_manager/resources/yaml_file_resource'
-require 'k_manager/resources/unknown_file_resource'
-require 'k_manager/project'
-require 'k_manager/container'
+require 'k_manager/resources/web_resource'
+require 'k_manager/resources/mem_resource'
+require 'k_manager/resources/resource_factory'
+require 'k_manager/resources/resource_manager'
+require 'k_manager/resources/build_documents'
+require 'k_manager/document_factory'
+require 'k_manager/area'
+require 'k_manager/manager'
 
 module KManager
-  extend CreateDocument
+  extend DocumentFactory
 
   # raise KManager::Error, 'Sample message'
   class Error < StandardError; end
@@ -35,12 +36,6 @@ module KManager
       block.call(config) if block_given?
       config
     end
-
-    # Instance of the currently focused resource
-    # if document get created dynamically due to class_eval then they
-    # can attach themselves to the currently focussed resource via
-    # KManager.target_resource.add_document(document)
-    attr_accessor :target_resource
   end
 end
 
