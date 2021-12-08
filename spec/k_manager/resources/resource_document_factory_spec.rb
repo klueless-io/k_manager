@@ -2,12 +2,12 @@
 
 require 'spec_helper'
 
-RSpec.describe KManager::Resources::BuildDocuments do
+RSpec.describe KManager::Resources::ResourceDocumentFactory do
   subject { instance }
 
-  let(:instance) { described_class.new }
-  let(:file_resource) { KManager::Resources::FileResource.new(file: file).tap { |resource| resource.fire_next_action } }
-  let(:mem_resource) { KManager::Resources::MemResource.new(content: content, content_type: content_type).tap { |resource| resource.fire_next_action } }
+  let(:instance) { described_class }
+  let(:file_resource) { KManager::Resources::FileResource.new(file: file).tap(&:fire_next_action) }
+  let(:mem_resource) { KManager::Resources::MemResource.new(content: content, content_type: content_type).tap(&:fire_next_action) }
   let(:resource) { file_resource }
 
   let(:file) { 'spec/samples/.builder/data_files/some-file.txt' }
@@ -23,8 +23,8 @@ RSpec.describe KManager::Resources::BuildDocuments do
 
     it { is_expected.to have_attributes(length: 0) }
 
-    describe '#build' do
-      before { instance.build(resource) }
+    describe '#create_documents' do
+      before { instance.create_documents(resource) }
 
       context 'csv file' do
         let(:file) { 'spec/samples/.builder/data_files/countries.csv' }
@@ -41,8 +41,8 @@ RSpec.describe KManager::Resources::BuildDocuments do
     end
   end
 
-  describe '#build' do
-    before { instance.build(resource) }
+  describe '#create_documents' do
+    before { instance.create_documents(resource) }
 
     describe '.document (first document in the array)' do
       subject { resource.document }
@@ -78,7 +78,7 @@ RSpec.describe KManager::Resources::BuildDocuments do
           it do
             is_expected
               .to have_attributes(
-                key: 'person-details',
+                key: 'person_details',
                 type: :json,
                 namespace: [],
                 data: include('firstName' => 'Rack', 'lastName' => 'Jackson', 'gender' => 'man', 'age' => 24)
@@ -102,7 +102,7 @@ RSpec.describe KManager::Resources::BuildDocuments do
           it do
             is_expected
               .to have_attributes(
-                key: 'sample-yaml-list',
+                key: 'sample_yaml_list',
                 type: :yaml,
                 data: include(
                   include({ 'dave' => { 'job' => 'Developer', 'name' => 'David', 'skills' => %w[python perl pascal] } }),
@@ -118,7 +118,7 @@ RSpec.describe KManager::Resources::BuildDocuments do
           it do
             is_expected
               .to have_attributes(
-                key: 'sample-yaml-object',
+                key: 'sample_yaml_object',
                 type: :yaml,
                 data: include(
                   { 'people' => [
@@ -141,8 +141,8 @@ RSpec.describe KManager::Resources::BuildDocuments do
     end
   end
 
-  describe '#build (using ruby resources)' do
-    before { instance.build(resource) }
+  describe '#create_documents (using ruby resources)' do
+    before { instance.create_documents(resource) }
 
     subject { resource.documents }
 

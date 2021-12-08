@@ -1,0 +1,239 @@
+[
+  {
+    "area_name": "xmen",
+    "area_namespace": null,
+    "area_resource_count": 2,
+    "area_document_count": 2,
+    "id": 12660,
+    "key": "countries",
+    "namespace": null,
+    "status": "documents_registered",
+    "content_type": "csv",
+    "content": "\"Code\",\"Country\"\nAU,\"Australia\"\nNZ,\"New Zealand\"\nCA,\"Canada\"\nUK,\"England\"\nUS,\"United States\"\n",
+    "document_count": 1,
+    "errors": [
+
+    ],
+    "valid": true,
+    "scheme": "file",
+    "path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/countries.csv",
+    "relative_path": "spec/k_manager/scenarios/simple/countries.csv",
+    "exist": true
+  },
+  {
+    "area_name": "xmen",
+    "area_namespace": null,
+    "area_resource_count": 2,
+    "area_document_count": 2,
+    "id": 12680,
+    "key": "traveling_people",
+    "namespace": null,
+    "status": "documents_registered",
+    "content_type": "json",
+    "content": "{ \n  \"people\": [\n    {\n      \"first\": \"Rack\",\n      \"last\": \"Jackson\",\n      \"gender\": \"man\",\n      \"age\": 24,\n      \"countries\": [\"AU\", \"US\", \"EU\"]\n    },\n    {\n      \"first\": \"Lisa\",\n      \"last\": \"Nibblet\",\n      \"gender\": \"female\",\n      \"age\": 27,\n      \"countries\": [\"US\", \"AU\"]\n    },\n    {\n      \"first\": \"Ben\",\n      \"last\": \"Cranky\",\n      \"gender\": \"man\",\n      \"age\": 21,\n      \"countries\": [\"US\", \"EU\", \"FR\", \"UK\"]\n    }\n  ]\n}\n",
+    "document_count": 1,
+    "errors": [
+
+    ],
+    "valid": true,
+    "scheme": "file",
+    "path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/traveling-people.json",
+    "relative_path": "spec/k_manager/scenarios/simple/traveling-people.json",
+    "exist": true
+  },
+  {
+    "area_name": "traveling_people",
+    "area_namespace": "tp",
+    "area_resource_count": 9,
+    "area_document_count": 5,
+    "id": 12700,
+    "key": "countries",
+    "namespace": null,
+    "status": "documents_registered",
+    "content_type": "csv",
+    "content": "\"Code\",\"Country\"\nAU,\"Australia\"\nNZ,\"New Zealand\"\nCA,\"Canada\"\nUK,\"England\"\nUS,\"United States\"\n",
+    "document_count": 1,
+    "errors": [
+
+    ],
+    "valid": true,
+    "scheme": "file",
+    "path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/countries.csv",
+    "relative_path": "spec/k_manager/scenarios/simple/countries.csv",
+    "exist": true
+  },
+  {
+    "area_name": "traveling_people",
+    "area_namespace": "tp",
+    "area_resource_count": 9,
+    "area_document_count": 5,
+    "id": 12720,
+    "key": "traveling_people",
+    "namespace": null,
+    "status": "documents_registered",
+    "content_type": "json",
+    "content": "{ \n  \"people\": [\n    {\n      \"first\": \"Rack\",\n      \"last\": \"Jackson\",\n      \"gender\": \"man\",\n      \"age\": 24,\n      \"countries\": [\"AU\", \"US\", \"EU\"]\n    },\n    {\n      \"first\": \"Lisa\",\n      \"last\": \"Nibblet\",\n      \"gender\": \"female\",\n      \"age\": 27,\n      \"countries\": [\"US\", \"AU\"]\n    },\n    {\n      \"first\": \"Ben\",\n      \"last\": \"Cranky\",\n      \"gender\": \"man\",\n      \"age\": 21,\n      \"countries\": [\"US\", \"EU\", \"FR\", \"UK\"]\n    }\n  ]\n}\n",
+    "document_count": 1,
+    "errors": [
+
+    ],
+    "valid": true,
+    "scheme": "file",
+    "path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/traveling-people.json",
+    "relative_path": "spec/k_manager/scenarios/simple/traveling-people.json",
+    "exist": true
+  },
+  {
+    "area_name": "traveling_people",
+    "area_namespace": "tp",
+    "area_resource_count": 9,
+    "area_document_count": 5,
+    "id": 12740,
+    "key": "ben_dover",
+    "namespace": null,
+    "status": "documents_registered",
+    "content_type": "json",
+    "content": "{ \n  \"first\": \"Ben\",\n  \"last\": \"Dover\",\n  \"gender\": \"man\",\n  \"age\": 28,\n  \"countries\": [\"US\", \"EU\"]\n}\n",
+    "document_count": 1,
+    "errors": [
+
+    ],
+    "valid": true,
+    "scheme": "file",
+    "path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/ben-dover.jason",
+    "relative_path": "spec/k_manager/scenarios/simple/ben-dover.jason",
+    "exist": true
+  },
+  {
+    "area_name": "traveling_people",
+    "area_namespace": "tp",
+    "area_resource_count": 9,
+    "area_document_count": 5,
+    "id": 12760,
+    "key": "me",
+    "namespace": null,
+    "status": "documents_registered",
+    "content_type": "unknown",
+    "content": "Some text file",
+    "document_count": 0,
+    "errors": [
+
+    ],
+    "valid": true,
+    "scheme": "file",
+    "path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/me.txt",
+    "relative_path": "spec/k_manager/scenarios/simple/me.txt",
+    "exist": true
+  },
+  {
+    "area_name": "traveling_people",
+    "area_namespace": "tp",
+    "area_resource_count": 9,
+    "area_document_count": 5,
+    "id": 12780,
+    "key": "not_found",
+    "namespace": null,
+    "status": "content_loaded",
+    "content_type": "unknown",
+    "content": null,
+    "document_count": 0,
+    "errors": [
+      {
+        "type": "guard",
+        "message": "Source file not found: /Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/not-found.txt"
+      }
+    ],
+    "valid": false,
+    "scheme": "file",
+    "path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/not-found.txt",
+    "relative_path": "spec/k_manager/scenarios/simple/not-found.txt",
+    "exist": false
+  },
+  {
+    "area_name": "traveling_people",
+    "area_namespace": "tp",
+    "area_resource_count": 9,
+    "area_document_count": 5,
+    "id": 12800,
+    "key": "not_found",
+    "namespace": null,
+    "status": "content_loaded",
+    "content_type": "ruby",
+    "content": null,
+    "document_count": 0,
+    "errors": [
+      {
+        "type": "guard",
+        "message": "Source file not found: /Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/not-found.rb"
+      }
+    ],
+    "valid": false,
+    "scheme": "file",
+    "path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/not-found.rb",
+    "relative_path": "spec/k_manager/scenarios/simple/not-found.rb",
+    "exist": false
+  },
+  {
+    "area_name": "traveling_people",
+    "area_namespace": "tp",
+    "area_resource_count": 9,
+    "area_document_count": 5,
+    "id": 12820,
+    "key": "query",
+    "namespace": null,
+    "status": "documents_registered",
+    "content_type": "ruby",
+    "content": "# frozen_string_literal: true\n\ndef people\n  # person = KManager.get(:tp_ben_dover).data\n  # people = KManager.get(:tp_traveling_people).data\n  person = nil\n  people = []\n  people << person\n\n  # Join the data in traveling_people with ben-dover and return a single array\n  people.reject(&:nil?)\nend\n",
+    "document_count": 0,
+    "errors": [
+
+    ],
+    "valid": true,
+    "scheme": "file",
+    "path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/query.rb",
+    "relative_path": "spec/k_manager/scenarios/simple/query.rb",
+    "exist": true
+  },
+  {
+    "area_name": "traveling_people",
+    "area_namespace": "tp",
+    "area_resource_count": 9,
+    "area_document_count": 5,
+    "id": 12840,
+    "key": "config",
+    "namespace": null,
+    "status": "documents_registered",
+    "content_type": "dsl",
+    "content": "# frozen_string_literal: true\n\nKManager.model :global do\n  settings do\n    key1 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n",
+    "document_count": 2,
+    "errors": [
+
+    ],
+    "valid": true,
+    "scheme": "file",
+    "path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/config.rb",
+    "relative_path": "spec/k_manager/scenarios/simple/config.rb",
+    "exist": true
+  },
+  {
+    "area_name": "traveling_people",
+    "area_namespace": "tp",
+    "area_resource_count": 9,
+    "area_document_count": 5,
+    "id": 13000,
+    "key": "setup",
+    "namespace": null,
+    "status": "documents_registered",
+    "content_type": "ruby",
+    "content": "# frozen_string_literal: true\n\n# Setup is just some procedural code for execution\ninclude KLog::Logging\n\nlog.error KManager.current_resource.area.name\nlog.warn 'david'\nlog.warn 'was'\nlog.warn 'here'\n\nKManager.current_resource.debug\n# country_container = KManager.find_resource(:countries_csv)\n# binding.pry\n\n# ADD Current Area to the Debug\n",
+    "document_count": 0,
+    "errors": [
+
+    ],
+    "valid": true,
+    "scheme": "file",
+    "path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/setup.rb",
+    "relative_path": "spec/k_manager/scenarios/simple/setup.rb",
+    "exist": true
+  }
+]
