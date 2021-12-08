@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'csv'
+require 'dry-struct'
 require 'k_log'
 require 'k_doc'
 require 'k_fileset'
@@ -9,22 +10,28 @@ require 'k_ext/github'
 
 # IS THIS NEEDED? this was used for infer_key
 require 'handlebars/helpers/string_formatting/dasherize'
+require 'handlebars/helpers/string_formatting/snake'
 
 require 'k_manager/version'
 require 'k_manager/configuration/project_config'
+require 'k_manager/overview/models'
+require 'k_manager/overview/queries'
+require 'k_manager/overview/dump_json'
+require 'k_manager/overview/dashboard'
 require 'k_manager/resources/resource_set'
 require 'k_manager/resources/base_resource'
 require 'k_manager/resources/file_resource'
 require 'k_manager/resources/web_resource'
 require 'k_manager/resources/mem_resource'
+require 'k_manager/resources/resource_document_factory'
 require 'k_manager/resources/resource_factory'
 require 'k_manager/resources/resource_manager'
-require 'k_manager/resources/build_documents'
 require 'k_manager/document_factory'
-require 'k_manager/area'
 require 'k_manager/manager'
+require 'k_manager/area'
 
 module KManager
+  extend Manager
   extend DocumentFactory
 
   # raise KManager::Error, 'Sample message'

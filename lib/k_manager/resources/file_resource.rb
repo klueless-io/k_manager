@@ -27,11 +27,12 @@ module KManager
       # Infer key is the file name without the extension stored in dash-case
       def infer_key
         file_name = Pathname.new(file).basename.sub_ext('').to_s
-        Handlebars::Helpers::StringFormatting::Dasherize.new.parse(file_name)
+        Handlebars::Helpers::StringFormatting::Snake.new.parse(file_name)
       end
 
+      # Currently in base
       # def register_document
-      #   # attach_document(create_document)
+      #   KManager::Resources::ResourceDocumentFactory.create_documents(self)
       # end
 
       def debug
@@ -43,12 +44,25 @@ module KManager
         end
       end
 
+      def attribute_values(prefix = nil)
+        result = super(prefix)
+        result["#{prefix}scheme".to_sym]        = scheme
+        result["#{prefix}path".to_sym]          = resource_path
+        result["#{prefix}relative_path".to_sym] = resource_relative_path
+        result["#{prefix}exist".to_sym]         = resource_valid?
+        result
+      end
+
       def default_scheme
         :file
       end
 
       def resource_path
         @resource_path ||= absolute_path(@file)
+      end
+
+      def resource_relative_path(from_path = Dir.pwd)
+        Pathname.new(resource_path).relative_path_from(from_path).to_s
       end
 
       def resource_valid?
@@ -65,7 +79,7 @@ module KManager
             log.error e
           end
         else
-          log.error "Source file not found: #{resource_path}"
+          guard("Source file not found: #{resource_path}")
         end
       end
 

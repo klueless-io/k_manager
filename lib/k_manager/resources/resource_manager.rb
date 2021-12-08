@@ -1,23 +1,8 @@
 # frozen_string_literal: true
 
 module KManager
-  # Container may replace project, at the moment it is in parallel
-  # A container can be configured with watch paths, aka file resources that belong to the project
-  #
-  # somepath
-  # somepath/my_dsls
-  # somepath/my_dsls/path1
-  # somepath/my_dsls/path2
-  # somepath/my_dsls/path2/child
-  # somepath/my_dsls/path2/old        (skip this path)
-  # somepath/my_data/
-  # somepath/my_templates
-  #
-  # Questions
-  #   Is this really a ResourceContainer?
-  #   What happens when resources are not based on files, where do that get stored, internally?
-  #     - Do I have a UriSet (or)
-  #     - Do I have siblings (FileResourceContainer, UriResourceContainer | RemoteResourceContainer)
+  # TODO: Write tests
+
   # Usage1:
   #   manager = ResourceManager.new
   #   manager.add_resource('file:///david.csv')
@@ -59,46 +44,104 @@ module KManager
   #   end
   # end
 
-  class ResourceManager
-    attr_accessor :resources
-    attr_accessor :fileset
+  module Resources
+    class ResourceManager
+      attr_accessor :area
 
-    def initialize
-      @factory = KManager::ResourceFactory.new
-      @fileset = KFileset::FileSet.new
-      @resources = []
-    end
+      attr_accessor :fileset
+      attr_accessor :webset
+      attr_accessor :memset
 
-    def add_resource(resource_uri)
-      resources << @factory.instance(resource_uri)
-    end
+      # Resource set is built using file, web and memory resources
+      attr_accessor :resource_set
 
-    def add_resources
-      add_web_resources
-    end
+      def initialize(area)
+        @area             = area
 
-    # def update_resource(path)
-    #   uri = path_to_uri(path)
-    #   reset_existing_resource(uri)
-    #   add_resource(uri)
-    #   load_resource_content
-    # end
+        @fileset          = KFileset::FileSet.new
+        @webset           = nil # TODO: when ready to implement URL based resources
+        @memset           = nil # TODO: when ready to implement dynamic memory resources
 
-    def load_resource_content
-      resources.each do |resource|
-        resource.fire_action(:load_content)
+        @resource_factory = KManager::Resources::ResourceFactory.new
+        @resource_set     = KManager::Resources::ResourceSet.new(area)
       end
-    end
 
-    private
+      def resources
+        resource_set.resources
+      end
 
-    def add_web_resources
-      # TODO
-    end
+      def resource_models
+        resource_set.resources.map(&:as_model)
+      end
 
-    def add_file_resources
-      fileset.path_entries.each do |path_entry|
-        add_resource(path_entry.uri)
+      def add_resource_expand_path(file, **opts)
+        add_resource(File.expand_path(file), **opts)
+      end
+
+      # Add a resource based on a resource_uri
+      #
+      # @param [URI|String] resource_uri Path to the resource, if the path uses file:/// then it will add a file resource, if the path http: or https: then a web resource will be added
+      # TODO: Test File URI: relative_path
+      # TODO: Test File URI: absolute_path
+      # TODO: Test URI
+      # TODO: Test URI (Web)
+      # TODO: Test URI (File)
+      def add_resource(resource_uri, **opts)
+        resource_uri = parse_uri(resource_uri)
+        resource_set.add(@resource_factory.instance(resource_uri, **opts))
+      end
+
+      def add_resources
+        add_web_resources
+        add_file_resources
+      end
+
+      # def update_resource(path)
+      #   uri = path_to_uri(path)
+      #   reset_existing_resource(uri)
+      #   add_resource(uri)
+      #   load_resource_content
+      # end
+
+      def fire_actions(*actions)
+        load_content        if actions.include?(:load_content)
+        register_documents  if actions.include?(:register_documents)
+      end
+
+      def load_content
+        resources.each do |resource|
+          resource.fire_action(:load_content)
+        end
+      end
+
+      def register_documents
+        resources.each do |resource|
+          resource.fire_action(:register_document)
+        end
+      end
+
+      def debug
+        resources.each(&:debug)
+      end
+
+      private
+
+      def parse_uri(uri)
+        return uri if uri.is_a?(URI)
+        return URI.parse(uri) if uri =~ URI::ABS_URI # https://stackoverflow.com/questions/1805761/how-to-check-if-a-url-is-valid
+
+        URI.join('file:///', uri)
+      end
+
+      def add_web_resources
+        # TODO
+        # return if @webset.nil?
+      end
+
+      def add_file_resources
+        fileset.path_entries.each do |path_entry|
+          add_resource(path_entry.uri)
+        end
       end
     end
   end
