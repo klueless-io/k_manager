@@ -4,7 +4,7 @@ module KManager
   # KManager is designed to work with one or more areas of concern
   #
   # TODO: Write Tests
-  module Manager
+  class Manager
     def areas
       @areas ||= []
     end
@@ -39,33 +39,18 @@ module KManager
       end
     end
 
-    # def dump
-    #   JSON.pretty_generate(to_h)
-    # end
 
-    # def to_h
-    #   {
-    #     areas: areas.map(&:to_h)
-    #   }
-    # end
+    # # May replace config with default channel name
+    # # Channels represent configurations that are independent of project or builder,
+    # # but a project may want to have a default channel that it supplies
+    # def initialize(name, config = nil, **opts)
+    #   raise KType::Error, 'Provide a project name' unless name.is_a?(String) || name.is_a?(Symbol)
 
-    # def dashboard_resources
-    #   resources = areas.flat_map do |area|
-    #     area.resource_manager.resource_set.resources.map do |resource|
-    #       {
-    #         area: area.name,
-    #         area_namespace: area.namespace,
-    #         **resource.attribute_values
-    #       }
-    #     end
-    #   end
-    #   {
-    #     resources: resources
-    #   }
-    # end
+    #   @name = name
+    #   @config = config || KManager::Configuration::ProjectConfig.new
+    #   @resources = []
 
-    # def show_dashboard(opts, opts2) # (*sections)
-    #   log.structure(dashboard_resources, opts)
+    #   initialize_opts(opts)
     # end
   end
 end

@@ -2,6 +2,7 @@
 
 require 'csv'
 require 'dry-struct'
+require 'forwardable'
 require 'k_log'
 require 'k_doc'
 require 'k_fileset'
@@ -31,13 +32,71 @@ require 'k_manager/manager'
 require 'k_manager/area'
 
 module KManager
-  extend Manager
-  extend DocumentFactory
-
   # raise KManager::Error, 'Sample message'
   class Error < StandardError; end
 
   class << self
+    extend Forwardable
+    
+    # ----------------------------------------------------------------------
+    # Concurrency management for currently focused resource
+    # ----------------------------------------------------------------------
+
+    attr_reader :current_resource
+
+    def resource_mutex
+      @resource_mutex ||= Mutex.new
+    end
+
+    def for_resource(resource = nil)
+      resource_mutex.synchronize do
+        @current_resource = resource
+        yield(current_resource)
+        @current_resource = nil
+      end
+    end
+
+    def for_current_resource
+      raise KManager::Error, 'Attempting to yield current_resource, when a different thread has the lock?' unless resource_mutex.owned?
+
+      yield(@current_resource)
+    end
+
+    # ----------------------------------------------------------------------
+    # Manager facade methods
+    # ----------------------------------------------------------------------
+
+    def manager
+      @manager ||= Manager.new
+    end
+
+    def_delegators :manager, :areas, :add_area, :fire_actions
+
+    # ----------------------------------------------------------------------
+    # DOCUMENT FACTORIES
+    # ----------------------------------------------------------------------
+
+    def document_factory
+      @document_factory ||= DocumentFactory.new
+    end
+
+    def model(key = nil, **opts, &block)
+      document_factory.model(key, **opts, &block)
+    end
+
+    def csv(key = nil, **opts, &block)
+      document_factory.csv(key, **opts, &block)
+    end
+
+    def json(key = nil, **opts, &block)
+      document_factory.json(key, **opts, &block)
+    end
+
+    def yaml(key = nil, **opts, &block)
+      document_factory.yaml(key, **opts, &block)
+    end
+
+    # TODO: DEPRECATE or REFACTOR
     def new_project_config(&block)
       config = KManager::Configuration::ProjectConfig.new
       block.call(config) if block_given?

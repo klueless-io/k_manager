@@ -1,51 +1,15 @@
 # frozen_string_literal: true
 
 module KManager
-  # Help factories for creating documents quickly
+  # Factories for creating common documents quickly
   #
   # Example:
   #
   #   KManager.csv(file: 'somepath/somefile.csv') do
   #     load
   #   end
-  module DocumentFactory
+  class DocumentFactory
     include KLog::Logging
-
-    # Instance of the currently focused resource
-    attr_reader :current_resource
-
-    def resource_mutex
-      @resource_mutex ||= Mutex.new
-    end
-
-    def for_resource(resource = nil)
-      resource_mutex.synchronize do
-        @current_resource = resource
-        yield(current_resource)
-
-        # Make sure the current resource is released with the lock
-        @current_resource = nil
-      end
-    end
-
-    def for_current_resource
-      raise KManager::Error, 'Attempting to yield current_resource, when a different thread has the lock?' unless resource_mutex.owned?
-
-      yield(@current_resource)
-    end
-
-    # If document gets created dynamically due to class_eval then they
-    # can attach themselves to the currently focussed resource.
-    #
-    # It will throw an error if for_resource has not been called earlier
-    # in the thread lifecycle.
-    def attach_to_current_resource(document, change_content_type: nil)
-      return document unless current_resource
-
-      for_current_resource do |resource|
-        resource.attach_document(document, change_content_type: change_content_type)
-      end
-    end
 
     # Create a KDoc::Model instance
     def model(key = nil, **opts, &block)
@@ -79,6 +43,21 @@ module KManager
       attach_to_current_resource(document, change_content_type: :dsl)
     rescue StandardError => e
       log.error(e)
+    end
+
+    private
+
+    # If document gets created dynamically due to class_eval then they
+    # can attach themselves to the currently focussed resource.
+    #
+    # It will throw an error if for_resource has not been called earlier
+    # in the thread lifecycle.
+    def attach_to_current_resource(document, change_content_type: nil)
+      return document unless KManager.current_resource
+
+      KManager.for_current_resource do |resource|
+        resource.attach_document(document, change_content_type: change_content_type)
+      end
     end
 
     # Create an instance of a document

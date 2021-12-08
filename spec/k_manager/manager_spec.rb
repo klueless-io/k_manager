@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 RSpec.describe KManager::Manager do
-  include described_class
   include KLog::Logging
 
-  # let(:instance) { described_class }
+  let(:instance) { described_class.new }
 
   it 'workflow' do
     KBuilder.configure(:traveling_people_spec) do |config|
@@ -33,7 +32,7 @@ RSpec.describe KManager::Manager do
 
     KManager.fire_actions(:load_content, :register_documents)
 
-    dashboard = KManager::Overview::Dashboard.new(KManager)
+    dashboard = KManager::Overview::Dashboard.new(KManager.manager)
     # dashboard.areas
     dashboard.resources
     dashboard.documents
@@ -57,35 +56,35 @@ RSpec.describe KManager::Manager do
 
   context 'initialized' do
     context '.areas' do
-      subject { areas }
+      subject { instance.areas }
 
       it { is_expected.to be_empty }
     end
   end
 
   describe '#add_area' do
-    before { add_area(:abc, namespace: :abc) }
+    before { instance.add_area(:abc, namespace: :abc) }
 
     describe '.find_area' do
       context 'when are exists' do
-        subject { find_area(:abc) }
+        subject { instance.find_area(:abc) }
 
         it { is_expected.not_to be_nil }
       end
       context 'when are does not exist' do
-        subject { find_area(:xhz) }
+        subject { instance.find_area(:xhz) }
 
         it { is_expected.to be_nil }
       end
     end
 
     context '.areas' do
-      subject { areas.length }
+      subject { instance.areas.length }
 
       it { is_expected.to eq(1) }
 
       context 'prevent duplicate area' do
-        before { add_area(:abc, namespace: :abc) }
+        before { instance.add_area(:abc, namespace: :abc) }
 
         it { is_expected.to eq(1) }
       end
