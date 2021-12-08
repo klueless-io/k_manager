@@ -40,7 +40,7 @@ module KManager
 
     # Infer key is the project name stored in dash-case
     def infer_key
-      Handlebars::Helpers::StringFormatting::Dasherize.new.parse(name.to_s.gsub('_', '-'))
+      Handlebars::Helpers::StringFormatting::Snake.new.parse(name) # .to_s.gsub('_', '-'))
     end
 
     private

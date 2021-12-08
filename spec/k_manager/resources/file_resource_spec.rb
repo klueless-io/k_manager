@@ -226,7 +226,7 @@ RSpec.describe KManager::Resources::FileResource do
         context '.infer_key' do
           subject { instance.infer_key }
 
-          it { is_expected.to eq('person-details') }
+          it { is_expected.to eq('person_details') }
         end
 
         describe '#debug' do

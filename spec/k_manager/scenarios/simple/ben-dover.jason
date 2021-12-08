@@ -1,0 +1,7 @@
+{ 
+  "first": "Ben",
+  "last": "Dover",
+  "gender": "man",
+  "age": 28,
+  "countries": ["US", "EU"]
+}

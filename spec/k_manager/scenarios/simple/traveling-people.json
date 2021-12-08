@@ -1,0 +1,25 @@
+{ 
+  "people": [
+    {
+      "first": "Rack",
+      "last": "Jackson",
+      "gender": "man",
+      "age": 24,
+      "countries": ["AU", "US", "EU"]
+    },
+    {
+      "first": "Lisa",
+      "last": "Nibblet",
+      "gender": "female",
+      "age": 27,
+      "countries": ["US", "AU"]
+    },
+    {
+      "first": "Ben",
+      "last": "Cranky",
+      "gender": "man",
+      "age": 21,
+      "countries": ["US", "EU", "FR", "UK"]
+    }
+  ]
+}

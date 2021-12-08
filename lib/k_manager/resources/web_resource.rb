@@ -45,7 +45,7 @@ module KManager
       # Infer key is the file name without the extension stored in dash-case
       def infer_key
         file_name = Pathname.new(@file).basename.sub_ext('').to_s
-        Handlebars::Helpers::StringFormatting::Dasherize.new.parse(file_name)
+        Handlebars::Helpers::StringFormatting::Snake.new.parse(file_name)
       end
 
       def load_content
@@ -60,9 +60,10 @@ module KManager
         end
       end
 
-      def register_document
-        attach_document(create_document)
-      end
+      # Currently in base
+      # def register_document
+      #   attach_document(create_document)
+      # end
 
       # rubocop:disable  Metrics/AbcSize
       def debug

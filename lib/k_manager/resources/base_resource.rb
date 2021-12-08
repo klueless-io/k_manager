@@ -51,8 +51,9 @@ module KManager
       #               DISCUSS: should this subtype be delegated to an attribute on a responsible class
       attr_reader :content_type
 
-      # TODO
-      attr_reader :area
+      # TODO: Write Test
+      # Area is an option property what will only be set when working with Area
+      attr_accessor :area
 
       # Optional namespace that the resource belongs to.
       attr_reader :namespace
@@ -83,11 +84,13 @@ module KManager
         @documents = []
       end
 
-      def attach_project(project)
-        @project = project
-        @project.add_resource(self)
-        self
-      end
+      # # TODO: This needs to be renamed to area
+      # # This all so needs to be moved out to resource set
+      # def attach_area(area)
+      #   @area = area
+      #   @area.add_resource(self)
+      #   self
+      # end
 
       def document
         @document ||= documents&.first
@@ -100,12 +103,16 @@ module KManager
       #  - :register_document for registering 1 or more documents (name and namespace) against the resource
       #  - :load_document for parsing the content into a document
       def fire_action(action)
-        if action == :load_content && alive?
-          load_content_action
-        elsif action == :register_document && content_loaded?
-          register_document_action
-        elsif action == :load_document && documents_registered?
-          load_document_action
+        # TODO: Write test for valid
+        return unless valid?
+
+        case action
+        when :load_content
+          load_content_action if alive?
+        when :register_document
+          register_document_action if content_loaded?
+        when :load_document
+          load_document_action if documents_registered?
         else
           log.warn "Action: '#{action}' is invalid for status: '#{status}'"
         end
@@ -134,7 +141,19 @@ module KManager
       end
 
       def register_document
-        log.warn 'you need to implement register_document'
+        # log.warn 'you need to implement register_document'
+        KManager::Resources::ResourceDocumentFactory.create_documents(self)
+      end
+
+      # This is when you need a simple container
+      def new_document(data)
+        document = KDoc::Container.new(
+          key: infer_key,
+          type: content_type,
+          namespace: namespace,
+          data: data
+        )
+        attach_document(document)
       end
 
       def attach_document(document, change_content_type: nil)
@@ -151,16 +170,21 @@ module KManager
 
       # rubocop:disable Metrics/AbcSize
       def debug(heading = 'resource')
+        width = 20
         log.section_heading(heading)
-        log.kv 'scheme'       , scheme                                                , 20
-        log.kv 'content_type' , content_type                                          , 20
-        log.kv 'status'       , status                                                , 20
-        log.kv 'content'      , content.nil? ? '' : content[0..100].gsub("\n", '\n')  , 20
-        log.kv 'documents'    , documents.length                                      , 20
+        log.kv 'area'             , area.name                                             , width if area
+        log.kv 'area namespace'   , area.namespace                                        , width if area
+        log.kv 'scheme'           , scheme                                                , width
+        log.kv 'content_type'     , content_type                                          , width
+        log.kv 'status'           , status                                                , width
+        log.kv 'content'          , content.nil? ? '' : content[0..100].gsub("\n", '\n')  , width
+        log.kv 'documents'        , documents.length                                      , width
 
         yield if block_given?
 
-        # log.kv 'infer_key', infer_key                                             , 20
+        log_any_messages
+
+        # log.kv 'infer_key', infer_key                                             , width
         # log.kv 'project'  , project
 
         documents.each(&:debug)
@@ -209,6 +233,22 @@ module KManager
         @uri = URI(uri) if uri.is_a?(String)
         @uri = uri if uri.is_a?(URI)
       end
+
+      def attribute_values(prefix = nil)
+        result = {}
+        result["#{prefix}id".to_sym]              = object_id
+        result["#{prefix}key".to_sym]             = infer_key
+        result["#{prefix}namespace".to_sym]       = namespace
+        result["#{prefix}status".to_sym]          = status
+        result["#{prefix}content_type".to_sym]    = content_type
+        result["#{prefix}content".to_sym]         = content
+        result["#{prefix}document_count".to_sym]  = documents.length
+        result["#{prefix}errors".to_sym]          = error_hash
+        result["#{prefix}valid".to_sym]           = valid?
+        result
+      end
+
+      # documents:    documents.map(&:to_h),
 
       private
 

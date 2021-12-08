@@ -1,9 +1,17 @@
 # frozen_string_literal: true
 
 module KManager
+  # TODO: Write Tests
+
   # A resource set holds a list of resources
   #
   # A resource could be a file, web-service, gist, ftp endpoint, memory object.
+  #
+  # ResourceSet is an internal component and is used by the ResourceManager
+  #
+  # The resource manager will create resources with the ResourceFactory and assign
+  # those resources to the ResourceSet
+  #
   # The only supported resource types so far are:
   #  - File
   #
@@ -17,41 +25,40 @@ module KManager
   # somepath/my_dsls/path2/old        (skip this path)
   # somepath/my_data/
   # somepath/my_templates
-  class ResourceSet
-    attr_reader :uri_set
+  module Resources
+    class ResourceSet
+      include KLog::Logging
 
-    def initialize
-      @uri_list = []
-      @file_list = []
+      attr_reader :area
+      attr_reader :resources
+
+      def initialize(area)
+        @area = area
+        @resources = []
+      end
+
+      def add(resource)
+        # TODO: Think through: Can a resource be in two areas and if yes, do we need to check here?
+        return log.warn "Resource already added: #{resource.resource_path}" if find(resource)
+
+        resource.area = area
+        resources << resource
+        resource
+      end
+
+      def add_resources(resource_list)
+        resource_list.each do |resource|
+          add_resource(resource)
+        end
+      end
+
+      def find(resource)
+        resources.find { |r| r.resource_path == resource.resource_path }
+      end
+
+      def to_h
+        resources.map(&:to_h)
+      end
     end
-
-    # Attach file based URI's
-    #
-    # @param [String] path Base path where files are found, defaults Dir.pwd
-    # @param [Array] include Include file patterns
-    # @param [Array] exclude Exclude file patterns
-    def attach_files(*patterns, exclude: nil)
-      files = FileList.new(*patterns).exclude(exclude)
-      files.exclude(*exclude) if exclude && exclude.is_a?(Array)
-      files.exclude(exclude) if exclude && !exclude.is_a?(Array)
-      @file_list += files
-      @file_list.uniq!
-      @file_list
-    end
-
-    # def attach_files(*patterns, excludes: [], )
-    #   FileList.new(*patterns).exclude(*excludes)
-    # end
-
-    # def find_files(*paths, exclude: [])
-    # end
-
-    # def add_files(*files)
-    #   @files_list += files
-    # end
-
-    private
-
-    def file_list; end
   end
 end
