@@ -5,7 +5,8 @@ RSpec.describe KManager::Manager do
 
   let(:instance) { described_class.new }
 
-  it 'workflow' do
+  # Workflow needs to move into a different file
+  fit 'workflow' do
     KBuilder.configure(:traveling_people_spec) do |config|
       path = Dir.pwd
       config.target_folders.add(:app, File.join(path, '.output'))
@@ -28,7 +29,7 @@ RSpec.describe KManager::Manager do
     resource_manager2.add_resource_expand_path('spec/k_manager/scenarios/simple/not-found.txt')
     resource_manager2.add_resource_expand_path('spec/k_manager/scenarios/simple/not-found.rb')
     resource_manager2.add_resource_expand_path('spec/k_manager/scenarios/simple/query.rb')
-    resource_manager2.add_resource_expand_path('spec/k_manager/scenarios/simple/config.rb')
+    resource_manager2.add_resource_expand_path('spec/k_manager/scenarios/simple/rich_data.rb')
 
     KManager.fire_actions(:load_content, :register_documents)
 

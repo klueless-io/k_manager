@@ -38,7 +38,6 @@ module KManager
       end
 
       def add(resource)
-        # TODO: Think through: Can a resource be in two areas and if yes, do we need to check here?
         return log.warn "Resource already added: #{resource.resource_path}" if find(resource)
 
         resource.area = area
@@ -48,17 +47,23 @@ module KManager
 
       def add_resources(resource_list)
         resource_list.each do |resource|
-          add_resource(resource)
+          add(resource)
         end
       end
+
+      def debug
+        resources.each(&:debug)
+      end
+
+      private
 
       def find(resource)
         resources.find { |r| r.resource_path == resource.resource_path }
       end
 
-      def to_h
-        resources.map(&:to_h)
-      end
+      # def to_h
+      #   resources.map(&:to_h)
+      # end
     end
   end
 end
