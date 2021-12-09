@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module KManager
-  # Factories for creating common documents quickly
+  # Factories for creating common DSL documents quickly
   #
   # Example:
   #

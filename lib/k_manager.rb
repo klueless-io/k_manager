@@ -32,8 +32,7 @@ require 'k_manager/manager'
 require 'k_manager/area'
 
 module KManager
-  # raise KManager::Error, 'Sample message'
-  class Error < StandardError; end
+  class Error < StandardError; end # raise KManager::Error, 'Sample message'
 
   class << self
     extend Forwardable
@@ -73,28 +72,14 @@ module KManager
     def_delegators :manager, :areas, :add_area, :fire_actions
 
     # ----------------------------------------------------------------------
-    # DOCUMENT FACTORIES
+    # Document factory facade methods
     # ----------------------------------------------------------------------
 
     def document_factory
       @document_factory ||= DocumentFactory.new
     end
 
-    def model(key = nil, **opts, &block)
-      document_factory.model(key, **opts, &block)
-    end
-
-    def csv(key = nil, **opts, &block)
-      document_factory.csv(key, **opts, &block)
-    end
-
-    def json(key = nil, **opts, &block)
-      document_factory.json(key, **opts, &block)
-    end
-
-    def yaml(key = nil, **opts, &block)
-      document_factory.yaml(key, **opts, &block)
-    end
+    def_delegators :document_factory, :model, :csv, :json, :yaml
 
     # TODO: DEPRECATE or REFACTOR
     def new_project_config(&block)
