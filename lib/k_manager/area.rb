@@ -30,6 +30,7 @@ module KManager
       config.debug if sections.include?(:config)
     end
 
+    # rubocop:disable Metrics/AbcSize
     def attribute_values(prefix = nil)
       result = {}
       result["#{prefix}name".to_sym]                  = name
@@ -38,5 +39,6 @@ module KManager
       result["#{prefix}document_count".to_sym]        = resource_manager.resources.sum { |resource| resource.documents.length }
       result
     end
+    # rubocop:enable Metrics/AbcSize
   end
 end
