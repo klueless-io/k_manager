@@ -1,10 +1,10 @@
 [
   {
-    "area_name": "traveling_people",
-    "area_namespace": "tp",
-    "area_resource_count": 9,
-    "area_document_count": 5,
-    "resource_id": 15460,
+    "area_name": "xmen",
+    "area_namespace": null,
+    "area_resource_count": 2,
+    "area_document_count": 2,
+    "resource_id": 12660,
     "resource_key": "countries",
     "resource_namespace": null,
     "resource_status": "documents_registered",
@@ -19,7 +19,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/countries.csv",
     "resource_relative_path": "spec/k_manager/scenarios/simple/countries.csv",
     "resource_exist": true,
-    "document_id": 15660,
+    "document_id": 12860,
     "document_data": [
       {
         "code": "AU",
@@ -50,11 +50,11 @@
     "document_type": "csv"
   },
   {
-    "area_name": "traveling_people",
-    "area_namespace": "tp",
-    "area_resource_count": 9,
-    "area_document_count": 5,
-    "resource_id": 15480,
+    "area_name": "xmen",
+    "area_namespace": null,
+    "area_resource_count": 2,
+    "area_document_count": 2,
+    "resource_id": 12680,
     "resource_key": "traveling_people",
     "resource_namespace": null,
     "resource_status": "documents_registered",
@@ -69,7 +69,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/traveling-people.json",
     "resource_relative_path": "spec/k_manager/scenarios/simple/traveling-people.json",
     "resource_exist": true,
-    "document_id": 15680,
+    "document_id": 12880,
     "document_data": {
       "people": [
         {
@@ -119,7 +119,122 @@
     "area_namespace": "tp",
     "area_resource_count": 9,
     "area_document_count": 5,
-    "resource_id": 15500,
+    "resource_id": 12700,
+    "resource_key": "countries",
+    "resource_namespace": null,
+    "resource_status": "documents_registered",
+    "resource_content_type": "csv",
+    "resource_content": "\"Code\",\"Country\"\nAU,\"Australia\"\nNZ,\"New Zealand\"\nCA,\"Canada\"\nUK,\"England\"\nUS,\"United States\"\n",
+    "resource_document_count": 1,
+    "resource_errors": [
+
+    ],
+    "resource_valid": true,
+    "resource_scheme": "file",
+    "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/countries.csv",
+    "resource_relative_path": "spec/k_manager/scenarios/simple/countries.csv",
+    "resource_exist": true,
+    "document_id": 12900,
+    "document_data": [
+      {
+        "code": "AU",
+        "country": "Australia"
+      },
+      {
+        "code": "NZ",
+        "country": "New Zealand"
+      },
+      {
+        "code": "CA",
+        "country": "Canada"
+      },
+      {
+        "code": "UK",
+        "country": "England"
+      },
+      {
+        "code": "US",
+        "country": "United States"
+      }
+    ],
+    "document_key": "countries",
+    "document_namespace": [
+
+    ],
+    "document_tag": "countries_csv",
+    "document_type": "csv"
+  },
+  {
+    "area_name": "traveling_people",
+    "area_namespace": "tp",
+    "area_resource_count": 9,
+    "area_document_count": 5,
+    "resource_id": 12720,
+    "resource_key": "traveling_people",
+    "resource_namespace": null,
+    "resource_status": "documents_registered",
+    "resource_content_type": "json",
+    "resource_content": "{ \n  \"people\": [\n    {\n      \"first\": \"Rack\",\n      \"last\": \"Jackson\",\n      \"gender\": \"man\",\n      \"age\": 24,\n      \"countries\": [\"AU\", \"US\", \"EU\"]\n    },\n    {\n      \"first\": \"Lisa\",\n      \"last\": \"Nibblet\",\n      \"gender\": \"female\",\n      \"age\": 27,\n      \"countries\": [\"US\", \"AU\"]\n    },\n    {\n      \"first\": \"Ben\",\n      \"last\": \"Cranky\",\n      \"gender\": \"man\",\n      \"age\": 21,\n      \"countries\": [\"US\", \"EU\", \"FR\", \"UK\"]\n    }\n  ]\n}\n",
+    "resource_document_count": 1,
+    "resource_errors": [
+
+    ],
+    "resource_valid": true,
+    "resource_scheme": "file",
+    "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/traveling-people.json",
+    "resource_relative_path": "spec/k_manager/scenarios/simple/traveling-people.json",
+    "resource_exist": true,
+    "document_id": 12920,
+    "document_data": {
+      "people": [
+        {
+          "first": "Rack",
+          "last": "Jackson",
+          "gender": "man",
+          "age": 24,
+          "countries": [
+            "AU",
+            "US",
+            "EU"
+          ]
+        },
+        {
+          "first": "Lisa",
+          "last": "Nibblet",
+          "gender": "female",
+          "age": 27,
+          "countries": [
+            "US",
+            "AU"
+          ]
+        },
+        {
+          "first": "Ben",
+          "last": "Cranky",
+          "gender": "man",
+          "age": 21,
+          "countries": [
+            "US",
+            "EU",
+            "FR",
+            "UK"
+          ]
+        }
+      ]
+    },
+    "document_key": "traveling_people",
+    "document_namespace": [
+
+    ],
+    "document_tag": "traveling_people_json",
+    "document_type": "json"
+  },
+  {
+    "area_name": "traveling_people",
+    "area_namespace": "tp",
+    "area_resource_count": 9,
+    "area_document_count": 5,
+    "resource_id": 12740,
     "resource_key": "ben_dover",
     "resource_namespace": null,
     "resource_status": "documents_registered",
@@ -134,7 +249,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/ben-dover.jason",
     "resource_relative_path": "spec/k_manager/scenarios/simple/ben-dover.jason",
     "resource_exist": true,
-    "document_id": 15700,
+    "document_id": 12940,
     "document_data": {
       "first": "Ben",
       "last": "Dover",
@@ -157,8 +272,8 @@
     "area_namespace": "tp",
     "area_resource_count": 9,
     "area_document_count": 5,
-    "resource_id": 15600,
-    "resource_key": "config",
+    "resource_id": 12840,
+    "resource_key": "rich_data",
     "resource_namespace": null,
     "resource_status": "documents_registered",
     "resource_content_type": "dsl",
@@ -169,10 +284,10 @@
     ],
     "resource_valid": true,
     "resource_scheme": "file",
-    "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/config.rb",
-    "resource_relative_path": "spec/k_manager/scenarios/simple/config.rb",
+    "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/rich_data.rb",
+    "resource_relative_path": "spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_exist": true,
-    "document_id": 15720,
+    "document_id": 12960,
     "document_data": {
     },
     "document_key": "global",
@@ -187,8 +302,8 @@
     "area_namespace": "tp",
     "area_resource_count": 9,
     "area_document_count": 5,
-    "resource_id": 15600,
-    "resource_key": "config",
+    "resource_id": 12840,
+    "resource_key": "rich_data",
     "resource_namespace": null,
     "resource_status": "documents_registered",
     "resource_content_type": "dsl",
@@ -199,10 +314,10 @@
     ],
     "resource_valid": true,
     "resource_scheme": "file",
-    "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/config.rb",
-    "resource_relative_path": "spec/k_manager/scenarios/simple/config.rb",
+    "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/rich_data.rb",
+    "resource_relative_path": "spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_exist": true,
-    "document_id": 15740,
+    "document_id": 12980,
     "document_data": {
     },
     "document_key": "admin_users",
@@ -211,120 +326,5 @@
     ],
     "document_tag": "admin_users_entity",
     "document_type": "entity"
-  },
-  {
-    "area_name": "xmen",
-    "area_namespace": null,
-    "area_resource_count": 2,
-    "area_document_count": 2,
-    "resource_id": 15620,
-    "resource_key": "countries",
-    "resource_namespace": null,
-    "resource_status": "documents_registered",
-    "resource_content_type": "csv",
-    "resource_content": "\"Code\",\"Country\"\nAU,\"Australia\"\nNZ,\"New Zealand\"\nCA,\"Canada\"\nUK,\"England\"\nUS,\"United States\"\n",
-    "resource_document_count": 1,
-    "resource_errors": [
-
-    ],
-    "resource_valid": true,
-    "resource_scheme": "file",
-    "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/countries.csv",
-    "resource_relative_path": "spec/k_manager/scenarios/simple/countries.csv",
-    "resource_exist": true,
-    "document_id": 15760,
-    "document_data": [
-      {
-        "code": "AU",
-        "country": "Australia"
-      },
-      {
-        "code": "NZ",
-        "country": "New Zealand"
-      },
-      {
-        "code": "CA",
-        "country": "Canada"
-      },
-      {
-        "code": "UK",
-        "country": "England"
-      },
-      {
-        "code": "US",
-        "country": "United States"
-      }
-    ],
-    "document_key": "countries",
-    "document_namespace": [
-
-    ],
-    "document_tag": "countries_csv",
-    "document_type": "csv"
-  },
-  {
-    "area_name": "xmen",
-    "area_namespace": null,
-    "area_resource_count": 2,
-    "area_document_count": 2,
-    "resource_id": 15640,
-    "resource_key": "traveling_people",
-    "resource_namespace": null,
-    "resource_status": "documents_registered",
-    "resource_content_type": "json",
-    "resource_content": "{ \n  \"people\": [\n    {\n      \"first\": \"Rack\",\n      \"last\": \"Jackson\",\n      \"gender\": \"man\",\n      \"age\": 24,\n      \"countries\": [\"AU\", \"US\", \"EU\"]\n    },\n    {\n      \"first\": \"Lisa\",\n      \"last\": \"Nibblet\",\n      \"gender\": \"female\",\n      \"age\": 27,\n      \"countries\": [\"US\", \"AU\"]\n    },\n    {\n      \"first\": \"Ben\",\n      \"last\": \"Cranky\",\n      \"gender\": \"man\",\n      \"age\": 21,\n      \"countries\": [\"US\", \"EU\", \"FR\", \"UK\"]\n    }\n  ]\n}\n",
-    "resource_document_count": 1,
-    "resource_errors": [
-
-    ],
-    "resource_valid": true,
-    "resource_scheme": "file",
-    "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/traveling-people.json",
-    "resource_relative_path": "spec/k_manager/scenarios/simple/traveling-people.json",
-    "resource_exist": true,
-    "document_id": 15780,
-    "document_data": {
-      "people": [
-        {
-          "first": "Rack",
-          "last": "Jackson",
-          "gender": "man",
-          "age": 24,
-          "countries": [
-            "AU",
-            "US",
-            "EU"
-          ]
-        },
-        {
-          "first": "Lisa",
-          "last": "Nibblet",
-          "gender": "female",
-          "age": 27,
-          "countries": [
-            "US",
-            "AU"
-          ]
-        },
-        {
-          "first": "Ben",
-          "last": "Cranky",
-          "gender": "man",
-          "age": 21,
-          "countries": [
-            "US",
-            "EU",
-            "FR",
-            "UK"
-          ]
-        }
-      ]
-    },
-    "document_key": "traveling_people",
-    "document_namespace": [
-
-    ],
-    "document_tag": "traveling_people_json",
-    "document_type": "json"
   }
 ]

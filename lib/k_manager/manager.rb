@@ -29,9 +29,9 @@ module KManager
       areas.find { |a| a.name == name }
     end
 
-    def find_area(name)
-      areas.find { |a| a.name == name }
-    end
+    # def find_area(name)
+    #   areas.find { |a| a.name == name }
+    # end
 
     def debug(*sections)
       areas.each do |area|
