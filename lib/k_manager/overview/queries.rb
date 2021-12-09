@@ -26,6 +26,7 @@ module KManager
         end
       end
 
+      # rubocop:disable Metrics/AbcSize
       def documents
         manager.areas.flat_map do |area|
           area.resource_manager.resource_set.resources.flat_map do |resource|
@@ -44,6 +45,7 @@ module KManager
           end
         end
       end
+      # rubocop:enable Metrics/AbcSize
     end
   end
 end

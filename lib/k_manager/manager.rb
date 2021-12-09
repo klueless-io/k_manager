@@ -39,7 +39,6 @@ module KManager
       end
     end
 
-
     # # May replace config with default channel name
     # # Channels represent configurations that are independent of project or builder,
     # # but a project may want to have a default channel that it supplies

@@ -102,6 +102,7 @@ module KManager
       #  - :load_content for loading text content
       #  - :register_document for registering 1 or more documents (name and namespace) against the resource
       #  - :load_document for parsing the content into a document
+      # rubocop:disable Metrics/CyclomaticComplexity
       def fire_action(action)
         # TODO: Write test for valid
         return unless valid?
@@ -117,6 +118,7 @@ module KManager
           log.warn "Action: '#{action}' is invalid for status: '#{status}'"
         end
       end
+      # rubocop:enable Metrics/CyclomaticComplexity
 
       def fire_next_action
         if alive?
@@ -231,9 +233,10 @@ module KManager
         return if uri.nil?
 
         @uri = URI(uri) if uri.is_a?(String)
-        @uri = uri if uri.is_a?(URI)
+        @uri = uri      if uri.is_a?(URI)
       end
 
+      # rubocop:disable Metrics/AbcSize
       def attribute_values(prefix = nil)
         result = {}
         result["#{prefix}id".to_sym]              = object_id
@@ -247,6 +250,7 @@ module KManager
         result["#{prefix}valid".to_sym]           = valid?
         result
       end
+      # rubocop:enable Metrics/AbcSize
 
       # documents:    documents.map(&:to_h),
 

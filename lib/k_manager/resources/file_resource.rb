@@ -9,6 +9,13 @@ module KManager
     class FileResource < KManager::Resources::BaseResource
       include KLog::Logging
 
+      KNOWN_EXTENSIONS = {
+        '.rb': :ruby,
+        '.csv': :csv,
+        '.json': :json,
+        '.yaml': :yaml
+      }.freeze
+
       # TODO: This needs to be a readonly method that utilises the URI
       # Full path to file
       #
@@ -105,16 +112,7 @@ module KManager
 
       def infer_content_type
         extension = ::File.extname(file).downcase
-        case extension
-        when '.rb'
-          :ruby
-        when '.csv'
-          :csv
-        when '.json'
-          :json
-        when '.yaml'
-          :yaml
-        end
+        KNOWN_EXTENSIONS[extension]
       end
     end
   end
