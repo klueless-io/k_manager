@@ -10,7 +10,7 @@ RSpec.describe KManager::Resources::ResourceSet do
   let(:area)      { KManager::Area.new(**area_opts) }
   let(:area_opts) { { name: :hello, namespace: :world } }
 
-  let(:resource_factory)  { KManager::Resources::ResourceFactory.new }
+  let(:resource_factory) { KManager::Resources::ResourceFactory.new }
 
   context 'initialize' do
     context 'with minimal options' do
@@ -18,13 +18,13 @@ RSpec.describe KManager::Resources::ResourceSet do
 
       context '.area' do
         subject { instance.area }
-      
+
         it { is_expected.not_to be_nil }
       end
 
       context '.resources' do
         subject { instance.resources }
-      
+
         it { is_expected.to be_empty }
       end
     end
@@ -33,9 +33,9 @@ RSpec.describe KManager::Resources::ResourceSet do
   describe '#add_resource' do
     subject { instance.resources }
 
-    let(:resource)          { resource_factory.instance(resource_uri)}
+    let(:resource)          { resource_factory.instance(resource_uri) }
     let(:filename)          { File.expand_path('spec/k_manager/scenarios/simple/countries.csv') }
-    let(:resource_uri)      { URI.join('file:///', filename)}
+    let(:resource_uri)      { URI.join('file:///', filename) }
 
     it { is_expected.to be_empty }
 
@@ -46,7 +46,7 @@ RSpec.describe KManager::Resources::ResourceSet do
 
       context '.resources.first' do
         subject { instance.resources.first }
-      
+
         it { is_expected.to have_attributes(scheme: :file, content_type: :csv, status: :alive, infer_key: 'countries', area: area) }
       end
 
@@ -70,9 +70,9 @@ RSpec.describe KManager::Resources::ResourceSet do
   describe '#add_resources' do
     subject { instance.resources.length }
 
-    let(:file1)       { URI.join('file:///', File.expand_path('spec/k_manager/scenarios/simple/countries.csv') ) }
-    let(:file2)       { URI.join('file:///', File.expand_path('spec/k_manager/scenarios/simple/traveling-people.json') ) }
-    let(:resources)   { [resource_factory.instance(file1), resource_factory.instance(file2) ] }
+    let(:file1)       { URI.join('file:///', File.expand_path('spec/k_manager/scenarios/simple/countries.csv')) }
+    let(:file2)       { URI.join('file:///', File.expand_path('spec/k_manager/scenarios/simple/traveling-people.json')) }
+    let(:resources)   { [resource_factory.instance(file1), resource_factory.instance(file2)] }
 
     it { is_expected.to be_zero }
 

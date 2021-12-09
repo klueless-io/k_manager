@@ -32,11 +32,12 @@ require 'k_manager/manager'
 require 'k_manager/area'
 
 module KManager
-  class Error < StandardError; end # raise KManager::Error, 'Sample message'
+  # raise KManager::Error, 'Sample message'
+  class Error < StandardError; end
 
   class << self
     extend Forwardable
-    
+
     # ----------------------------------------------------------------------
     # Concurrency management for currently focused resource
     # ----------------------------------------------------------------------
