@@ -10,10 +10,10 @@ module KManager
       include KLog::Logging
 
       KNOWN_EXTENSIONS = {
-        '.rb': :ruby,
-        '.csv': :csv,
-        '.json': :json,
-        '.yaml': :yaml
+        '.rb' => :ruby,
+        '.csv' => :csv,
+        '.json' => :json,
+        '.yaml' => :yaml
       }.freeze
 
       # TODO: This needs to be a readonly method that utilises the URI

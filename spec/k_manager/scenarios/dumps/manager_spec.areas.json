@@ -1,7 +1,7 @@
 [
   {
     "name": "xmen",
-    "namespace": null,
+    "namespace": "xmen",
     "resource_count": 2,
     "document_count": 2
   },
@@ -9,6 +9,6 @@
     "name": "traveling_people",
     "namespace": "tp",
     "resource_count": 9,
-    "document_count": 5
+    "document_count": 8
   }
 ]

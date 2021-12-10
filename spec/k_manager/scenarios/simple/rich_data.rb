@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+KManager.csv file: 'spec/k_manager/scenarios/simple/countries.csv' do
+  load
+end
+
+KManager.json file: 'spec/k_manager/scenarios/simple/traveling-people.json' do
+  load
+end
+
+KManager.yaml file: 'spec/k_manager/scenarios/simple/other-people.yaml' do
+  load
+end
+
 KManager.model :global do
   settings do
     key1 'value1'
@@ -16,3 +28,4 @@ KManager.model :admin_users do
     row :alex     , 'Alexandro' , 'alex@gmail.com'
   end
 end
+
