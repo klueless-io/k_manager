@@ -53,6 +53,7 @@ module KManager
 
       def debug
         resources.each(&:debug)
+        nil
       end
 
       private

@@ -1,10 +1,10 @@
 [
   {
     "area_name": "xmen",
-    "area_namespace": null,
+    "area_namespace": "xmen",
     "area_resource_count": 2,
     "area_document_count": 2,
-    "resource_id": 12660,
+    "resource_id": 12720,
     "resource_key": "countries",
     "resource_namespace": null,
     "resource_status": "documents_registered",
@@ -19,7 +19,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/countries.csv",
     "resource_relative_path": "spec/k_manager/scenarios/simple/countries.csv",
     "resource_exist": true,
-    "document_id": 12860,
+    "document_id": 12920,
     "document_data": [
       {
         "code": "AU",
@@ -51,10 +51,10 @@
   },
   {
     "area_name": "xmen",
-    "area_namespace": null,
+    "area_namespace": "xmen",
     "area_resource_count": 2,
     "area_document_count": 2,
-    "resource_id": 12680,
+    "resource_id": 12740,
     "resource_key": "traveling_people",
     "resource_namespace": null,
     "resource_status": "documents_registered",
@@ -69,7 +69,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/traveling-people.json",
     "resource_relative_path": "spec/k_manager/scenarios/simple/traveling-people.json",
     "resource_exist": true,
-    "document_id": 12880,
+    "document_id": 12940,
     "document_data": {
       "people": [
         {
@@ -118,8 +118,8 @@
     "area_name": "traveling_people",
     "area_namespace": "tp",
     "area_resource_count": 9,
-    "area_document_count": 5,
-    "resource_id": 12700,
+    "area_document_count": 8,
+    "resource_id": 12760,
     "resource_key": "countries",
     "resource_namespace": null,
     "resource_status": "documents_registered",
@@ -134,7 +134,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/countries.csv",
     "resource_relative_path": "spec/k_manager/scenarios/simple/countries.csv",
     "resource_exist": true,
-    "document_id": 12900,
+    "document_id": 12960,
     "document_data": [
       {
         "code": "AU",
@@ -168,8 +168,8 @@
     "area_name": "traveling_people",
     "area_namespace": "tp",
     "area_resource_count": 9,
-    "area_document_count": 5,
-    "resource_id": 12720,
+    "area_document_count": 8,
+    "resource_id": 12780,
     "resource_key": "traveling_people",
     "resource_namespace": null,
     "resource_status": "documents_registered",
@@ -184,7 +184,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/traveling-people.json",
     "resource_relative_path": "spec/k_manager/scenarios/simple/traveling-people.json",
     "resource_exist": true,
-    "document_id": 12920,
+    "document_id": 12980,
     "document_data": {
       "people": [
         {
@@ -233,8 +233,8 @@
     "area_name": "traveling_people",
     "area_namespace": "tp",
     "area_resource_count": 9,
-    "area_document_count": 5,
-    "resource_id": 12740,
+    "area_document_count": 8,
+    "resource_id": 12800,
     "resource_key": "ben_dover",
     "resource_namespace": null,
     "resource_status": "documents_registered",
@@ -249,7 +249,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/ben-dover.jason",
     "resource_relative_path": "spec/k_manager/scenarios/simple/ben-dover.jason",
     "resource_exist": true,
-    "document_id": 12940,
+    "document_id": 13000,
     "document_data": {
       "first": "Ben",
       "last": "Dover",
@@ -271,14 +271,14 @@
     "area_name": "traveling_people",
     "area_namespace": "tp",
     "area_resource_count": 9,
-    "area_document_count": 5,
-    "resource_id": 12840,
+    "area_document_count": 8,
+    "resource_id": 12900,
     "resource_key": "rich_data",
     "resource_namespace": null,
     "resource_status": "documents_registered",
     "resource_content_type": "dsl",
-    "resource_content": "# frozen_string_literal: true\n\nKManager.model :global do\n  settings do\n    key1 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n",
-    "resource_document_count": 2,
+    "resource_content": "# frozen_string_literal: true\n\nKManager.csv file: 'spec/k_manager/scenarios/simple/countries.csv' do\n  load\nend\n\nKManager.json file: 'spec/k_manager/scenarios/simple/traveling-people.json' do\n  load\nend\n\nKManager.yaml file: 'spec/k_manager/scenarios/simple/other-people.yaml' do\n  load\nend\n\nKManager.model :global do\n  settings do\n    key1 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n\n",
+    "resource_document_count": 5,
     "resource_errors": [
 
     ],
@@ -287,7 +287,98 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_relative_path": "spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_exist": true,
-    "document_id": 12960,
+    "document_id": 13020,
+    "document_data": [
+
+    ],
+    "document_key": "ZJJA",
+    "document_namespace": [
+
+    ],
+    "document_tag": "ZJJA_csv",
+    "document_type": "csv"
+  },
+  {
+    "area_name": "traveling_people",
+    "area_namespace": "tp",
+    "area_resource_count": 9,
+    "area_document_count": 8,
+    "resource_id": 12900,
+    "resource_key": "rich_data",
+    "resource_namespace": null,
+    "resource_status": "documents_registered",
+    "resource_content_type": "dsl",
+    "resource_content": "# frozen_string_literal: true\n\nKManager.csv file: 'spec/k_manager/scenarios/simple/countries.csv' do\n  load\nend\n\nKManager.json file: 'spec/k_manager/scenarios/simple/traveling-people.json' do\n  load\nend\n\nKManager.yaml file: 'spec/k_manager/scenarios/simple/other-people.yaml' do\n  load\nend\n\nKManager.model :global do\n  settings do\n    key1 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n\n",
+    "resource_document_count": 5,
+    "resource_errors": [
+
+    ],
+    "resource_valid": true,
+    "resource_scheme": "file",
+    "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/rich_data.rb",
+    "resource_relative_path": "spec/k_manager/scenarios/simple/rich_data.rb",
+    "resource_exist": true,
+    "document_id": 13040,
+    "document_data": {
+    },
+    "document_key": "1Du6",
+    "document_namespace": [
+
+    ],
+    "document_tag": "1Du6_json",
+    "document_type": "json"
+  },
+  {
+    "area_name": "traveling_people",
+    "area_namespace": "tp",
+    "area_resource_count": 9,
+    "area_document_count": 8,
+    "resource_id": 12900,
+    "resource_key": "rich_data",
+    "resource_namespace": null,
+    "resource_status": "documents_registered",
+    "resource_content_type": "dsl",
+    "resource_content": "# frozen_string_literal: true\n\nKManager.csv file: 'spec/k_manager/scenarios/simple/countries.csv' do\n  load\nend\n\nKManager.json file: 'spec/k_manager/scenarios/simple/traveling-people.json' do\n  load\nend\n\nKManager.yaml file: 'spec/k_manager/scenarios/simple/other-people.yaml' do\n  load\nend\n\nKManager.model :global do\n  settings do\n    key1 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n\n",
+    "resource_document_count": 5,
+    "resource_errors": [
+
+    ],
+    "resource_valid": true,
+    "resource_scheme": "file",
+    "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/rich_data.rb",
+    "resource_relative_path": "spec/k_manager/scenarios/simple/rich_data.rb",
+    "resource_exist": true,
+    "document_id": 13060,
+    "document_data": {
+    },
+    "document_key": "cawA",
+    "document_namespace": [
+
+    ],
+    "document_tag": "cawA_yaml",
+    "document_type": "yaml"
+  },
+  {
+    "area_name": "traveling_people",
+    "area_namespace": "tp",
+    "area_resource_count": 9,
+    "area_document_count": 8,
+    "resource_id": 12900,
+    "resource_key": "rich_data",
+    "resource_namespace": null,
+    "resource_status": "documents_registered",
+    "resource_content_type": "dsl",
+    "resource_content": "# frozen_string_literal: true\n\nKManager.csv file: 'spec/k_manager/scenarios/simple/countries.csv' do\n  load\nend\n\nKManager.json file: 'spec/k_manager/scenarios/simple/traveling-people.json' do\n  load\nend\n\nKManager.yaml file: 'spec/k_manager/scenarios/simple/other-people.yaml' do\n  load\nend\n\nKManager.model :global do\n  settings do\n    key1 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n\n",
+    "resource_document_count": 5,
+    "resource_errors": [
+
+    ],
+    "resource_valid": true,
+    "resource_scheme": "file",
+    "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/rich_data.rb",
+    "resource_relative_path": "spec/k_manager/scenarios/simple/rich_data.rb",
+    "resource_exist": true,
+    "document_id": 13080,
     "document_data": {
     },
     "document_key": "global",
@@ -301,14 +392,14 @@
     "area_name": "traveling_people",
     "area_namespace": "tp",
     "area_resource_count": 9,
-    "area_document_count": 5,
-    "resource_id": 12840,
+    "area_document_count": 8,
+    "resource_id": 12900,
     "resource_key": "rich_data",
     "resource_namespace": null,
     "resource_status": "documents_registered",
     "resource_content_type": "dsl",
-    "resource_content": "# frozen_string_literal: true\n\nKManager.model :global do\n  settings do\n    key1 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n",
-    "resource_document_count": 2,
+    "resource_content": "# frozen_string_literal: true\n\nKManager.csv file: 'spec/k_manager/scenarios/simple/countries.csv' do\n  load\nend\n\nKManager.json file: 'spec/k_manager/scenarios/simple/traveling-people.json' do\n  load\nend\n\nKManager.yaml file: 'spec/k_manager/scenarios/simple/other-people.yaml' do\n  load\nend\n\nKManager.model :global do\n  settings do\n    key1 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n\n",
+    "resource_document_count": 5,
     "resource_errors": [
 
     ],
@@ -317,7 +408,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_relative_path": "spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_exist": true,
-    "document_id": 12980,
+    "document_id": 13100,
     "document_data": {
     },
     "document_key": "admin_users",

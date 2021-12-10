@@ -39,6 +39,7 @@ Gem::Specification.new do |spec|
   # spec.extensions    = ['ext/k_manager/extconf.rb']
 
   spec.add_dependency 'dry-struct', '~> 1'
+  spec.add_dependency 'filewatcher', '~> 2.0.0.beta5'
   spec.add_dependency 'k_builder', '~> 0.0.0'
   spec.add_dependency 'k_doc', '~> 0.0.0'
   spec.add_dependency 'k_ext-github', '~> 0.0.0'

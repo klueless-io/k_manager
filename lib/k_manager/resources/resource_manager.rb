@@ -103,9 +103,21 @@ module KManager
       #   load_resource_content
       # end
 
+      # Fire actions against all resources in this manager.
+      #
+      # @param [*Array<Symbol>] actions List of actions to run. [:load_content, :register_document, :load_document]
       def fire_actions(*actions)
+        guard_action(actions)
+
         load_content        if actions.include?(:load_content)
-        register_documents  if actions.include?(:register_documents)
+        register_documents  if actions.include?(:register_document)
+        load_documents      if actions.include?(:load_document)
+      end
+
+      def guard_action(actions)
+        actions.each do |action|
+          log.warn "ResourceManager.fire_actions - unknown action: #{action}" unless KManager::Resources::BaseResource.valid_action?(actions)
+        end
       end
 
       def load_content
@@ -117,6 +129,12 @@ module KManager
       def register_documents
         resources.each do |resource|
           resource.fire_action(:register_document)
+        end
+      end
+
+      def load_documents
+        resources.each do |resource|
+          resource.fire_action(:load_document)
         end
       end
 
