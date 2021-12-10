@@ -25,6 +25,14 @@ module KManager
       include KLog::Logging
       include KDoc::Guarded
 
+      ACTIONS = %i[load_content register_document load_document].freeze
+
+      class << self
+        def valid_action?(action)
+          ACTIONS.include?(action)
+        end
+      end
+
       attr_reader :uri # https://ruby-doc.org/stdlib-2.6.1/libdoc/uri/rdoc/URI/Generic.html
 
       # TODO: Refactor from status to state and extract to a State class

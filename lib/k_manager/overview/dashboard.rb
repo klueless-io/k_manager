@@ -80,14 +80,14 @@ module KManager
               # { error_count:        { display_method: -> (row) { blank_zero(row.resource_errors.length) } } },
               # { scheme:             { display_method: -> (row) { row.resource_scheme } } },
               # # { path:               { display_method: -> (row) { row.resource_path } } },
-              # { relative_path:      { display_method: -> (row) { row.resource_relative_path }, width: 100 } },
               # { exist:              { display_method: -> (row) { row.resource_exist } } },
               { document_id:        { display_method: ->(row) { blank_zero(row.document_id) } } },
               { data:               { display_method: ->(row) { row.document_data } } },
               { key:                { display_method: ->(row) { row.document_key } } },
               { namespace:          { display_method: ->(row) { row.document_namespace } } },
               { tag:                { display_method: ->(row) { row.document_tag } } },
-              { type:               { display_method: ->(row) { row.document_type } } }
+              { type:               { display_method: ->(row) { row.document_type } } },
+              { relative_path:      { display_method: ->(row) { row.resource_relative_path }, width: 100 } }
             ]
           }
         }
@@ -108,7 +108,7 @@ module KManager
           show_array_count: false,
           graph: graph
         }
-        log.structure(data, opts)
+        log.structure(data, **opts)
       end
 
       def blank_zero(value)

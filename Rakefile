@@ -8,6 +8,8 @@ require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
 require 'k_manager/version'
 
+Dir.glob('tasks/*.rake').each { |r| import r }
+
 RSpec::Core::RakeTask.new(:spec)
 
 require 'rake/extensiontask'

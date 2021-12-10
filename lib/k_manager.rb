@@ -70,6 +70,10 @@ module KManager
       @manager ||= Manager.new
     end
 
+    def reset
+      @manager = Manager.new
+    end
+
     def_delegators :manager, :areas, :add_area, :fire_actions
 
     # ----------------------------------------------------------------------
