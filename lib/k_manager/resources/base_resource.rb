@@ -155,12 +155,18 @@ module KManager
         KManager::Resources::ResourceDocumentFactory.create_documents(self)
       end
 
+      def load_document
+        # log.warn 'you need to implement register_document'
+        documents.each(&:execute_block)
+      end
+
       # This is when you need a simple container
       def new_document(data)
         document = KDoc::Container.new(
           key: infer_key,
           type: content_type,
           namespace: namespace,
+          default_data_type: data.class,
           data: data
         )
         attach_document(document)
@@ -172,10 +178,6 @@ module KManager
         document.owner = self
         @documents << document
         document
-      end
-
-      def load_document
-        log.warn 'you need to implement load_document'
       end
 
       # rubocop:disable Metrics/AbcSize
@@ -198,6 +200,7 @@ module KManager
         # log.kv 'project'  , project
 
         documents.each(&:debug)
+        nil
       end
       # rubocop:enable Metrics/AbcSize
 

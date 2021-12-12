@@ -12,8 +12,9 @@ namespace :k_manager do
   end
 end
 
-require 'filewatcher'
+require 'pry'
 require 'k_manager'
+require 'filewatcher'
 
 class Watcher
   include KLog::Logging
@@ -26,19 +27,29 @@ class Watcher
     @boot_file = boot_file
   end
 
+  # rubocop:disable Lint/RescueException
   def start
     boot(boot_file)
+    update_dashboard
 
     Filewatcher.new(watch_folder).watch do |changes|
       changes.each do |filename, event|
         puts "File #{event}: #{filename}"
 
+        uri = URI::File.build(host: nil, path: filename)
+        KManager.resource_changed(uri, event)
+
         # process_created_file(filename) if event == :created
-        process_updated_file(filename) if event == :updated # || event == :created
+        # process_updated_file(filename) if event == :updated # || event == :created
         # process_deleted_file(filename) if event == :deleted
+        update_dashboard
       end
     end
+  rescue Exception => e
+    # TODO: Make style a setting: :message, :short, (whatever the last one is)
+    log.exception(e, style: :short)
   end
+  # rubocop:enable Lint/RescueException
 
   private
 
@@ -55,6 +66,16 @@ class Watcher
     update_load_path(filename)
 
     puts "File updated: #{filename}"
+  rescue Exception => e
+    # TODO: Make style a setting: :message, :short, (whatever the last one is)
+    log.exception(e, style: :short)
+  end
+
+  def process_updated_file_old(filename)
+    clear_screen
+    update_load_path(filename)
+
+    puts "File updated: #{filename}"
 
     content = File.read(filename)
     Object.class_eval(content, filename)
@@ -63,6 +84,13 @@ class Watcher
     log.exception(e, style: :short)
   end
   # rubocop:enable Lint/RescueException
+
+  def update_dashboard
+    dashboard = KManager::Overview::Dashboard.new(KManager.manager)
+    # dashboard.areas
+    dashboard.resources
+    dashboard.documents
+  end
 
   def update_load_path(filename)
     dirname = File.dirname(filename)

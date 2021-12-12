@@ -31,7 +31,7 @@ RSpec.describe KManager::Manager do
     resource_manager2.add_resource_expand_path('spec/k_manager/scenarios/simple/query.rb')
     resource_manager2.add_resource_expand_path('spec/k_manager/scenarios/simple/rich_data.rb')
 
-    KManager.fire_actions(:load_content, :register_documents)
+    KManager.fire_actions(:load_content, :register_document, :load_document)
 
     dashboard = KManager::Overview::Dashboard.new(KManager.manager)
     # dashboard.areas
@@ -43,11 +43,11 @@ RSpec.describe KManager::Manager do
 
     log.error('-' * 74)
 
-    KManager.fire_actions(:load_content, :register_documents)
+    KManager.fire_actions(:load_content, :register_document, :load_document)
 
     # dashboard.areas
-    dashboard.resources
-    dashboard.documents
+    # dashboard.resources
+    # dashboard.documents
 
     dump = KManager::Overview::DumpJson.new('spec/k_manager/scenarios/dumps', KManager)
     dump.areas('manager_spec.areas.json')

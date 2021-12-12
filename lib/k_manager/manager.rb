@@ -21,6 +21,7 @@ module KManager
 
     def fire_actions(*actions)
       areas.each do |area|
+        # delegate
         area.resource_manager.fire_actions(*actions)
       end
     end
@@ -29,9 +30,11 @@ module KManager
       areas.find { |a| a.name == name }
     end
 
-    # def find_area(name)
-    #   areas.find { |a| a.name == name }
-    # end
+    def resource_changed(uri, state)
+      areas.each do |area|
+        area.resource_changed(uri, state)
+      end
+    end
 
     def debug(*sections)
       areas.each do |area|

@@ -63,6 +63,10 @@ module KManager
       attribute :document_namespace       , Types::Strict::String | Types::Strict::Array.of(Types::Strict::String).optional.default(nil)
       attribute :document_tag             , Types::Strict::String | Types::Strict::Symbol
       attribute :document_type            , Types::Strict::String | Types::Strict::Symbol
+      # TODO: Write code to populate this with the resource line number
+      attribute :document_location        , Types::Strict::Integer.optional.default(nil)
+      attribute :document_errors          , Types::Strict::Array.of(KManager::Overview::Error).optional.default(nil)
+      attribute :document_valid?          , Types::Strict::Bool
     end
   end
 end

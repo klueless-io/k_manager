@@ -39,7 +39,9 @@ module KManager
                 document_key: document.key,
                 document_namespace: document.namespace,
                 document_tag: document.tag,
-                document_type: document.type
+                document_type: document.type,
+                document_errors: document.error_hash,
+                document_valid: document.valid?
               }
             end
           end
