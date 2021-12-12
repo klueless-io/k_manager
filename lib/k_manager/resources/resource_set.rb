@@ -45,6 +45,15 @@ module KManager
         resource
       end
 
+      def replace(resource)
+        index = find_index(resource)
+        return log.warn "Resource to replace does not exist: #{resource.resource_path}" unless index
+
+        resource.area = area
+        resources[index] = resource
+        resource
+      end
+
       def add_resources(resource_list)
         resource_list.each do |resource|
           add(resource)
@@ -56,10 +65,21 @@ module KManager
         nil
       end
 
+      def find_by_uri(resource_uri)
+        resources.find { |r| r.resource_path == resource_uri.path }
+      end
+
       private
 
       def find(resource)
-        resources.find { |r| r.resource_path == resource.resource_path }
+        index = find_index(resource)
+        return nil unless index
+
+        resources[index] # .find { |r| r.resource_path == resource.resource_path }
+      end
+
+      def find_index(resource)
+        resources.index { |r| r.resource_path == resource.resource_path }
       end
 
       # def to_h

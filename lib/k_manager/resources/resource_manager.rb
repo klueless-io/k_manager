@@ -46,6 +46,11 @@ module KManager
 
   module Resources
     class ResourceManager
+      extend Forwardable
+
+      include KLog::Logging
+      include KDoc::Guarded
+
       attr_accessor :area
 
       attr_accessor :fileset
@@ -66,12 +71,50 @@ module KManager
         @resource_set     = KManager::Resources::ResourceSet.new(area)
       end
 
-      def resources
-        resource_set.resources
-      end
+      def_delegators :resource_set, :resources, :find_by_uri
+
+      # def resources
+      #   resource_set.resources
+      # end
 
       def resource_models
         resource_set.resources.map(&:as_model)
+      end
+
+      def resource_changed(resource_uri, state)
+        create_resource(resource_uri) if state == :created
+        update_resource(resource_uri) if state == :updated
+        delete_resource(resource_uri) if state == :deleted
+      end
+
+      def create_resource(resource_uri)
+        # TODO: skip if not whitelisted
+
+        # warn if the resource already existed (this should not happen)
+        # if fileset.whitelist
+        # build resource
+        # add resource to fileset
+      end
+
+      def update_resource(resource_uri)
+        # TODO: skip if not whitelisted
+
+        resource = resource_set.find_by_uri(resource_uri)
+
+        warn("Resource should already exist in the Resource Set? - #{resource_uri.path}") unless resource
+
+        replace_resource = resource.recreate(resource)
+        replace_resource.fire_action(:load_content)
+        replace_resource.fire_action(:register_document)
+        replace_resource.fire_action(:load_document)
+        resource_set.replace(replace_resource)
+      end
+
+      def delete_resource(resource_uri)
+        # TODO: skip if not whitelisted
+
+        # find resource
+        # if found, remove it
       end
 
       def add_resource_expand_path(file, **opts)
@@ -87,8 +130,13 @@ module KManager
       # TODO: Test URI (Web)
       # TODO: Test URI (File)
       def add_resource(resource_uri, **opts)
+        resource_set.add(build_resource(resource_uri, **opts))
+      end
+
+      # TODO: Not sure if this is right
+      def build_resource(resource_uri, **opts)
         resource_uri = parse_uri(resource_uri)
-        resource_set.add(@resource_factory.instance(resource_uri, **opts))
+        @resource_factory.instance(resource_uri, **opts)
       end
 
       def add_resources
@@ -116,7 +164,7 @@ module KManager
 
       def guard_action(actions)
         actions.each do |action|
-          log.warn "ResourceManager.fire_actions - unknown action: #{action}" unless KManager::Resources::BaseResource.valid_action?(actions)
+          warn "ResourceManager.fire_actions - unknown action: #{action}" unless KManager::Resources::BaseResource.valid_action?(action)
         end
       end
 

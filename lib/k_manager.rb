@@ -63,6 +63,24 @@ module KManager
     end
 
     # ----------------------------------------------------------------------
+    # Debug Flags
+    # ----------------------------------------------------------------------
+
+    def debug_state
+      return @debug_state if defined? @debug_state
+
+      @debug_state = :disabled
+    end
+
+    def debug_enable
+      @debug_state = :enabled
+    end
+
+    def debug?
+      debug_state == :enabled
+    end
+
+    # ----------------------------------------------------------------------
     # Manager facade methods
     # ----------------------------------------------------------------------
 
@@ -71,10 +89,12 @@ module KManager
     end
 
     def reset
+      # @resource_mutex.unlock if @resource_mutex
+      # @current_resource = nil
       @manager = Manager.new
     end
 
-    def_delegators :manager, :areas, :add_area, :fire_actions
+    def_delegators :manager, :areas, :add_area, :fire_actions, :resource_changed
 
     # ----------------------------------------------------------------------
     # Document factory facade methods

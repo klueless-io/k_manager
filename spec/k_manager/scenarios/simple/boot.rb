@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+include KLog::Logging
+
 # TODO: I need a memory profiling tool to see if I am releasing memory correctly with the .reset
 log.warn "Startup Folder: #{Dir.pwd}"
 
@@ -17,11 +19,6 @@ resource_manager.add_resource_expand_path('spec/k_manager/scenarios/simple/not-f
 resource_manager.add_resource_expand_path('spec/k_manager/scenarios/simple/query.rb')
 resource_manager.add_resource_expand_path('spec/k_manager/scenarios/simple/rich_data.rb')
 
-KManager.fire_actions(:load_content, :register_documents)
-
-dashboard = KManager::Overview::Dashboard.new(KManager.manager)
-# dashboard.areas
-dashboard.resources
-dashboard.documents
+KManager.fire_actions(:load_content, :register_document, :load_document)
 
 puts 'lets boot it'

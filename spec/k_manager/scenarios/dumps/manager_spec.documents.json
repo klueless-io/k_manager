@@ -7,7 +7,7 @@
     "resource_id": 12720,
     "resource_key": "countries",
     "resource_namespace": null,
-    "resource_status": "documents_registered",
+    "resource_status": "documents_loaded",
     "resource_content_type": "csv",
     "resource_content": "\"Code\",\"Country\"\nAU,\"Australia\"\nNZ,\"New Zealand\"\nCA,\"Canada\"\nUK,\"England\"\nUS,\"United States\"\n",
     "resource_document_count": 1,
@@ -47,7 +47,11 @@
 
     ],
     "document_tag": "countries_csv",
-    "document_type": "csv"
+    "document_type": "csv",
+    "document_errors": [
+
+    ],
+    "document_valid": true
   },
   {
     "area_name": "xmen",
@@ -57,7 +61,7 @@
     "resource_id": 12740,
     "resource_key": "traveling_people",
     "resource_namespace": null,
-    "resource_status": "documents_registered",
+    "resource_status": "documents_loaded",
     "resource_content_type": "json",
     "resource_content": "{ \n  \"people\": [\n    {\n      \"first\": \"Rack\",\n      \"last\": \"Jackson\",\n      \"gender\": \"man\",\n      \"age\": 24,\n      \"countries\": [\"AU\", \"US\", \"EU\"]\n    },\n    {\n      \"first\": \"Lisa\",\n      \"last\": \"Nibblet\",\n      \"gender\": \"female\",\n      \"age\": 27,\n      \"countries\": [\"US\", \"AU\"]\n    },\n    {\n      \"first\": \"Ben\",\n      \"last\": \"Cranky\",\n      \"gender\": \"man\",\n      \"age\": 21,\n      \"countries\": [\"US\", \"EU\", \"FR\", \"UK\"]\n    }\n  ]\n}\n",
     "resource_document_count": 1,
@@ -112,7 +116,11 @@
 
     ],
     "document_tag": "traveling_people_json",
-    "document_type": "json"
+    "document_type": "json",
+    "document_errors": [
+
+    ],
+    "document_valid": true
   },
   {
     "area_name": "traveling_people",
@@ -122,7 +130,7 @@
     "resource_id": 12760,
     "resource_key": "countries",
     "resource_namespace": null,
-    "resource_status": "documents_registered",
+    "resource_status": "documents_loaded",
     "resource_content_type": "csv",
     "resource_content": "\"Code\",\"Country\"\nAU,\"Australia\"\nNZ,\"New Zealand\"\nCA,\"Canada\"\nUK,\"England\"\nUS,\"United States\"\n",
     "resource_document_count": 1,
@@ -162,7 +170,11 @@
 
     ],
     "document_tag": "countries_csv",
-    "document_type": "csv"
+    "document_type": "csv",
+    "document_errors": [
+
+    ],
+    "document_valid": true
   },
   {
     "area_name": "traveling_people",
@@ -172,7 +184,7 @@
     "resource_id": 12780,
     "resource_key": "traveling_people",
     "resource_namespace": null,
-    "resource_status": "documents_registered",
+    "resource_status": "documents_loaded",
     "resource_content_type": "json",
     "resource_content": "{ \n  \"people\": [\n    {\n      \"first\": \"Rack\",\n      \"last\": \"Jackson\",\n      \"gender\": \"man\",\n      \"age\": 24,\n      \"countries\": [\"AU\", \"US\", \"EU\"]\n    },\n    {\n      \"first\": \"Lisa\",\n      \"last\": \"Nibblet\",\n      \"gender\": \"female\",\n      \"age\": 27,\n      \"countries\": [\"US\", \"AU\"]\n    },\n    {\n      \"first\": \"Ben\",\n      \"last\": \"Cranky\",\n      \"gender\": \"man\",\n      \"age\": 21,\n      \"countries\": [\"US\", \"EU\", \"FR\", \"UK\"]\n    }\n  ]\n}\n",
     "resource_document_count": 1,
@@ -227,7 +239,11 @@
 
     ],
     "document_tag": "traveling_people_json",
-    "document_type": "json"
+    "document_type": "json",
+    "document_errors": [
+
+    ],
+    "document_valid": true
   },
   {
     "area_name": "traveling_people",
@@ -237,7 +253,7 @@
     "resource_id": 12800,
     "resource_key": "ben_dover",
     "resource_namespace": null,
-    "resource_status": "documents_registered",
+    "resource_status": "documents_loaded",
     "resource_content_type": "json",
     "resource_content": "{ \n  \"first\": \"Ben\",\n  \"last\": \"Dover\",\n  \"gender\": \"man\",\n  \"age\": 28,\n  \"countries\": [\"US\", \"EU\"]\n}\n",
     "resource_document_count": 1,
@@ -265,7 +281,11 @@
 
     ],
     "document_tag": "ben_dover_json",
-    "document_type": "json"
+    "document_type": "json",
+    "document_errors": [
+
+    ],
+    "document_valid": true
   },
   {
     "area_name": "traveling_people",
@@ -275,9 +295,9 @@
     "resource_id": 12900,
     "resource_key": "rich_data",
     "resource_namespace": null,
-    "resource_status": "documents_registered",
+    "resource_status": "documents_loaded",
     "resource_content_type": "dsl",
-    "resource_content": "# frozen_string_literal: true\n\nKManager.csv file: 'spec/k_manager/scenarios/simple/countries.csv' do\n  load\nend\n\nKManager.json file: 'spec/k_manager/scenarios/simple/traveling-people.json' do\n  load\nend\n\nKManager.yaml file: 'spec/k_manager/scenarios/simple/other-people.yaml' do\n  load\nend\n\nKManager.model :global do\n  settings do\n    key1 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n\n",
+    "resource_content": "# frozen_string_literal: true\n\nKManager.csv file: 'spec/k_manager/scenarios/simple/countries.csv' do\n  load\nend\n\nKManager.json file: 'spec/k_manager/scenarios/simple/traveling-people.json' do\n  load\nend\n\nKManager.yaml file: 'spec/k_manager/scenarios/simple/other-people.yaml' do\n  # load\nend\n\nKManager.model :global do\n  settings do\n    xxxx 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n\n",
     "resource_document_count": 5,
     "resource_errors": [
 
@@ -289,14 +309,37 @@
     "resource_exist": true,
     "document_id": 13020,
     "document_data": [
-
+      {
+        "code": "AU",
+        "country": "Australia"
+      },
+      {
+        "code": "NZ",
+        "country": "New Zealand"
+      },
+      {
+        "code": "CA",
+        "country": "Canada"
+      },
+      {
+        "code": "UK",
+        "country": "England"
+      },
+      {
+        "code": "US",
+        "country": "United States"
+      }
     ],
-    "document_key": "ZJJA",
+    "document_key": "mE77",
     "document_namespace": [
 
     ],
-    "document_tag": "ZJJA_csv",
-    "document_type": "csv"
+    "document_tag": "mE77_csv",
+    "document_type": "csv",
+    "document_errors": [
+
+    ],
+    "document_valid": true
   },
   {
     "area_name": "traveling_people",
@@ -306,9 +349,9 @@
     "resource_id": 12900,
     "resource_key": "rich_data",
     "resource_namespace": null,
-    "resource_status": "documents_registered",
+    "resource_status": "documents_loaded",
     "resource_content_type": "dsl",
-    "resource_content": "# frozen_string_literal: true\n\nKManager.csv file: 'spec/k_manager/scenarios/simple/countries.csv' do\n  load\nend\n\nKManager.json file: 'spec/k_manager/scenarios/simple/traveling-people.json' do\n  load\nend\n\nKManager.yaml file: 'spec/k_manager/scenarios/simple/other-people.yaml' do\n  load\nend\n\nKManager.model :global do\n  settings do\n    key1 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n\n",
+    "resource_content": "# frozen_string_literal: true\n\nKManager.csv file: 'spec/k_manager/scenarios/simple/countries.csv' do\n  load\nend\n\nKManager.json file: 'spec/k_manager/scenarios/simple/traveling-people.json' do\n  load\nend\n\nKManager.yaml file: 'spec/k_manager/scenarios/simple/other-people.yaml' do\n  # load\nend\n\nKManager.model :global do\n  settings do\n    xxxx 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n\n",
     "resource_document_count": 5,
     "resource_errors": [
 
@@ -320,13 +363,52 @@
     "resource_exist": true,
     "document_id": 13040,
     "document_data": {
+      "people": [
+        {
+          "first": "Rack",
+          "last": "Jackson",
+          "gender": "man",
+          "age": 24,
+          "countries": [
+            "AU",
+            "US",
+            "EU"
+          ]
+        },
+        {
+          "first": "Lisa",
+          "last": "Nibblet",
+          "gender": "female",
+          "age": 27,
+          "countries": [
+            "US",
+            "AU"
+          ]
+        },
+        {
+          "first": "Ben",
+          "last": "Cranky",
+          "gender": "man",
+          "age": 21,
+          "countries": [
+            "US",
+            "EU",
+            "FR",
+            "UK"
+          ]
+        }
+      ]
     },
-    "document_key": "1Du6",
+    "document_key": "bJz9",
     "document_namespace": [
 
     ],
-    "document_tag": "1Du6_json",
-    "document_type": "json"
+    "document_tag": "bJz9_json",
+    "document_type": "json",
+    "document_errors": [
+
+    ],
+    "document_valid": true
   },
   {
     "area_name": "traveling_people",
@@ -336,9 +418,9 @@
     "resource_id": 12900,
     "resource_key": "rich_data",
     "resource_namespace": null,
-    "resource_status": "documents_registered",
+    "resource_status": "documents_loaded",
     "resource_content_type": "dsl",
-    "resource_content": "# frozen_string_literal: true\n\nKManager.csv file: 'spec/k_manager/scenarios/simple/countries.csv' do\n  load\nend\n\nKManager.json file: 'spec/k_manager/scenarios/simple/traveling-people.json' do\n  load\nend\n\nKManager.yaml file: 'spec/k_manager/scenarios/simple/other-people.yaml' do\n  load\nend\n\nKManager.model :global do\n  settings do\n    key1 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n\n",
+    "resource_content": "# frozen_string_literal: true\n\nKManager.csv file: 'spec/k_manager/scenarios/simple/countries.csv' do\n  load\nend\n\nKManager.json file: 'spec/k_manager/scenarios/simple/traveling-people.json' do\n  load\nend\n\nKManager.yaml file: 'spec/k_manager/scenarios/simple/other-people.yaml' do\n  # load\nend\n\nKManager.model :global do\n  settings do\n    xxxx 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n\n",
     "resource_document_count": 5,
     "resource_errors": [
 
@@ -351,12 +433,16 @@
     "document_id": 13060,
     "document_data": {
     },
-    "document_key": "cawA",
+    "document_key": "pvY8",
     "document_namespace": [
 
     ],
-    "document_tag": "cawA_yaml",
-    "document_type": "yaml"
+    "document_tag": "pvY8_yaml",
+    "document_type": "yaml",
+    "document_errors": [
+
+    ],
+    "document_valid": true
   },
   {
     "area_name": "traveling_people",
@@ -366,9 +452,9 @@
     "resource_id": 12900,
     "resource_key": "rich_data",
     "resource_namespace": null,
-    "resource_status": "documents_registered",
+    "resource_status": "documents_loaded",
     "resource_content_type": "dsl",
-    "resource_content": "# frozen_string_literal: true\n\nKManager.csv file: 'spec/k_manager/scenarios/simple/countries.csv' do\n  load\nend\n\nKManager.json file: 'spec/k_manager/scenarios/simple/traveling-people.json' do\n  load\nend\n\nKManager.yaml file: 'spec/k_manager/scenarios/simple/other-people.yaml' do\n  load\nend\n\nKManager.model :global do\n  settings do\n    key1 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n\n",
+    "resource_content": "# frozen_string_literal: true\n\nKManager.csv file: 'spec/k_manager/scenarios/simple/countries.csv' do\n  load\nend\n\nKManager.json file: 'spec/k_manager/scenarios/simple/traveling-people.json' do\n  load\nend\n\nKManager.yaml file: 'spec/k_manager/scenarios/simple/other-people.yaml' do\n  # load\nend\n\nKManager.model :global do\n  settings do\n    xxxx 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n\n",
     "resource_document_count": 5,
     "resource_errors": [
 
@@ -380,13 +466,21 @@
     "resource_exist": true,
     "document_id": 13080,
     "document_data": {
+      "settings": {
+        "xxxx": "value1",
+        "key2": "value2"
+      }
     },
     "document_key": "global",
     "document_namespace": [
 
     ],
     "document_tag": "global_entity",
-    "document_type": "entity"
+    "document_type": "entity",
+    "document_errors": [
+
+    ],
+    "document_valid": true
   },
   {
     "area_name": "traveling_people",
@@ -396,9 +490,9 @@
     "resource_id": 12900,
     "resource_key": "rich_data",
     "resource_namespace": null,
-    "resource_status": "documents_registered",
+    "resource_status": "documents_loaded",
     "resource_content_type": "dsl",
-    "resource_content": "# frozen_string_literal: true\n\nKManager.csv file: 'spec/k_manager/scenarios/simple/countries.csv' do\n  load\nend\n\nKManager.json file: 'spec/k_manager/scenarios/simple/traveling-people.json' do\n  load\nend\n\nKManager.yaml file: 'spec/k_manager/scenarios/simple/other-people.yaml' do\n  load\nend\n\nKManager.model :global do\n  settings do\n    key1 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n\n",
+    "resource_content": "# frozen_string_literal: true\n\nKManager.csv file: 'spec/k_manager/scenarios/simple/countries.csv' do\n  load\nend\n\nKManager.json file: 'spec/k_manager/scenarios/simple/traveling-people.json' do\n  load\nend\n\nKManager.yaml file: 'spec/k_manager/scenarios/simple/other-people.yaml' do\n  # load\nend\n\nKManager.model :global do\n  settings do\n    xxxx 'value1'\n    key2 'value2'\n  end\nend\n\nKManager.model :admin_users do\n  table :users do\n    fields :user_name, :user, :email\n\n    row :bad_ass  , 'Ken Va'    , 'ken@foliage.com.au'\n    row :louise   , 'Louise'    , 'louise@gmail.com'\n    row :alex     , 'Alexandro' , 'alex@gmail.com'\n  end\nend\n\n",
     "resource_document_count": 5,
     "resource_errors": [
 
@@ -410,12 +504,52 @@
     "resource_exist": true,
     "document_id": 13100,
     "document_data": {
+      "users": {
+        "fields": [
+          {
+            "name": "user_name",
+            "default": null,
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "default": null,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "default": null,
+            "type": "string"
+          }
+        ],
+        "rows": [
+          {
+            "user_name": "bad_ass",
+            "user": "Ken Va",
+            "email": "ken@foliage.com.au"
+          },
+          {
+            "user_name": "louise",
+            "user": "Louise",
+            "email": "louise@gmail.com"
+          },
+          {
+            "user_name": "alex",
+            "user": "Alexandro",
+            "email": "alex@gmail.com"
+          }
+        ]
+      }
     },
     "document_key": "admin_users",
     "document_namespace": [
 
     ],
     "document_tag": "admin_users_entity",
-    "document_type": "entity"
+    "document_type": "entity",
+    "document_errors": [
+
+    ],
+    "document_valid": true
   }
 ]
