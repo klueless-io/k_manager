@@ -3,6 +3,7 @@
 module KManager
   class Area
     include KLog::Logging
+    extend Forwardable
 
     # TODO: I have not got a use for area name yet, it may be able to drive default config, but not sure.
     attr_reader :name
@@ -21,6 +22,8 @@ module KManager
     def resource_manager
       @resource_manager ||= KManager::Resources::ResourceManager.new(self)
     end
+
+    def_delegators :resource_manager, :resource_changed
 
     def debug(*sections)
       log.kv 'Area'           , name

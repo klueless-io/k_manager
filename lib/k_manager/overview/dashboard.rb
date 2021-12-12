@@ -83,11 +83,12 @@ module KManager
               # { exist:              { display_method: -> (row) { row.resource_exist } } },
               { document_id:        { display_method: ->(row) { blank_zero(row.document_id) } } },
               { data:               { display_method: ->(row) { row.document_data } } },
+              { error_count:        { display_method: ->(row) { blank_zero(row.document_errors.length) } } },
               { key:                { display_method: ->(row) { row.document_key } } },
               { namespace:          { display_method: ->(row) { row.document_namespace } } },
               { tag:                { display_method: ->(row) { row.document_tag } } },
               { type:               { display_method: ->(row) { row.document_type } } },
-              { relative_path:      { display_method: ->(row) { row.resource_relative_path }, width: 100 } }
+              { relative_path:      { display_method: ->(row) { resource_path_location(row.resource_relative_path, row.document_location) }, width: 100 } }
             ]
           }
         }
@@ -97,6 +98,12 @@ module KManager
       # rubocop:enable Metrics/AbcSize
 
       private
+
+      def resource_path_location(path, location)
+        return path unless location
+
+        "#{path}:#{location}"
+      end
 
       def display(section, title, graph, data)
         data = {

@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-KManager.csv file: 'spec/k_manager/scenarios/simple/countries.csv' do
+KManager.csv :dsl_countries, file: 'spec/k_manager/scenarios/simple/countries.csv' do
   load
 end
 
-KManager.json file: 'spec/k_manager/scenarios/simple/traveling-people.json' do
+KManager.json :dsl_traveling_people, file: 'spec/k_manager/scenarios/simple/traveling-people.json' do
   load
 end
 
-KManager.yaml file: 'spec/k_manager/scenarios/simple/other-people.yaml' do
-  load
+KManager.yaml :dsl_other_people, file: 'spec/k_manager/scenarios/simple/other-people.yaml' do
+  # load
 end
 
 KManager.model :global do

@@ -31,6 +31,20 @@ module KManager
         super(**opts)
       end
 
+      # TODO: Write tests
+      def recreate(resource)
+        raise 'Recreate only works for resources of the same type' unless resource.is_a?(self.class)
+
+        # area: resource.area,
+        # content_type: resource.content_type,
+        opts = {
+          namespace: resource.namespace,
+          file: resource.file
+        }
+
+        resource.class.new(opts)
+      end
+
       # Infer key is the file name without the extension stored in dash-case
       def infer_key
         file_name = Pathname.new(file).basename.sub_ext('').to_s

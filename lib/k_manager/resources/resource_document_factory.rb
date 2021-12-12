@@ -75,22 +75,24 @@ module KManager
           {}
         end
 
+        # rubocop:disable Lint/RescueException
         def process_ruby(resource)
           # puts content
           # KManager::Manager.current_resource
           # KDsl.target_resource = self
 
-          Object.class_eval resource.content
+          Object.class_eval resource.content, resource.resource_path
 
           # # Only DSL's will add new resource_documents
           # if documents.length > 0
           #   resource.resource_type = KDsl::Resources::Resource::TYPE_RUBY_DSL
           # end
-        rescue StandardError => e
+        rescue Exception => e
           # Report the error but still add the document so that you can see
           # it in the ResourceDocument list, it will be marked as Error
           # resource.error = ex
           resource.guard(e.message)
+          resource.debug
           log.exception(e, style: :short)
 
           # L.exception resource.error
@@ -101,6 +103,7 @@ module KManager
           # # so create one manually
           # add_document(new_document) if documents.length === 0
         end
+        # rubocop:enable Lint/RescueException
 
         # # TEST REQUIRED
         # def add_document(document)
