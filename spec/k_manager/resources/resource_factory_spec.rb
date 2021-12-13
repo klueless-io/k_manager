@@ -2,182 +2,92 @@
 
 require 'spec_helper'
 
+# Convert a resource_uri into a resource
+# Example:
+#
+# file://c/some-file.txt will become a FileResource
+# http://my.com/gist will become a WebResource
 RSpec.describe KManager::Resources::ResourceFactory do
   subject { instance }
 
-  let(:instance) { described_class }
-  let(:file_resource) { KManager::Resources::FileResource.new(file: file).tap(&:fire_next_action) }
-  let(:mem_resource) { KManager::Resources::MemResource.new(content: content, content_type: content_type).tap(&:fire_next_action) }
-  let(:resource) { file_resource }
+  let(:instance) { described_class.new }
+  let(:uri) { KUtil.file.parse_uri(uri_path) }
 
-  let(:file) { 'spec/samples/.builder/data_files/some-file.txt' }
-  let(:content) { nil }
-  let(:content_type) { nil }
+  # let(:file) { 'spec/samples/.builder/data_files/some-file.txt' }
+  # let(:content) { nil }
+  # let(:content_type) { nil }
 
   context 'initialize' do
     it { is_expected.not_to be_nil }
   end
 
-  describe '.resource.documents' do
-    subject { resource.documents }
+  describe '#instance' do
+    subject { instance.instance(uri, **opts) }
+    let(:opts) { {} }
 
-    it { is_expected.to have_attributes(length: 0) }
+    context 'when given file uri' do
+      context 'when unknown file extension' do
+        let(:uri_path) { 'some-file.txt' }
 
-    describe '#create_documents' do
-      before { instance.create_documents(resource) }
-
-      context 'csv file' do
-        let(:file) { 'spec/samples/.builder/data_files/countries.csv' }
-        it { is_expected.to have_attributes(length: 1) }
-      end
-      context 'json file' do
-        let(:file) { 'spec/samples/.builder/data_files/PersonDetails.json' }
-        it { is_expected.to have_attributes(length: 1) }
-      end
-      context 'yaml file' do
-        let(:file) { 'spec/samples/.builder/data_files/sample-yaml-list.yaml' }
-        it { is_expected.to have_attributes(length: 1) }
-      end
-    end
-  end
-
-  describe '#create_documents' do
-    before { instance.create_documents(resource) }
-
-    describe '.document (first document in the array)' do
-      subject { resource.document }
-
-      context 'when csv content' do
-        context 'valid csv file' do
-          let(:file) { 'spec/samples/.builder/data_files/countries.csv' }
-
-          it {
-            is_expected
-              .to have_attributes(
-                key: 'countries',
-                type: :csv,
-                data: include(code: 'AU', country: 'Australia')
-              )
-              .and have_attributes(data: have_attributes(length: 5))
-          }
-        end
-
-        context 'invalid csv content' do
-          let(:content) { "aaa\",bbb\naaa,bbb" }
-          let(:content_type) { :csv }
-          let(:resource) { mem_resource }
-
-          it { is_expected.to have_attributes(type: :csv, data: []) }
+        it do
+          is_expected
+            .to be_a(KManager::Resources::FileResource)
+            .and have_attributes(source_path: '/some-file.txt', content_type: :unknown)
         end
       end
 
-      context 'when json content' do
-        context 'valid json file' do
-          let(:file) { 'spec/samples/.builder/data_files/PersonDetails.json' }
+      context 'when unknown file extension and content_type is supplied' do
+        let(:uri_path) { 'some-file.jason' }
+        let(:opts) { { content_type: :json } }
 
-          it do
-            is_expected
-              .to have_attributes(
-                key: 'person_details',
-                type: :json,
-                namespace: [],
-                data: include('firstName' => 'Rack', 'lastName' => 'Jackson', 'gender' => 'man', 'age' => 24)
-              )
-          end
-        end
-
-        context 'invalid json content' do
-          let(:content) { 'this is not json' }
-          let(:content_type) { :json }
-          let(:resource) { mem_resource }
-
-          it { is_expected.to have_attributes(type: :json, data: {}) }
+        it do
+          is_expected
+            .to be_a(KManager::Resources::FileResource)
+            .and have_attributes(source_path: '/some-file.jason', content_type: :json)
         end
       end
 
-      context 'when yaml content' do
-        context 'valid yaml content in list format' do
-          let(:file) { 'spec/samples/.builder/data_files/sample-yaml-list.yaml' }
+      context 'when known file extensions' do
+        let(:uri_path) { 'some-file.json' }
 
-          it do
-            is_expected
-              .to have_attributes(
-                key: 'sample_yaml_list',
-                type: :yaml,
-                data: include(
-                  include({ 'dave' => { 'job' => 'Developer', 'name' => 'David', 'skills' => %w[python perl pascal] } }),
-                  include({ 'jin' => { 'job' => 'Developer', 'name' => 'Jin', 'skills' => %w[lisp fortran erlang] } })
-                )
-              )
-          end
-        end
-
-        context 'valid yaml content in object format' do
-          let(:file) { 'spec/samples/.builder/data_files/sample-yaml-object.yaml' }
-
-          it do
-            is_expected
-              .to have_attributes(
-                key: 'sample_yaml_object',
-                type: :yaml,
-                data: include(
-                  { 'people' => [
-                    { 'dave' => { 'job' => 'Developer', 'name' => 'David', 'skills' => %w[python perl pascal] } },
-                    { 'jin' => { 'job' => 'Developer', 'name' => 'Jin', 'skills' => %w[lisp fortran erlang] } }
-                  ] }
-                )
-              )
-          end
-        end
-
-        context 'invalid yaml content' do
-          let(:content) { '*** this is not yaml ***' }
-          let(:content_type) { :yaml }
-          let(:resource) { mem_resource }
-
-          it { is_expected.to have_attributes(type: :yaml, data: {}) }
+        it do
+          is_expected
+            .to be_a(KManager::Resources::FileResource)
+            .and have_attributes(source_path: '/some-file.json', content_type: :json)
         end
       end
     end
-  end
 
-  describe '#create_documents (using ruby resources)' do
-    before { instance.create_documents(resource) }
+    context 'when given web uri' do
+      context 'when http' do
+        let(:uri_path) { 'http://my.com/insecure' }
 
-    subject { resource.documents }
-
-    context 'when plain ruby file content' do
-      it { expect { Simple.new }.to raise_error(NameError) }
-
-      context 'valid ruby file' do
-        let(:file) { 'spec/samples/.builder/data_files/ruby-simple.rb' }
-
-        it { is_expected.to have_attributes(length: 0) }
-        it { expect(defined? Simple).to be_truthy }
+        it do
+          is_expected
+            .to be_a(KManager::Resources::WebResource)
+            .and have_attributes(source_path: 'http://my.com/insecure', content_type: :unknown)
+        end
       end
-    end
 
-    context 'when ruby file with 1 DSL' do
-      context 'valid ruby file' do
-        let(:file) { 'spec/samples/.builder/data_files/ruby-1-dsl.rb' }
+      context 'when https' do
+        let(:uri_path) { 'https://my.com/secure' }
 
-        it { is_expected.to have_attributes(length: 1) }
+        it do
+          is_expected
+            .to be_a(KManager::Resources::WebResource)
+            .and have_attributes(source_path: 'https://my.com/secure', content_type: :unknown)
+        end
       end
-    end
 
-    context 'when ruby file with 4 DSL' do
-      context 'valid ruby file' do
-        let(:file) { 'spec/samples/.builder/data_files/ruby-4-dsl.rb' }
+      context 'when content_type is provided' do
+        let(:uri_path) { 'http://my.com/my.json' }
+        let(:opts) { { content_type: :json } }
 
-        it { is_expected.to have_attributes(length: 4) }
-      end
-    end
-
-    context 'when ruby file with 7 DSL' do
-      context 'valid ruby file' do
-        let(:file) { 'spec/samples/.builder/data_files/ruby-7-dsl.rb' }
-
-        it { is_expected.to have_attributes(length: 7) }
+        it do
+          is_expected
+            .to be_a(KManager::Resources::WebResource)
+            .and have_attributes(source_path: 'http://my.com/my.json', content_type: :json)
+        end
       end
     end
   end

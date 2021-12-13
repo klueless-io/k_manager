@@ -3,7 +3,9 @@
 require 'spec_helper'
 
 RSpec.describe KManager::Resources::BaseResource do
-  let(:instance) { described_class.new(**opts) }
+  let(:instance) { described_class.new(uri, **opts) }
+  let(:uri_value) { '/some_file' }
+  let(:uri) { KUtil.file.parse_uri(uri_value) }
   let(:opts) { {} }
 
   # let(:project1) { KManager::Project.new(:project1) }
@@ -19,7 +21,7 @@ RSpec.describe KManager::Resources::BaseResource do
       context '.uri' do
         subject { instance.uri }
 
-        it { is_expected.to be_nil }
+        it { is_expected.not_to be_nil }
       end
 
       context '.default_scheme' do
@@ -31,7 +33,7 @@ RSpec.describe KManager::Resources::BaseResource do
       context '.scheme' do
         subject { instance.scheme }
 
-        it { is_expected.to eq(:unknown) }
+        it { is_expected.to eq(:file) }
       end
 
       context '.content_type' do
@@ -104,7 +106,7 @@ RSpec.describe KManager::Resources::BaseResource do
         let(:uri) { 'www.url.com/a' }
 
         it { is_expected.not_to be_nil }
-        it { is_expected.to be_a(URI) }
+        it { is_expected.to be_a(URI::Generic) }
 
         context '.uri.path' do
           subject { instance.uri.path }
@@ -117,7 +119,7 @@ RSpec.describe KManager::Resources::BaseResource do
         let(:uri) { URI('www.url.com/a') }
 
         it { is_expected.not_to be_nil }
-        it { is_expected.to be_a(URI) }
+        it { is_expected.to be_a(URI::Generic) }
 
         context '.uri.path' do
           subject { instance.uri.path }

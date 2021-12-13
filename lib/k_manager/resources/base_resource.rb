@@ -82,23 +82,23 @@ module KManager
       #
       # @param [Hash] **opts Options for initializing the resource
       # @option opts [Project] :project attach the resource to a project
-      def initialize(opts)
+      # NAMESPACE can probably be taken from file set relative path
+      def initialize(uri, **opts)
+        self.uri      = uri
+
         @status       = :alive
         @namespace    = value_remove(opts, :namespace)
-        @content_type = @content_type || value_remove(opts, :content_type) || default_content_type
+        @content_type = @content_type || value_remove(opts, :content_type) || infer_content_type || default_content_type
         @content      = value_remove(opts, :content)
 
         # attach_project(opts[:project]) if opts[:project]
         @documents = []
       end
 
-      # # TODO: This needs to be renamed to area
-      # # This all so needs to be moved out to resource set
-      # def attach_area(area)
-      #   @area = area
-      #   @area.add_resource(self)
-      #   self
-      # end
+      def source_path
+        # Expectation that uri is of type URI::HTTP or URI::HTTPS
+        uri.to_s
+      end
 
       def document
         @document ||= documents&.first
@@ -187,6 +187,7 @@ module KManager
         log.kv 'area'             , area.name                                             , width if area
         log.kv 'area namespace'   , area.namespace                                        , width if area
         log.kv 'scheme'           , scheme                                                , width
+        log.kv 'source_path'      , source_path                                           , width
         log.kv 'content_type'     , content_type                                          , width
         log.kv 'status'           , status                                                , width
         log.kv 'content'          , content.nil? ? '' : content[0..100].gsub("\n", '\n')  , width
@@ -219,6 +220,11 @@ module KManager
         :unknown
       end
 
+      # Optionally overridden, this is the case with FileResource
+      def infer_content_type
+        nil
+      end
+
       def default_content_type
         :unknown
       end
@@ -245,6 +251,10 @@ module KManager
 
         @uri = URI(uri) if uri.is_a?(String)
         @uri = uri      if uri.is_a?(URI)
+
+        # log.kv 'uri type', uri.class
+        # It might be useful to have a Resource Specific Guard being called to warn if the wrong URI type is inferred from here
+        # supported URI::Class (Generic, File, HTTP, HTTPS)
       end
 
       # rubocop:disable Metrics/AbcSize
