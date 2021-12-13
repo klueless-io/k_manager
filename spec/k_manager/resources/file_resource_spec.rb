@@ -12,7 +12,7 @@ end
 
 RSpec.shared_examples :content_type_via_options do |expected_type, path|
   let(:file) { path }
-  let(:opts) { { file: file, content_type: expected_type } }
+  let(:opts) { { content_type: expected_type } }
 
   subject { instance.content_type }
 
@@ -20,8 +20,9 @@ RSpec.shared_examples :content_type_via_options do |expected_type, path|
 end
 
 RSpec.describe KManager::Resources::FileResource do
-  let(:instance) { described_class.new(**opts) }
-  let(:opts) { { file: file } }
+  let(:instance) { described_class.new(uri, **opts) }
+  let(:uri) { KUtil.file.parse_uri(file) }
+  let(:opts) { {} }
   let(:file) { '/path/to/some_file' }
 
   # let(:project1) { KManager::Project.new(:project1) }
@@ -63,21 +64,15 @@ RSpec.describe KManager::Resources::FileResource do
       it { is_expected.to eq('some_file') }
     end
 
-    context '.file' do
-      subject { instance.file }
+    context '.source_path' do
+      subject { instance.source_path }
 
       it { is_expected.not_to be_nil }
     end
 
-    context 'file not supplied' do
-      let(:opts) { {} }
-
-      it { expect { subject }.to raise_error(KType::Error, 'File resource requires a file option') }
-    end
-
     describe '.resource_path' do
       context 'when file exists' do
-        let(:file) { 'spec/samples/.builder/data_files/some-file.txt' }
+        let(:file) { File.expand_path('spec/samples/.builder/data_files/some-file.txt') }
         context '.resource_path' do
           subject { instance.resource_path }
 
@@ -91,7 +86,7 @@ RSpec.describe KManager::Resources::FileResource do
       end
 
       context 'when file does not exist' do
-        let(:file) { 'spec/samples/.builder/data_files/bad-to-the-bone.txt' }
+        let(:file) { File.expand_path('spec/samples/.builder/data_files/bad-to-the-bone.txt') }
         context '.resource_path' do
           subject { instance.resource_path }
 
@@ -108,7 +103,7 @@ RSpec.describe KManager::Resources::FileResource do
     context '#fire_action' do
       subject { instance }
 
-      let(:file) { 'spec/samples/.builder/data_files/countries.csv' }
+      let(:file) { File.expand_path('spec/samples/.builder/data_files/countries.csv') }
 
       context 'when alive' do
         it { is_expected.to be_alive }
@@ -155,7 +150,7 @@ RSpec.describe KManager::Resources::FileResource do
   context '.uri' do
     subject { instance.uri }
 
-    let(:file_path) { 'spec/samples/.builder/data_files/some-file.txt' }
+    let(:file_path) { File.expand_path('spec/samples/.builder/data_files/some-file.txt') }
     let(:file) { file_path }
 
     context 'when valid file provided' do
@@ -213,7 +208,7 @@ RSpec.describe KManager::Resources::FileResource do
       end
 
       context 'when file exists' do
-        let(:file) { 'spec/samples/.builder/data_files/PersonDetails.json' }
+        let(:file) { File.expand_path('spec/samples/.builder/data_files/PersonDetails.json') }
 
         it { is_expected.to have_attributes(status: :content_loaded) }
 

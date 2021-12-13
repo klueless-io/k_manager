@@ -33,6 +33,7 @@ class Watcher
     update_dashboard
 
     Filewatcher.new(watch_folder).watch do |changes|
+      # To
       changes.each do |filename, event|
         puts "File #{event}: #{filename}"
 

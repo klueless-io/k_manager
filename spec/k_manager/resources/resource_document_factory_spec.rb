@@ -6,11 +6,12 @@ RSpec.describe KManager::Resources::ResourceDocumentFactory do
   subject { instance }
 
   let(:instance) { described_class }
-  let(:file_resource) { KManager::Resources::FileResource.new(file: file).tap(&:fire_next_action) }
+  let(:file_resource) { KManager::Resources::FileResource.new(uri).tap(&:fire_next_action) }
   let(:mem_resource) { KManager::Resources::MemResource.new(content: content, content_type: content_type).tap(&:fire_next_action) }
   let(:resource) { file_resource }
 
-  let(:file) { 'spec/samples/.builder/data_files/some-file.txt' }
+  let(:uri) { KUtil.file.parse_uri(file) }
+  let(:file) { File.expand_path('spec/samples/.builder/data_files/some-file.txt') }
   let(:content) { nil }
   let(:content_type) { nil }
 
@@ -27,15 +28,15 @@ RSpec.describe KManager::Resources::ResourceDocumentFactory do
       before { instance.create_documents(resource) }
 
       context 'csv file' do
-        let(:file) { 'spec/samples/.builder/data_files/countries.csv' }
+        let(:file) { File.expand_path('spec/samples/.builder/data_files/countries.csv') }
         it { is_expected.to have_attributes(length: 1) }
       end
       context 'json file' do
-        let(:file) { 'spec/samples/.builder/data_files/PersonDetails.json' }
+        let(:file) { File.expand_path('spec/samples/.builder/data_files/PersonDetails.json') }
         it { is_expected.to have_attributes(length: 1) }
       end
       context 'yaml file' do
-        let(:file) { 'spec/samples/.builder/data_files/sample-yaml-list.yaml' }
+        let(:file) { File.expand_path('spec/samples/.builder/data_files/sample-yaml-list.yaml') }
         it { is_expected.to have_attributes(length: 1) }
       end
     end
@@ -49,7 +50,7 @@ RSpec.describe KManager::Resources::ResourceDocumentFactory do
 
       context 'when csv content' do
         context 'valid csv file' do
-          let(:file) { 'spec/samples/.builder/data_files/countries.csv' }
+          let(:file) { File.expand_path('spec/samples/.builder/data_files/countries.csv') }
 
           it {
             is_expected
@@ -73,7 +74,7 @@ RSpec.describe KManager::Resources::ResourceDocumentFactory do
 
       context 'when json content' do
         context 'valid json file' do
-          let(:file) { 'spec/samples/.builder/data_files/PersonDetails.json' }
+          let(:file) { File.expand_path('spec/samples/.builder/data_files/PersonDetails.json') }
 
           it do
             is_expected
@@ -97,7 +98,7 @@ RSpec.describe KManager::Resources::ResourceDocumentFactory do
 
       context 'when yaml content' do
         context 'valid yaml content in list format' do
-          let(:file) { 'spec/samples/.builder/data_files/sample-yaml-list.yaml' }
+          let(:file) { File.expand_path('spec/samples/.builder/data_files/sample-yaml-list.yaml') }
 
           it do
             is_expected
@@ -113,7 +114,7 @@ RSpec.describe KManager::Resources::ResourceDocumentFactory do
         end
 
         context 'valid yaml content in object format' do
-          let(:file) { 'spec/samples/.builder/data_files/sample-yaml-object.yaml' }
+          let(:file) { File.expand_path('spec/samples/.builder/data_files/sample-yaml-object.yaml') }
 
           it do
             is_expected
@@ -150,7 +151,7 @@ RSpec.describe KManager::Resources::ResourceDocumentFactory do
       it { expect { Simple.new }.to raise_error(NameError) }
 
       context 'valid ruby file' do
-        let(:file) { 'spec/samples/.builder/data_files/ruby-simple.rb' }
+        let(:file) { File.expand_path('spec/samples/.builder/data_files/ruby-simple.rb') }
 
         it { is_expected.to have_attributes(length: 0) }
         it { expect(defined? Simple).to be_truthy }
@@ -159,7 +160,7 @@ RSpec.describe KManager::Resources::ResourceDocumentFactory do
 
     context 'when ruby file with 1 DSL' do
       context 'valid ruby file' do
-        let(:file) { 'spec/samples/.builder/data_files/ruby-1-dsl.rb' }
+        let(:file) { File.expand_path('spec/samples/.builder/data_files/ruby-1-dsl.rb') }
 
         it { is_expected.to have_attributes(length: 1) }
       end
@@ -167,7 +168,7 @@ RSpec.describe KManager::Resources::ResourceDocumentFactory do
 
     context 'when ruby file with 4 DSL' do
       context 'valid ruby file' do
-        let(:file) { 'spec/samples/.builder/data_files/ruby-4-dsl.rb' }
+        let(:file) { File.expand_path('spec/samples/.builder/data_files/ruby-4-dsl.rb') }
 
         it { is_expected.to have_attributes(length: 4) }
       end
@@ -175,7 +176,7 @@ RSpec.describe KManager::Resources::ResourceDocumentFactory do
 
     context 'when ruby file with 7 DSL' do
       context 'valid ruby file' do
-        let(:file) { 'spec/samples/.builder/data_files/ruby-7-dsl.rb' }
+        let(:file) { File.expand_path('spec/samples/.builder/data_files/ruby-7-dsl.rb') }
 
         it { is_expected.to have_attributes(length: 7) }
       end

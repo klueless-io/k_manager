@@ -4,8 +4,8 @@ module KManager
   module Resources
     # Create documents based on the target resource
     #
-    # This factory will firstly lock the resource and then create new
-    # documents based on the content of the resource.
+    # This factory will lock the resource and then create
+    # new documents based on the content of the resource.
     #
     # In the case of a ruby resource, this factory will evaluate the ruby
     # code dynamically and any ruby file with standard document DSL's will

@@ -16,19 +16,11 @@ module KManager
         '.yaml' => :yaml
       }.freeze
 
-      # TODO: This needs to be a readonly method that utilises the URI
-      # Full path to file
+      # Real path - aka Full path to file
       #
       # example: /Users/davidcruwys/dev/kgems/k_dsl/spec/factories/dsls/common-auth/admin_user.rb
-      attr_reader :file
-
-      # NAMESPACE can probably be taken from file set relative path
-      def initialize(**opts)
-        self.file = opts[:file]
-
-        @content_type = opts[:content_type] || infer_content_type
-
-        super(**opts)
+      def source_path
+        uri.path
       end
 
       # TODO: Write tests
@@ -47,7 +39,7 @@ module KManager
 
       # Infer key is the file name without the extension stored in dash-case
       def infer_key
-        file_name = Pathname.new(file).basename.sub_ext('').to_s
+        file_name = Pathname.new(source_path).basename.sub_ext('').to_s
         Handlebars::Helpers::StringFormatting::Snake.new.parse(file_name)
       end
 
@@ -58,8 +50,8 @@ module KManager
 
       def debug
         super do
-          log.kv 'infer_key'        , infer_key          , 20
-          log.kv 'file'             , file               , 20
+          log.kv 'infer_key'        , infer_key , 20
+          log.kv 'file'             , source_path          , 20
           log.kv 'resource_path'    , resource_path      , 20
           log.kv 'resource_valid?'  , resource_valid?    , 20
         end
@@ -79,7 +71,7 @@ module KManager
       end
 
       def resource_path
-        @resource_path ||= absolute_path(@file)
+        @resource_path ||= absolute_path(source_path)
       end
 
       def resource_relative_path(from_path = Dir.pwd)
@@ -104,19 +96,19 @@ module KManager
         end
       end
 
-      def file=(file)
-        if file.is_a?(URI)
-          self.uri = file
-          @file = file.path
-        end
+      # def file=(file)
+      #   if file.is_a?(URI)
+      #     self.uri = file
+      #     @file = file.path
+      #   end
 
-        if file.is_a?(String)
-          self.uri = URI::File.build(host: nil, path: absolute_path(file))
-          @file = uri.path
-        end
+      #   if file.is_a?(String)
+      #     self.uri = URI::File.build(host: nil, path: absolute_path(file))
+      #     @file = uri.path
+      #   end
 
-        raise KType::Error, 'File resource requires a file option' if @file.nil? || @file == ''
-      end
+      #   raise KType::Error, 'File resource requires a file option' if @file.nil? || @file == ''
+      # end
 
       def absolute_path(path)
         pn = Pathname(path)
@@ -125,7 +117,7 @@ module KManager
       end
 
       def infer_content_type
-        extension = ::File.extname(file).downcase
+        extension = ::File.extname(source_path).downcase
         KNOWN_EXTENSIONS[extension]
       end
     end
