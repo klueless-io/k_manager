@@ -6,7 +6,7 @@ RSpec.describe KManager::Manager do
   let(:instance) { described_class.new }
 
   # Workflow needs to move into a different file
-  fit 'workflow' do
+  it 'workflow' do
     KBuilder.configure(:traveling_people_spec) do |config|
       path = Dir.pwd
       config.target_folders.add(:app, File.join(path, '.output'))

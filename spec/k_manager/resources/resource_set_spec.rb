@@ -35,7 +35,7 @@ RSpec.describe KManager::Resources::ResourceSet do
 
     let(:resource)          { resource_factory.instance(resource_uri) }
     let(:filename)          { File.expand_path('spec/k_manager/scenarios/simple/countries.csv') }
-    let(:resource_uri)      { URI.join('file:///', filename) }
+    let(:resource_uri)      { KUtil.file.parse_uri(filename) } # URI.join('file:///', filename) }
 
     it { is_expected.to be_empty }
 

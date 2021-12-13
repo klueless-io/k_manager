@@ -14,34 +14,6 @@ module KManager
     class WebResource < KManager::Resources::BaseResource
       include KLog::Logging
 
-      attr_reader :source
-
-      # NAMESPACE ???
-      def initialize(**opts)
-        super(**opts)
-
-        guard
-      end
-
-      # class << self
-      #   def instance(**opts)
-      #     content_type = opts[:content_type]
-
-      #     case content_type
-      #     when 'rb'
-      #       KManager::Resources::RubyWebResource.new(**opts)
-      #     when 'csv'
-      #       KManager::Resources::CsvWebResource.new(**opts)
-      #     when 'json'
-      #       KManager::Resources::JsonWebResource.new(**opts)
-      #     when 'yaml'
-      #       KManager::Resources::YamlWebResource.new(**opts)
-      #     else
-      #       KManager::Resources::UnknownWebResource.new(**opts)
-      #     end
-      #   end
-      # end
-
       # Infer key is the file name without the extension stored in dash-case
       def infer_key
         file_name = Pathname.new(@file).basename.sub_ext('').to_s
@@ -81,11 +53,22 @@ module KManager
       end
       # rubocop:enable  Metrics/AbcSize
 
-      private
+      # private
 
-      def guard
-        raise KType::Error, 'File resource requires a file option' if @file.nil? || @file == ''
-      end
+      # # TODO: Write tests
+      # def url=(url)
+      #   if url.is_a?(URI)
+      #     self.uri = url
+      #     @url = url.path
+      #   end
+
+      #   if url.is_a?(String)
+      #     self.uri = URI.parse(url)
+      #     @url = uri.path
+      #   end
+
+      #   raise KType::Error, 'Web resource requires a url option' if @url.nil? || @url == ''
+      # end
     end
   end
 end
