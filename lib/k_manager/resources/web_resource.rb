@@ -4,8 +4,6 @@ module KManager
   module Resources
     require 'handlebars/helpers/string_formatting/dasherize'
 
-    # TODO, turn into a module
-
     # A web resource represents content that is loaded via a web URI.
     #
     # Web resources do not support watchers and so if you want to handle
@@ -14,61 +12,88 @@ module KManager
     class WebResource < KManager::Resources::BaseResource
       include KLog::Logging
 
+      def initialize(uri, **opts)
+        warn('URI::HTTP/HTTPS type is expected for Web Resource') unless uri.is_a?(URI::HTTP)
+        super(uri, **opts)
+        log_any_messages unless valid?
+      end
+
       # Infer key is the file name without the extension stored in dash-case
       def infer_key
-        file_name = Pathname.new(@file).basename.sub_ext('').to_s
-        Handlebars::Helpers::StringFormatting::Snake.new.parse(file_name)
+        last_segment = uri.path.split('/').last
+        Handlebars::Helpers::StringFormatting::Snake.new.parse(last_segment)
+      end
+
+      def default_scheme
+        :https
+      end
+
+      def resource_path
+        @resource_path ||= source_path
+      end
+
+      def resource_valid?
+        return @resource_valid if defined? @resource_valid
+
+        @resource_valid = url_exist?(source_path)
       end
 
       def load_content
-        if File.exist?(file)
+        if resource_valid?
           begin
-            @content = File.read(file)
+            @content = fetch(source_path)
           rescue StandardError => e
             log.error e
           end
         else
-          log.error "Source file not found: #{file}"
+          guard("Source url not valid: #{resource_path}")
         end
       end
 
-      # Currently in base
-      # def register_document
-      #   attach_document(create_document)
-      # end
+      def debug
+        super do
+          log.kv 'infer_key'        , infer_key     , 20
+          log.kv 'url'              , source_path   , 20
+        end
+      end
+
+      private
 
       # rubocop:disable  Metrics/AbcSize
-      def debug
-        log.section_heading('resource')
-        log.kv 'source'   , @source , 15
-        log.kv 'file'     , file                                                  , 15
-        log.kv 'type'     , type                                                  , 15
-        log.kv 'infer_key', infer_key                                             , 15
-        log.kv 'status'   , status                                                , 15
-        # log.kv 'project'  , project
-        log.kv 'content'  , content.nil? ? '' : content[0..100].gsub("\n", '\n')  , 15
-        log.kv 'documents', documents.length                                      , 15
+      def url_exist?(url_str, limit = 10)
+        raise ArgumentError, 'too many HTTP redirects' if limit.zero?
 
-        documents.each(&:debug)
+        url = URI.parse(url_str)
+        req = Net::HTTP.new(url.host, url.port)
+        req.use_ssl = (url.scheme == 'https')
+        res = req.request_head(url.path || '/')
+        if res.is_a?(Net::HTTPRedirection)
+          url_exist?(res['location'], limit - 1) # Go after any redirect and make sure you can access the redirected URL
+        else
+          !%w[4 5].include?(res.code[0]) # Not from 4xx or 5xx families
+        end
+      rescue Errno::ENOENT
+        false # false if can't find the server
       end
       # rubocop:enable  Metrics/AbcSize
 
-      # private
+      def fetch(url_str, limit = 10)
+        raise ArgumentError, 'too many HTTP redirects' if limit.zero?
 
-      # # TODO: Write tests
-      # def url=(url)
-      #   if url.is_a?(URI)
-      #     self.uri = url
-      #     @url = url.path
-      #   end
+        url = URI.parse(url_str)
+        res = Net::HTTP.get_response(url)
 
-      #   if url.is_a?(String)
-      #     self.uri = URI.parse(url)
-      #     @url = uri.path
-      #   end
-
-      #   raise KType::Error, 'Web resource requires a url option' if @url.nil? || @url == ''
-      # end
+        case res
+        when Net::HTTPSuccess
+          res.body
+        when Net::HTTPRedirection
+          location = res['location']
+          puts "redirected to #{location}"
+          fetch(location, limit - 1)
+        else
+          res.value
+        end
+      end
     end
   end
 end

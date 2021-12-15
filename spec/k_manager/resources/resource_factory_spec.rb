@@ -13,10 +13,6 @@ RSpec.describe KManager::Resources::ResourceFactory do
   let(:instance) { described_class.new }
   let(:uri) { KUtil.file.parse_uri(uri_path) }
 
-  # let(:file) { 'spec/samples/.builder/data_files/some-file.txt' }
-  # let(:content) { nil }
-  # let(:content_type) { nil }
-
   context 'initialize' do
     it { is_expected.not_to be_nil }
   end
