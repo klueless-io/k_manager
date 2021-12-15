@@ -4,7 +4,7 @@
     "area_namespace": "tp",
     "area_resource_count": 9,
     "area_document_count": 8,
-    "resource_id": 16000,
+    "resource_id": 16420,
     "resource_key": "countries",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -19,7 +19,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/countries.csv",
     "resource_relative_path": "spec/k_manager/scenarios/simple/countries.csv",
     "resource_exist": true,
-    "document_id": 16200,
+    "document_id": 16620,
     "document_data": [
       {
         "code": "AU",
@@ -58,7 +58,7 @@
     "area_namespace": "tp",
     "area_resource_count": 9,
     "area_document_count": 8,
-    "resource_id": 16020,
+    "resource_id": 16440,
     "resource_key": "traveling_people",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -73,7 +73,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/traveling-people.json",
     "resource_relative_path": "spec/k_manager/scenarios/simple/traveling-people.json",
     "resource_exist": true,
-    "document_id": 16220,
+    "document_id": 16640,
     "document_data": {
       "people": [
         {
@@ -127,7 +127,7 @@
     "area_namespace": "tp",
     "area_resource_count": 9,
     "area_document_count": 8,
-    "resource_id": 16040,
+    "resource_id": 16460,
     "resource_key": "ben_dover",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -142,7 +142,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/ben-dover.jason",
     "resource_relative_path": "spec/k_manager/scenarios/simple/ben-dover.jason",
     "resource_exist": true,
-    "document_id": 16240,
+    "document_id": 16660,
     "document_data": {
       "first": "Ben",
       "last": "Dover",
@@ -169,7 +169,7 @@
     "area_namespace": "tp",
     "area_resource_count": 9,
     "area_document_count": 8,
-    "resource_id": 16140,
+    "resource_id": 16560,
     "resource_key": "rich_data",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -184,7 +184,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_relative_path": "spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_exist": true,
-    "document_id": 16260,
+    "document_id": 16680,
     "document_data": [
       {
         "code": "AU",
@@ -223,7 +223,7 @@
     "area_namespace": "tp",
     "area_resource_count": 9,
     "area_document_count": 8,
-    "resource_id": 16140,
+    "resource_id": 16560,
     "resource_key": "rich_data",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -238,7 +238,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_relative_path": "spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_exist": true,
-    "document_id": 16280,
+    "document_id": 16700,
     "document_data": {
       "people": [
         {
@@ -292,7 +292,7 @@
     "area_namespace": "tp",
     "area_resource_count": 9,
     "area_document_count": 8,
-    "resource_id": 16140,
+    "resource_id": 16560,
     "resource_key": "rich_data",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -307,7 +307,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_relative_path": "spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_exist": true,
-    "document_id": 16300,
+    "document_id": 16720,
     "document_data": {
     },
     "document_key": "dsl_other_people",
@@ -326,7 +326,7 @@
     "area_namespace": "tp",
     "area_resource_count": 9,
     "area_document_count": 8,
-    "resource_id": 16140,
+    "resource_id": 16560,
     "resource_key": "rich_data",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -341,7 +341,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_relative_path": "spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_exist": true,
-    "document_id": 16320,
+    "document_id": 16740,
     "document_data": {
       "settings": {
         "key1": "value1",
@@ -364,7 +364,7 @@
     "area_namespace": "tp",
     "area_resource_count": 9,
     "area_document_count": 8,
-    "resource_id": 16140,
+    "resource_id": 16560,
     "resource_key": "rich_data",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -379,7 +379,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_relative_path": "spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_exist": true,
-    "document_id": 16340,
+    "document_id": 16760,
     "document_data": {
       "users": {
         "fields": [
@@ -434,7 +434,7 @@
     "area_namespace": "xmen",
     "area_resource_count": 2,
     "area_document_count": 2,
-    "resource_id": 16160,
+    "resource_id": 16580,
     "resource_key": "countries",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -449,7 +449,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/countries.csv",
     "resource_relative_path": "spec/k_manager/scenarios/simple/countries.csv",
     "resource_exist": true,
-    "document_id": 16360,
+    "document_id": 16780,
     "document_data": [
       {
         "code": "AU",
@@ -488,7 +488,7 @@
     "area_namespace": "xmen",
     "area_resource_count": 2,
     "area_document_count": 2,
-    "resource_id": 16180,
+    "resource_id": 16600,
     "resource_key": "traveling_people",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -503,7 +503,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/traveling-people.json",
     "resource_relative_path": "spec/k_manager/scenarios/simple/traveling-people.json",
     "resource_exist": true,
-    "document_id": 16380,
+    "document_id": 16800,
     "document_data": {
       "people": [
         {
