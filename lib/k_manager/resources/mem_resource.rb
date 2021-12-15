@@ -15,4 +15,3 @@ module KManager
     end
   end
 end
- 

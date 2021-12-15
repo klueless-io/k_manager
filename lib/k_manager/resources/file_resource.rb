@@ -16,7 +16,46 @@ module KManager
         '.yaml' => :yaml
       }.freeze
 
-      # Real path - aka Full path to file
+      def initialize(uri, **opts)
+        warn('URI::File type expected for File Resource') unless uri.is_a?(URI::File)
+        super(uri, **opts)
+        log_any_messages unless valid?
+      end
+
+      # Infer key is the file name without the extension stored in dash-case
+      def infer_key
+        file_name = Pathname.new(source_path).basename.sub_ext('').to_s
+        Handlebars::Helpers::StringFormatting::Snake.new.parse(file_name)
+      end
+
+      def default_scheme
+        :file
+      end
+
+      # Currently in base
+      # def register_document
+      #   KManager::Resources::ResourceDocumentFactory.create_documents(self)
+      # end
+
+      def debug
+        super do
+          log.kv 'infer_key'        , infer_key , 20
+          log.kv 'file'             , source_path        , 20
+          log.kv 'resource_path'    , resource_path      , 20
+          log.kv 'resource_valid?'  , resource_valid?    , 20
+        end
+      end
+
+      def attribute_values(prefix = nil)
+        result = super(prefix)
+        result["#{prefix}scheme".to_sym]        = scheme
+        result["#{prefix}path".to_sym]          = resource_path
+        result["#{prefix}relative_path".to_sym] = resource_relative_path
+        result["#{prefix}exist".to_sym]         = resource_valid?
+        result
+      end
+
+      # Source path - aka Full path to file
       #
       # example: /Users/davidcruwys/dev/kgems/k_dsl/spec/factories/dsls/common-auth/admin_user.rb
       def source_path
@@ -35,39 +74,6 @@ module KManager
         }
 
         resource.class.new(opts)
-      end
-
-      # Infer key is the file name without the extension stored in dash-case
-      def infer_key
-        file_name = Pathname.new(source_path).basename.sub_ext('').to_s
-        Handlebars::Helpers::StringFormatting::Snake.new.parse(file_name)
-      end
-
-      # Currently in base
-      # def register_document
-      #   KManager::Resources::ResourceDocumentFactory.create_documents(self)
-      # end
-
-      def debug
-        super do
-          log.kv 'infer_key'        , infer_key , 20
-          log.kv 'file'             , source_path          , 20
-          log.kv 'resource_path'    , resource_path      , 20
-          log.kv 'resource_valid?'  , resource_valid?    , 20
-        end
-      end
-
-      def attribute_values(prefix = nil)
-        result = super(prefix)
-        result["#{prefix}scheme".to_sym]        = scheme
-        result["#{prefix}path".to_sym]          = resource_path
-        result["#{prefix}relative_path".to_sym] = resource_relative_path
-        result["#{prefix}exist".to_sym]         = resource_valid?
-        result
-      end
-
-      def default_scheme
-        :file
       end
 
       def resource_path

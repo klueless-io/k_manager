@@ -100,7 +100,8 @@ RSpec.describe KManager::Resources::FileResource do
       end
     end
 
-    context '#fire_action' do
+    # Should this be moved to base resource and tested with file, web and mem resources?
+    context '#fire_action - state changing' do
       subject { instance }
 
       let(:file) { File.expand_path('spec/samples/.builder/data_files/countries.csv') }
@@ -224,11 +225,11 @@ RSpec.describe KManager::Resources::FileResource do
           it { is_expected.to eq('person_details') }
         end
 
-        describe '#debug' do
-          subject { instance.debug }
+        # describe '#debug' do
+        #   subject { instance.debug }
 
-          it { subject }
-        end
+        #   it { subject }
+        # end
       end
     end
   end
