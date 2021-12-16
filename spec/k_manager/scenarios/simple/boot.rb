@@ -19,6 +19,10 @@ resource_manager.add_resource_expand_path('spec/k_manager/scenarios/simple/not-f
 resource_manager.add_resource_expand_path('spec/k_manager/scenarios/simple/query.rb')
 resource_manager.add_resource_expand_path('spec/k_manager/scenarios/simple/rich_data.rb')
 
+resource_manager.add_resource('https://gist.githubusercontent.com/klueless-io/36a53ac9683866d923ce9fa99ccca436/raw/people.csv', content_type: :csv)
+resource_manager.add_resource('https://gist.githubusercontent.com/klueless-io/32397b82f2ba607ce3dc452dcb357a99/raw/site_definition.rb', content_type: :ruby)
+resource_manager.add_resource('https://gist.githubusercontent.com/klueless-io/0140db92d83714caba370fc311973068/raw/string_color.rb', content_type: :ruby)
+
 KManager.fire_actions(:load_content, :register_document, :load_document)
 
 puts 'lets boot it'

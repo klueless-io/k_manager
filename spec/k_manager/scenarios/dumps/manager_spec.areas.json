@@ -1,14 +1,14 @@
 [
   {
-    "name": "traveling_people",
-    "namespace": "tp",
-    "resource_count": 9,
-    "document_count": 8
-  },
-  {
     "name": "xmen",
     "namespace": "xmen",
     "resource_count": 2,
     "document_count": 2
+  },
+  {
+    "name": "traveling_people",
+    "namespace": "tp",
+    "resource_count": 11,
+    "document_count": 12
   }
 ]

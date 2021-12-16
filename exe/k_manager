@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require 'pry'
+
+lib_path = File.expand_path(File.join(File.dirname(__FILE__), '../lib'))
+gem_path = File.expand_path(File.join(File.dirname(__FILE__), '../Gemfile'))
+
+$LOAD_PATH.unshift(lib_path)
+
+ENV['BUNDLE_GEMFILE'] = gem_path
+
+require 'bundler/setup'
+require 'k_manager'
+
+puts 'david'
+# options = KBuilder::Watch::Cli.parse_options
+
+# KBuilder::Watch::Execute.new(options).run

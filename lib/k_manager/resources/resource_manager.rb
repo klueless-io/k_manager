@@ -85,6 +85,8 @@ module KManager
         create_resource(resource_uri) if state == :created
         update_resource(resource_uri) if state == :updated
         delete_resource(resource_uri) if state == :deleted
+
+        log_any_messages unless valid?
       end
 
       def create_resource(resource_uri)
@@ -101,7 +103,7 @@ module KManager
 
         resource = resource_set.find_by_uri(resource_uri)
 
-        warn("Resource should already exist in the Resource Set? - #{resource_uri.path}") unless resource
+        return warn("Resource not in Resource Set - Skipping: #{resource_uri.path}") unless resource
 
         replace_resource = resource.recreate(resource)
         replace_resource.fire_action(:load_content)

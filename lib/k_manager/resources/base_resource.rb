@@ -155,10 +155,16 @@ module KManager
         KManager::Resources::ResourceDocumentFactory.create_documents(self)
       end
 
+      # rubocop:disable Lint/RescueException
       def load_document
         # log.warn 'you need to implement register_document'
         documents.each(&:execute_block)
+      rescue Exception => e
+        guard(e.message)
+        debug
+        log.exception(e, style: :short)
       end
+      # rubocop:enable Lint/RescueException
 
       # This is when you need a simple container
       def new_document(data)
@@ -180,33 +186,12 @@ module KManager
         document
       end
 
-      # rubocop:disable Metrics/AbcSize
-      def debug(heading = 'resource')
-        width = 20
-        log.section_heading(heading)
-        log.kv 'area'             , area.name                                             , width if area
-        log.kv 'area namespace'   , area.namespace                                        , width if area
-        log.kv 'scheme'           , scheme                                                , width
-        log.kv 'source_path'      , source_path                                           , width
-        log.kv 'content_type'     , content_type                                          , width
-        log.kv 'status'           , status                                                , width
-        log.kv 'content'          , content.nil? ? '' : content[0..100].gsub("\n", '\n')  , width
-        log.kv 'documents'        , documents.length                                      , width
-
-        yield if block_given?
-
-        log_any_messages
-
-        # log.kv 'infer_key', infer_key                                             , width
-        # log.kv 'project'  , project
-
-        documents.each(&:debug)
-        nil
-      end
-      # rubocop:enable Metrics/AbcSize
-
       def scheme
         uri&.scheme&.to_sym || default_scheme
+      end
+
+      def host
+        uri&.host
       end
 
       # What schema does the underlying resource connect with by default
@@ -264,16 +249,43 @@ module KManager
         result["#{prefix}key".to_sym]             = infer_key
         result["#{prefix}namespace".to_sym]       = namespace
         result["#{prefix}status".to_sym]          = status
+        result["#{prefix}source".to_sym]          = source_path
         result["#{prefix}content_type".to_sym]    = content_type
         result["#{prefix}content".to_sym]         = content
         result["#{prefix}document_count".to_sym]  = documents.length
         result["#{prefix}errors".to_sym]          = error_hash
         result["#{prefix}valid".to_sym]           = valid?
+        result["#{prefix}scheme".to_sym]          = scheme
+        result["#{prefix}host".to_sym]            = host
         result
       end
       # rubocop:enable Metrics/AbcSize
 
-      # documents:    documents.map(&:to_h),
+      # rubocop:disable Metrics/AbcSize
+      def debug(heading = 'resource')
+        width = 20
+        log.section_heading(heading)
+        log.kv 'area'             , area.name                                             , width if area
+        log.kv 'area namespace'   , area.namespace                                        , width if area
+        log.kv 'scheme'           , scheme                                                , width
+        log.kv 'host'             , host , width
+        log.kv 'source_path'      , source_path                                           , width
+        log.kv 'content_type'     , content_type                                          , width
+        log.kv 'status'           , status                                                , width
+        log.kv 'content'          , content.nil? ? '' : content[0..100].gsub("\n", '\n')  , width
+        log.kv 'documents'        , documents.length                                      , width
+
+        yield if block_given?
+
+        log_any_messages
+
+        # log.kv 'infer_key', infer_key                                             , width
+        # log.kv 'project'  , project
+
+        documents.each(&:debug)
+        nil
+      end
+      # rubocop:enable Metrics/AbcSize
 
       private
 

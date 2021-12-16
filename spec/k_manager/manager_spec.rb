@@ -6,7 +6,7 @@ RSpec.describe KManager::Manager do
   let(:instance) { described_class.new }
 
   # Workflow needs to move into a different file
-  it 'workflow' do
+  fit 'workflow' do
     KBuilder.configure(:traveling_people_spec) do |config|
       path = Dir.pwd
       config.target_folders.add(:app, File.join(path, '.output'))
@@ -30,6 +30,9 @@ RSpec.describe KManager::Manager do
     resource_manager2.add_resource_expand_path('spec/k_manager/scenarios/simple/not-found.rb')
     resource_manager2.add_resource_expand_path('spec/k_manager/scenarios/simple/query.rb')
     resource_manager2.add_resource_expand_path('spec/k_manager/scenarios/simple/rich_data.rb')
+    resource_manager2.add_resource('https://gist.githubusercontent.com/klueless-io/36a53ac9683866d923ce9fa99ccca436/raw/people.csv', content_type: :csv)
+    resource_manager2.add_resource('https://gist.githubusercontent.com/klueless-io/32397b82f2ba607ce3dc452dcb357a99/raw/site_definition.rb', content_type: :ruby)
+    resource_manager2.add_resource('https://gist.githubusercontent.com/klueless-io/0140db92d83714caba370fc311973068/raw/string_color.rb', content_type: :ruby)
 
     KManager.fire_actions(:load_content, :register_document, :load_document)
 
@@ -39,11 +42,11 @@ RSpec.describe KManager::Manager do
     dashboard.documents
 
     # resource_manager1.add_resource_expand_path('spec/k_manager/scenarios/simple/setup.rb')
-    resource_manager2.add_resource_expand_path('spec/k_manager/scenarios/simple/setup.rb')
+    # resource_manager2.add_resource_expand_path('spec/k_manager/scenarios/simple/setup.rb')
 
-    log.error('-' * 74)
+    # log.error('-' * 74)
 
-    KManager.fire_actions(:load_content, :register_document, :load_document)
+    # KManager.fire_actions(:load_content, :register_document, :load_document)
 
     # dashboard.areas
     # dashboard.resources

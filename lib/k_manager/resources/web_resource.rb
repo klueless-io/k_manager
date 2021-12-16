@@ -32,6 +32,10 @@ module KManager
         @resource_path ||= source_path
       end
 
+      def resource_relative_path
+        uri.path
+      end
+
       def resource_valid?
         return @resource_valid if defined? @resource_valid
 
@@ -50,10 +54,20 @@ module KManager
         end
       end
 
+      def attribute_values(prefix = nil)
+        result = super(prefix)
+        result["#{prefix}path".to_sym]          = resource_path
+        result["#{prefix}relative_path".to_sym] = resource_relative_path
+        result["#{prefix}exist".to_sym]         = resource_valid?
+        result
+      end
+
       def debug
         super do
-          log.kv 'infer_key'        , infer_key     , 20
-          log.kv 'url'              , source_path   , 20
+          log.kv 'infer_key'        , infer_key         , 20
+          log.kv 'url'              , source_path       , 20
+          log.kv 'resource_path'    , resource_path     , 20
+          log.kv 'resource_valid?'  , resource_valid?   , 20
         end
       end
 

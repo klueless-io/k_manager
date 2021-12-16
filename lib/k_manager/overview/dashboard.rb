@@ -50,8 +50,8 @@ module KManager
               { valid:          { display_method: ->(row) { row.valid } } },
               { error_count:    { display_method: ->(row) { blank_zero(row.errors.length) } } },
               { scheme:         { display_method: ->(row) { row.scheme } } },
-              # { path:           { display_method: -> (row) { row.path } } },
-              { relative_path:  { display_method: ->(row) { row.relative_path }, width: 100 } },
+              { root:           { display_method: ->(row) { row.scheme == :file ? '' : row.host } } },
+              { relative_path:  { display_method: ->(row) { right(50, row.relative_path) }, width: 50 } },
               { exist:          { display_method: ->(row) { row.exist } } }
             ]
           }
@@ -88,7 +88,7 @@ module KManager
               { namespace:          { display_method: ->(row) { row.document_namespace } } },
               { tag:                { display_method: ->(row) { row.document_tag } } },
               { type:               { display_method: ->(row) { row.document_type } } },
-              { relative_path:      { display_method: ->(row) { resource_path_location(row.resource_relative_path, row.document_location) }, width: 100 } }
+              { relative_path:      { display_method: ->(row) { right(50, resource_path_location(row.resource_relative_path, row.document_location)) }, width: 50 } }
             ]
           }
         }
@@ -126,6 +126,10 @@ module KManager
 
       def lpad(size, value)
         value.to_s.rjust(size)
+      end
+
+      def right(size, value)
+        value.chars.last(size).join
       end
 
       def resource_document_count(row)
