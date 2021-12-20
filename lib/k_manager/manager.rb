@@ -51,7 +51,7 @@ module KManager
       log.error(tag)
       log.line
 
-      documents = area.resources.flat_map { |resource| resource.documents }
+      documents = area.resources.flat_map(&:documents)
       documents.find { |d| d.tag == tag }
     end
 
@@ -69,13 +69,15 @@ module KManager
     def resolve_area(area)
       if area.nil?
         return KManager.current_resource.area if KManager.current_resource
+
         return KManager.areas.first
       end
 
       return area if area.is_a?(Area)
+
       find_area(name)
     end
-    
+
     # Return a list of resources for a URI.
     #
     # Generally only one resource is returned, unless the URI exists in more than one area
