@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+def bill
+  puts 'smith'
+end
+
 def people
   # person = KManager.get(:tp_ben_dover).data
   # people = KManager.get(:tp_traveling_people).data

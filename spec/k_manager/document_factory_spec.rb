@@ -5,6 +5,11 @@ RSpec.describe KManager::DocumentFactory do
     let(:instance) { described_class.new }
 
     context 'when resource unattached' do
+      context '.action' do
+        subject { instance.action }
+
+        it { is_expected.to be_a(KDoc::Action).and have_attributes(owner: be_nil) }
+      end
       context '.model' do
         subject { instance.model }
 
@@ -35,11 +40,16 @@ RSpec.describe KManager::DocumentFactory do
         end
       end
 
-      # context '.model' do
-      #   subject { model }
+      context '.action' do
+        subject { instance.action }
 
-      #   it { is_expected.to be_a(KDoc::Model).and have_attributes(owner: resource) }
-      # end
+        it { is_expected.to be_a(KDoc::Action).and have_attributes(owner: resource) }
+      end
+      context '.model' do
+        subject { instance.model }
+
+        it { is_expected.to be_a(KDoc::Model).and have_attributes(owner: resource) }
+      end
       context '.csv' do
         subject { instance.csv }
 

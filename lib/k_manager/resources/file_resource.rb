@@ -37,6 +37,14 @@ module KManager
       #   KManager::Resources::ResourceDocumentFactory.create_documents(self)
       # end
 
+      def attribute_values(prefix = nil)
+        result = super(prefix)
+        result["#{prefix}path".to_sym]          = resource_path
+        result["#{prefix}relative_path".to_sym] = resource_relative_path
+        result["#{prefix}exist".to_sym]         = resource_valid?
+        result
+      end
+
       def debug
         super do
           log.kv 'infer_key'        , infer_key , 20
@@ -44,15 +52,6 @@ module KManager
           log.kv 'resource_path'    , resource_path      , 20
           log.kv 'resource_valid?'  , resource_valid?    , 20
         end
-      end
-
-      def attribute_values(prefix = nil)
-        result = super(prefix)
-        result["#{prefix}scheme".to_sym]        = scheme
-        result["#{prefix}path".to_sym]          = resource_path
-        result["#{prefix}relative_path".to_sym] = resource_relative_path
-        result["#{prefix}exist".to_sym]         = resource_valid?
-        result
       end
 
       # Source path - aka Full path to file
@@ -69,11 +68,11 @@ module KManager
         # area: resource.area,
         # content_type: resource.content_type,
         opts = {
-          namespace: resource.namespace,
-          file: resource.file
+          area: resource.area,
+          namespace: resource.namespace
         }
 
-        resource.class.new(opts)
+        resource.class.new(resource.uri, **opts)
       end
 
       def resource_path
@@ -101,20 +100,6 @@ module KManager
           guard("Source file not found: #{resource_path}")
         end
       end
-
-      # def file=(file)
-      #   if file.is_a?(URI)
-      #     self.uri = file
-      #     @file = file.path
-      #   end
-
-      #   if file.is_a?(String)
-      #     self.uri = URI::File.build(host: nil, path: absolute_path(file))
-      #     @file = uri.path
-      #   end
-
-      #   raise KType::Error, 'File resource requires a file option' if @file.nil? || @file == ''
-      # end
 
       def absolute_path(path)
         pn = Pathname(path)

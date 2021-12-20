@@ -81,6 +81,8 @@ module KManager
           # KManager::Manager.current_resource
           # KDsl.target_resource = self
 
+          log.error "#{resource.activated?} - #{resource.resource_path}"
+
           Object.class_eval resource.content, resource.resource_path
 
           # # Only DSL's will add new resource_documents

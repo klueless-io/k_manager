@@ -36,6 +36,12 @@ RSpec.describe KManager::Resources::BaseResource do
         it { is_expected.to eq(:file) }
       end
 
+      context '.host' do
+        subject { instance.host }
+
+        it { is_expected.to eq('') }
+      end
+
       context '.content_type' do
         subject { instance.content_type }
 

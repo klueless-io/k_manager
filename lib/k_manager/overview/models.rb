@@ -28,14 +28,16 @@ module KManager
       attribute :key                      , Types::Strict::String
       attribute :namespace                , Types::Strict::String | Types::Strict::Array.of(Types::Strict::String).optional.default(nil)
       attribute :status                   , Types::Strict::String | Types::Strict::Symbol
+      attribute :source                   , Types::Strict::String
       attribute :content_type             , Types::Strict::String | Types::Strict::Symbol
       attribute :content                  , Types::Strict::String.optional.default(nil)
       attribute :document_count           , Types::Strict::Integer
       attribute :errors                   , Types::Strict::Array.of(KManager::Overview::Error).optional.default(nil)
       attribute :valid?                   , Types::Strict::Bool
       attribute :scheme                   , Types::Strict::String | Types::Strict::Symbol
+      attribute :host                     , Types::Strict::String
       attribute :path                     , Types::Strict::String
-      attribute :relative_path            , Types::Strict::String
+      attribute :relative_path            , Types::Strict::String.optional.default(nil)
       attribute :exist?                   , Types::Strict::Bool
     end
 
@@ -48,14 +50,16 @@ module KManager
       attribute :resource_key             , Types::Strict::String
       attribute :resource_namespace       , Types::Strict::Array.of(Types::Strict::String).optional.default(nil)
       attribute :resource_status          , Types::Strict::String | Types::Strict::Symbol
+      attribute :resource_source          , Types::Strict::String
       attribute :resource_content_type    , Types::Strict::String | Types::Strict::Symbol
       attribute :resource_content         , Types::Strict::String.optional.default(nil)
       attribute :resource_document_count  , Types::Strict::Integer
       attribute :resource_errors          , Types::Strict::Array.of(KManager::Overview::Error).optional.default(nil)
       attribute :resource_valid?          , Types::Strict::Bool
       attribute :resource_scheme          , Types::Strict::String | Types::Strict::Symbol
+      attribute :resource_host            , Types::Strict::String
       attribute :resource_path            , Types::Strict::String
-      attribute :resource_relative_path   , Types::Strict::String
+      attribute :resource_relative_path   , Types::Strict::String.optional.default(nil)
       attribute :resource_exist?          , Types::Strict::Bool
       attribute :document_id              , Types::Strict::Integer
       attribute :document_data            , Types::Strict::Hash.optional.default(nil) | Types::Strict::Array.of(Types::Strict::Hash).optional.default(nil)

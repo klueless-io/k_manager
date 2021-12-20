@@ -37,6 +37,12 @@ RSpec.describe KManager::Resources::WebResource do
         it { is_expected.to eq(:https) }
       end
 
+      context '.host' do
+        subject { instance.host }
+
+        it { is_expected.to eq('gist.githubusercontent.com') }
+      end
+
       context '.content_type' do
         subject { instance.content_type }
 
