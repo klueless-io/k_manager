@@ -11,6 +11,11 @@ RSpec.describe KManager do
   end
 
   context 'module factory methods' do
+    context '.action' do
+      subject { KManager.action }
+
+      it { is_expected.not_to be_nil }
+    end
     context '.model' do
       subject { KManager.model }
 

@@ -106,7 +106,7 @@ module KManager
       @document_factory ||= DocumentFactory.new
     end
 
-    def_delegators :document_factory, :model, :csv, :json, :yaml
+    def_delegators :document_factory, :action, :model, :csv, :json, :yaml
 
     # TODO: DEPRECATE or REFACTOR
     def new_project_config(&block)
