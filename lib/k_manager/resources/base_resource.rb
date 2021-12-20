@@ -87,6 +87,7 @@ module KManager
         self.uri      = uri
 
         @status       = :alive
+        @area         = value_remove(opts, :area)
         @namespace    = value_remove(opts, :namespace)
         @content_type = @content_type || value_remove(opts, :content_type) || infer_content_type || default_content_type
         @content      = value_remove(opts, :content)
@@ -100,8 +101,17 @@ module KManager
         uri.to_s
       end
 
+      # TODO: Is this really needed?
       def document
         @document ||= documents&.first
+      end
+
+      def activated?
+        # log.section_heading("Am I activated?")
+        # log.kv 'URI', uri
+        # log.kv 'ACTIVE URI', self.area.manager.active_uri
+        return false if area.nil?
+        uri.to_s == area.manager.active_uri.to_s
       end
 
       # Fire actions and keep track of status as they fire
@@ -158,7 +168,9 @@ module KManager
       # rubocop:disable Lint/RescueException
       def load_document
         # log.warn 'you need to implement register_document'
-        documents.each(&:execute_block)
+        documents.each do |document|
+          document.execute_block(run_actions: activated?)
+        end
       rescue Exception => e
         guard(e.message)
         debug

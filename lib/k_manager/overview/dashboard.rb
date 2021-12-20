@@ -52,7 +52,8 @@ module KManager
               { scheme:         { display_method: ->(row) { row.scheme } } },
               { root:           { display_method: ->(row) { row.scheme == :file ? '' : row.host } } },
               { relative_path:  { display_method: ->(row) { right(50, row.relative_path) }, width: 50 } },
-              { exist:          { display_method: ->(row) { row.exist } } }
+              { exist:          { display_method: ->(row) { row.exist } } } # ,
+              # { resource_path:  { display_method: ->(row) { row.path }, width: 100 } }
             ]
           }
         }

@@ -5,6 +5,29 @@ module KManager
   #
   # TODO: Write Tests
   class Manager
+    attr_accessor :active_uri
+
+    # NOTE: rename current_resource to active_resource, focused_resource?
+    attr_reader :current_resource
+
+    def resource_mutex
+      @resource_mutex ||= Mutex.new
+    end
+
+    def for_resource(resource = nil)
+      resource_mutex.synchronize do
+        @current_resource = resource
+        yield(current_resource)
+        @current_resource = nil
+      end
+    end
+
+    def for_current_resource
+      raise KManager::Error, 'Attempting to yield current_resource, when a different thread has the lock?' unless resource_mutex.owned?
+
+      yield(@current_resource)
+    end
+
     def areas
       @areas ||= []
     end
@@ -14,9 +37,22 @@ module KManager
 
       return area if area
 
-      area = KManager::Area.new(name: name, namespace: namespace)
+      area = KManager::Area.new(manager: self, name: name, namespace: namespace)
       areas << area
       area
+    end
+
+    def find_document(tag, area: nil)
+      area = resolve_area(area)
+
+      log.error 'Could not resolve area' if area.nil?
+
+      log.line
+      log.error(tag)
+      log.line
+
+      documents = area.resources.flat_map { |resource| resource.documents }
+      documents.find { |d| d.tag == tag }
     end
 
     def fire_actions(*actions)
@@ -30,10 +66,29 @@ module KManager
       areas.find { |a| a.name == name }
     end
 
+    def resolve_area(area)
+      if area.nil?
+        return KManager.current_resource.area if KManager.current_resource
+        return KManager.areas.first
+      end
+
+      return area if area.is_a?(Area)
+      find_area(name)
+    end
+    
+    # Return a list of resources for a URI.
+    #
+    # Generally only one resource is returned, unless the URI exists in more than one area
+    def resources_by_uri(uri)
+      areas.map { |area| area.resources_by_uri(uri) }.compact
+    end
+
     def resource_changed(uri, state)
+      @active_uri = uri
       areas.each do |area|
         area.resource_changed(uri, state)
       end
+      @active_uri = nil
     end
 
     def debug(*sections)
@@ -41,6 +96,8 @@ module KManager
         area.debug(*sections)
       end
     end
+
+    # def cons
 
     # # May replace config with default channel name
     # # Channels represent configurations that are independent of project or builder,
