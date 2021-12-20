@@ -68,6 +68,7 @@ module KManager
         # area: resource.area,
         # content_type: resource.content_type,
         opts = {
+          area: resource.area,
           namespace: resource.namespace
         }
 

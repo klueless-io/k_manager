@@ -30,6 +30,7 @@ require 'k_manager/resources/resource_manager'
 require 'k_manager/document_factory'
 require 'k_manager/manager'
 require 'k_manager/area'
+require 'k_manager/watcher'
 
 module KManager
   # raise KManager::Error, 'Sample message'
@@ -42,6 +43,7 @@ module KManager
     # Concurrency management for currently focused resource
     # ----------------------------------------------------------------------
 
+    # NOTE: Can mutex be moved into manager?
     attr_reader :current_resource
 
     def resource_mutex
@@ -94,7 +96,7 @@ module KManager
       @manager = Manager.new
     end
 
-    def_delegators :manager, :areas, :add_area, :fire_actions, :resource_changed
+    def_delegators :manager, :areas, :add_area, :find_document, :fire_actions, :resource_changed
 
     # ----------------------------------------------------------------------
     # Document factory facade methods
@@ -111,6 +113,15 @@ module KManager
       config = KManager::Configuration::ProjectConfig.new
       block.call(config) if block_given?
       config
+    end
+
+    # ----------------------------------------------------------------------
+    # Utilities
+    # ----------------------------------------------------------------------
+
+    def clear_screen
+      puts "\n" * 70
+      $stdout.clear_screen
     end
   end
 end

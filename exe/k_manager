@@ -13,8 +13,6 @@ ENV['BUNDLE_GEMFILE'] = gem_path
 
 require 'bundler/setup'
 require 'k_manager'
+require 'k_manager/cli/commands'
 
-puts 'david'
-# options = KBuilder::Watch::Cli.parse_options
-
-# KBuilder::Watch::Execute.new(options).run
+Dry::CLI.new(KManager::Cli::Commands).call

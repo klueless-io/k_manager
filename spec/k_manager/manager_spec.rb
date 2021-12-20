@@ -6,7 +6,7 @@ RSpec.describe KManager::Manager do
   let(:instance) { described_class.new }
 
   # Workflow needs to move into a different file
-  fit 'workflow' do
+  it 'workflow' do
     KBuilder.configure(:traveling_people_spec) do |config|
       path = Dir.pwd
       config.target_folders.add(:app, File.join(path, '.output'))
@@ -52,7 +52,7 @@ RSpec.describe KManager::Manager do
     # dashboard.resources
     # dashboard.documents
 
-    dump = KManager::Overview::DumpJson.new('spec/k_manager/scenarios/dumps', KManager)
+    dump = KManager::Overview::DumpJson.new('spec/k_manager/scenarios/dumps', KManager.manager)
     dump.areas('manager_spec.areas.json')
     dump.resources('manager_spec.resources.json')
     dump.documents('manager_spec.documents.json')

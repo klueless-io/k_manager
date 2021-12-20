@@ -3,25 +3,6 @@
 module KManager
   # TODO: Write tests
 
-  # Usage1:
-  #   manager = ResourceManager.new
-  #   manager.add_resource('file:///david.csv')
-  #   manager.add_resource('file:///david.txt', content_type: :json)
-  #   manager.add_resource('https://gist.github.com/12345/david.csv', content_type: :csv)
-  #   manager.load_resource_content
-  #
-  # Usage2:
-  #   manager = ResourceManager.new
-  #   manager.fileset.add('**/*.csv').add('**/*.json').add('lib/*.rb')
-  #   manager.add_resources
-  #   manager.load_resource_content
-  #
-  #
-  # Usage KWatcher
-  # WatchingDirctory('abc') do |path|
-  #   manager.update_resource(path)
-  # end
-
   # Example Director
   # KDoc.diagram(:k_resource) do
 
@@ -86,7 +67,10 @@ module KManager
         update_resource(resource_uri) if state == :updated
         delete_resource(resource_uri) if state == :deleted
 
-        log_any_messages unless valid?
+        return if valid?
+
+        log_any_messages
+        clear_errors
       end
 
       def create_resource(resource_uri)
@@ -105,6 +89,7 @@ module KManager
 
         return warn("Resource not in Resource Set - Skipping: #{resource_uri.path}") unless resource
 
+        # TODO: Do I need to recreate, can I just reset instead?
         replace_resource = resource.recreate(resource)
         replace_resource.fire_action(:load_content)
         replace_resource.fire_action(:register_document)

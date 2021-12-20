@@ -6,7 +6,7 @@ require 'k_manager'
 # require 'io/console'
 
 namespace :k_manager do
-  desc 'Create CSV Files for Models'
+  desc 'Watch '
   task :watch do
     target_folder = 'spec/k_manager/scenarios'
     watch_folder = File.join(Dir.pwd, target_folder)
@@ -33,7 +33,7 @@ end
 #     @boot_file = boot_file
 #   end
 
-#   # rubocop:disable Lint/RescueException
+#
 #   def start
 #     boot(boot_file)
 #     update_dashboard
@@ -56,9 +56,7 @@ end
 #     # TODO: Make style a setting: :message, :short, (whatever the last one is)
 #     log.exception(e, style: :short)
 #   end
-#   # rubocop:enable Lint/RescueException
-
-#   private
+#   #   private
 
 #   def boot(boot_file)
 #     clear_screen
@@ -67,7 +65,7 @@ end
 #     Object.class_eval(content, boot_file)
 #   end
 
-#   # rubocop:disable Lint/RescueException
+#
 #   def process_updated_file(filename)
 #     clear_screen
 #     update_load_path(filename)
@@ -90,9 +88,7 @@ end
 #     # TODO: Make style a setting: :message, :short, (whatever the last one is)
 #     log.exception(e, style: :short)
 #   end
-#   # rubocop:enable Lint/RescueException
-
-#   def update_dashboard
+#   #   def update_dashboard
 #     dashboard = KManager::Overview::Dashboard.new(KManager.manager)
 #     dashboard.areas
 #     dashboard.resources
