@@ -28,6 +28,17 @@ module KManager
       yield(@current_resource)
     end
 
+    Options = Struct.new(:sleep, :exception_style)
+
+    # @param [Integer] sleep Seconds to sleep after running, 0 = no sleep
+    # @param [Symbol] exception_style Format for exception messages caught by watcher.
+    #   :message - message only
+    #   :short - message and short backtrace
+    #   :long - message and long backtrace
+    def opts
+      @opts ||= Options.new(0, :message)
+    end
+
     def areas
       @areas ||= []
     end

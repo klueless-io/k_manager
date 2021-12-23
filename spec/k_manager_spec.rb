@@ -37,4 +37,22 @@ RSpec.describe KManager do
       it { is_expected.not_to be_nil }
     end
   end
+
+  describe '.opts' do
+    subject { KManager.opts }
+
+    it { is_expected.not_to be_nil }
+
+    describe '.sleep' do
+      subject { KManager.opts.sleep }
+
+      it { is_expected.to be_zero }
+    end
+
+    describe '.exception_style' do
+      subject { KManager.opts.exception_style }
+
+      it { is_expected.to eq(:message) }
+    end
+  end
 end
