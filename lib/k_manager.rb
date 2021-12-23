@@ -96,7 +96,7 @@ module KManager
       @manager = Manager.new
     end
 
-    def_delegators :manager, :areas, :add_area, :find_document, :fire_actions, :resource_changed
+    def_delegators :manager, :opts, :areas, :add_area, :find_document, :fire_actions, :resource_changed
 
     # ----------------------------------------------------------------------
     # Document factory facade methods

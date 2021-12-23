@@ -154,7 +154,7 @@ RSpec.describe KManager::Resources::ResourceDocumentFactory do
         let(:file) { File.expand_path('spec/samples/.builder/data_files/ruby-simple.rb') }
 
         it { is_expected.to have_attributes(length: 0) }
-        fit { expect(defined? Simple).to be_truthy }
+        it { expect(defined? Simple).to be_truthy }
       end
     end
 

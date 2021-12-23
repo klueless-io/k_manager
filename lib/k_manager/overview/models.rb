@@ -62,7 +62,7 @@ module KManager
       attribute :resource_relative_path   , Types::Strict::String.optional.default(nil)
       attribute :resource_exist?          , Types::Strict::Bool
       attribute :document_id              , Types::Strict::Integer
-      attribute :document_data            , Types::Strict::Hash.optional.default(nil) | Types::Strict::Array.of(Types::Strict::Hash).optional.default(nil)
+      attribute :document_data            , Types::Strict::Any.optional.default # Hash.optional.default(nil) | Types::Strict::Array.of(Types::Strict::Hash).optional.default(nil)
       attribute :document_key             , Types::Strict::String | Types::Strict::Symbol
       attribute :document_namespace       , Types::Strict::String | Types::Strict::Array.of(Types::Strict::String).optional.default(nil)
       attribute :document_tag             , Types::Strict::String | Types::Strict::Symbol
