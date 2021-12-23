@@ -11,6 +11,11 @@ RSpec.describe KManager do
   end
 
   context 'module factory methods' do
+    context '.action' do
+      subject { KManager.action }
+
+      it { is_expected.not_to be_nil }
+    end
     context '.model' do
       subject { KManager.model }
 
@@ -30,6 +35,24 @@ RSpec.describe KManager do
       subject { KManager.yaml }
 
       it { is_expected.not_to be_nil }
+    end
+  end
+
+  describe '.opts' do
+    subject { KManager.opts }
+
+    it { is_expected.not_to be_nil }
+
+    describe '.sleep' do
+      subject { KManager.opts.sleep }
+
+      it { is_expected.to be_zero }
+    end
+
+    describe '.exception_style' do
+      subject { KManager.opts.exception_style }
+
+      it { is_expected.to eq(:message) }
     end
   end
 end

@@ -30,6 +30,7 @@ module KManager
           'my_project                 # will watch .xmen folder'
         ]
 
+        # rubocop:disable Metrics/ParameterLists
         def call(project_folder:, builder_folder:, boot_file:, log_level:, force:, **)
           project_folder  = absolute_path(project_folder, Dir.pwd)
           name            = File.basename(project_folder)
@@ -40,6 +41,7 @@ module KManager
 
           create_project(project_folder, builder_folder, boot_file) if can_create?(force, builder_folder)
         end
+        # rubocop:enable Metrics/ParameterLists
 
         private
 

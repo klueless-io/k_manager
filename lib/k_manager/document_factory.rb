@@ -17,7 +17,7 @@ module KManager
 
       attach_to_current_resource(document, change_content_type: :ruby)
     end
-    
+
     # Create a KDoc::Model instance
     def model(key = nil, **opts, &block)
       document = new_document(KDoc::Model, key, **opts, &block)

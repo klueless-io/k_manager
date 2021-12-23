@@ -28,6 +28,17 @@ module KManager
       yield(@current_resource)
     end
 
+    Options = Struct.new(:sleep, :exception_style)
+
+    # @param [Integer] sleep Seconds to sleep after running, 0 = no sleep
+    # @param [Symbol] exception_style Format for exception messages caught by watcher.
+    #   :message - message only
+    #   :short - message and short backtrace
+    #   :long - message and long backtrace
+    def opts
+      @opts ||= Options.new(0, :message)
+    end
+
     def areas
       @areas ||= []
     end
@@ -51,7 +62,7 @@ module KManager
       log.error(tag)
       log.line
 
-      documents = area.resources.flat_map { |resource| resource.documents }
+      documents = area.resources.flat_map(&:documents)
       documents.find { |d| d.tag == tag }
     end
 
@@ -69,13 +80,15 @@ module KManager
     def resolve_area(area)
       if area.nil?
         return KManager.current_resource.area if KManager.current_resource
+
         return KManager.areas.first
       end
 
       return area if area.is_a?(Area)
+
       find_area(name)
     end
-    
+
     # Return a list of resources for a URI.
     #
     # Generally only one resource is returned, unless the URI exists in more than one area

@@ -20,7 +20,7 @@ module KManager
     # process_updated_file(filename) if event == :updated # || event == :created
     # process_deleted_file(filename) if event == :deleted
 
-    # rubocop:disable Lint/RescueException
+    # rubocop:disable Lint/RescueException, Metrics/AbcSize
     def start
       boot_up
 
@@ -32,8 +32,15 @@ module KManager
 
           puts "File #{event}: #{filename}"
 
+          # NOTE: KManager will not support space in file name, but this will at least deal with file copy when " copy" is added to a file name
+          filename = filename.gsub(' ', '%20')
+
+          puts "File #{event}: #{filename}"
+
           uri = URI::File.build(host: nil, path: filename)
           KManager.resource_changed(uri, event)
+
+          sleep KManager.opts.sleep if KManager.opts.sleep.positive?
 
           update_dashboard
           puts "File #{event}: #{filename}"
@@ -41,9 +48,10 @@ module KManager
       end
     rescue Exception => e
       # TODO: Make style a setting: :message, :short, (whatever the last one is)
-      log.exception(e, style: :short)
+      log.exception(e, style: KManager.opts.exception_style)
+      log.exception(e)
     end
-    # rubocop:enable Lint/RescueException
+    # rubocop:enable Lint/RescueException, Metrics/AbcSize
 
     private
 

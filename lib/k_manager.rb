@@ -96,7 +96,7 @@ module KManager
       @manager = Manager.new
     end
 
-    def_delegators :manager, :areas, :add_area, :find_document, :fire_actions, :resource_changed
+    def_delegators :manager, :opts, :areas, :add_area, :find_document, :fire_actions, :resource_changed
 
     # ----------------------------------------------------------------------
     # Document factory facade methods
@@ -106,7 +106,7 @@ module KManager
       @document_factory ||= DocumentFactory.new
     end
 
-    def_delegators :document_factory, :model, :csv, :json, :yaml
+    def_delegators :document_factory, :action, :model, :csv, :json, :yaml
 
     # TODO: DEPRECATE or REFACTOR
     def new_project_config(&block)

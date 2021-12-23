@@ -111,6 +111,7 @@ module KManager
         # log.kv 'URI', uri
         # log.kv 'ACTIVE URI', self.area.manager.active_uri
         return false if area.nil?
+
         uri.to_s == area.manager.active_uri.to_s
       end
 
