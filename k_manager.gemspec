@@ -41,6 +41,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'dry-struct', '~> 1'
   spec.add_dependency 'filewatcher', '~> 2.0.0.beta5'
   spec.add_dependency 'k_builder', '~> 0.0.0'
+  spec.add_dependency 'k_director', '~> 0.1'
+  spec.add_dependency 'k_domain', '~> 0.0.0'
   spec.add_dependency 'k_doc', '~> 0.0.0'
   spec.add_dependency 'k_ext-github', '~> 0.0.0'
   spec.add_dependency 'k_fileset', '~> 0.0.0'

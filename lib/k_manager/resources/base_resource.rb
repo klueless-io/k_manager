@@ -175,7 +175,8 @@ module KManager
       rescue Exception => e
         guard(e.message)
         debug
-        log.exception(e, style: :short)
+        log.exception(e, style: KManager.opts.exception_style)
+        # log.exception(e, style: :short)
       end
       # rubocop:enable Lint/RescueException
 

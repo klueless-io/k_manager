@@ -26,34 +26,58 @@ module KManager
 
       update_dashboard
 
-      Filewatcher.new(watch_folder).watch do |changes|
+      watcher = Filewatcher.new(watch_folder)
+
+      watcher.watch do |changes|
+        watcher.pause
+        if changes.length > 1
+          log.kv 'HOW MANY CHANGES', changes.length
+          log.block changes
+        end
+
         changes.each do |filename, event|
-          clear_screen
-
-          puts "File #{event}: #{filename}"
-
-          # NOTE: KManager will not support space in file name, but this will at least deal with file copy when " copy" is added to a file name
+          # NOTE: KManager will not support space in file name, but this will at least deal with file copies, where " copy" is added to a file name.
           filename = filename.gsub(' ', '%20')
 
-          puts "File #{event}: #{filename}"
+          log_file_event(event, filename)
 
           uri = URI::File.build(host: nil, path: filename)
+
+          start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
           KManager.resource_changed(uri, event)
+          finish_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+          time_taken = finish_time - start_time
 
           sleep KManager.opts.sleep if KManager.opts.sleep.positive?
 
+          clear_screen
+
+          log_file_event(event, filename)
+          log.kv 'Time Taken', time_taken.to_d.round(3, :truncate).to_f if KManager.opts.show.time_taken
+
           update_dashboard
-          puts "File #{event}: #{filename}"
+
+          puts KManager.opts.show.finished_message if KManager.opts.show.finished
         end
+        watcher.resume
       end
+    rescue Interrupt, SystemExit
+      raise
     rescue Exception => e
-      # TODO: Make style a setting: :message, :short, (whatever the last one is)
-      log.exception(e, style: KManager.opts.exception_style)
       log.exception(e)
     end
     # rubocop:enable Lint/RescueException, Metrics/AbcSize
 
     private
+
+    def log_file_event(event, filename)
+      current = Time.now.strftime('%H:%M:%S')
+      output = "#{current} - #{event}: #{filename}"
+
+      log.warn(output)  if event == :updated
+      log.error(output) if event == :deleted
+      log.info(output)  if event == :created
+    end
 
     def boot_up
       clear_screen

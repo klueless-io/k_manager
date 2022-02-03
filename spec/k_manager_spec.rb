@@ -43,16 +43,64 @@ RSpec.describe KManager do
 
     it { is_expected.not_to be_nil }
 
-    describe '.sleep' do
-      subject { KManager.opts.sleep }
+    describe '.app_name' do
+      subject { KManager.opts.app_name }
 
-      it { is_expected.to be_zero }
+      it { is_expected.to be_empty }
     end
 
     describe '.exception_style' do
       subject { KManager.opts.exception_style }
 
       it { is_expected.to eq(:message) }
+    end
+
+    describe '.reboot_on_kill' do
+      subject { KManager.opts.reboot_on_kill }
+
+      it { is_expected.not_to be_nil }
+    end
+
+    describe '.reboot_sleep' do
+      subject { KManager.opts.reboot_sleep }
+
+      it { is_expected.to eq(1) }
+    end
+
+    describe '.sleep' do
+      subject { KManager.opts.sleep }
+
+      it { is_expected.to be_zero }
+    end
+
+    describe '.show' do
+      subject { KManager.opts.show }
+
+      it { is_expected.not_to be_nil }
+    end
+
+    describe '.show' do
+      subject { KManager.opts.show }
+
+      it { is_expected.not_to be_nil }
+
+      describe '.time_taken' do
+        subject { KManager.opts.show.time_taken }
+
+        it { is_expected.not_to be_nil }
+      end
+
+      describe '.finished' do
+        subject { KManager.opts.show.finished }
+
+        it { is_expected.not_to be_nil }
+      end
+
+      describe '.finished_message' do
+        subject { KManager.opts.show.finished_message }
+
+        it { is_expected.not_to be_nil }
+      end
     end
   end
 end

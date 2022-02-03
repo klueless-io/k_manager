@@ -27,16 +27,32 @@ module KManager
 
           log_params(builder_folder, boot_file) if log_level == 'debug'
 
-          # puts builder_folder
-          # puts boot_file
-
-          Dir.chdir(builder_folder) do
-            watcher = KManager::Watcher.new(builder_folder, boot_file)
-            watcher.start
-          end
+          # If you do a System Exit (control+c) you can go into a reboot sequence based on options
+          # if the option is not set then system will exit gracefully
+          while keep_watching(builder_folder, boot_file); end
         end
 
         private
+
+        def keep_watching(builder_folder, boot_file)
+          begin
+            Dir.chdir(builder_folder) do
+              watcher = KManager::Watcher.new(builder_folder, boot_file)
+              watcher.start
+            end
+            false
+          rescue Interrupt, SystemExit
+            if KManager.opts.reboot_on_kill == true || KManager.opts.reboot_on_kill == 1
+              puts "\nRebooting #{KManager.opts.app_name}..."
+              sleep KManager.opts.reboot_sleep unless KManager.opts.reboot_sleep == 0
+              
+              return true 
+            end
+            
+            puts "\nExiting..."
+            false
+          end
+        end
 
         def log_params(builder_folder, boot_file)
           log.section_heading('Watch project')
