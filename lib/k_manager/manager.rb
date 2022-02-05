@@ -36,7 +36,7 @@ module KManager
     # KManager.opts.show.time_taken             = true
     # KManager.opts.show.finished               = true
     # KManager.opts.show.finished_message       = 'FINISHED :)'
-    
+
     Options = Struct.new(
       :app_name,
       :exception_style,

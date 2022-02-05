@@ -17,7 +17,6 @@ require 'handlebars/helpers/string_formatting/dasherize'
 require 'handlebars/helpers/string_formatting/snake'
 
 require 'k_manager/version'
-require 'k_manager/configuration/project_config'
 require 'k_manager/overview/models'
 require 'k_manager/overview/queries'
 require 'k_manager/overview/dump_json'
@@ -118,13 +117,6 @@ module KManager
     end
 
     def_delegators :document_factory, :action, :model, :csv, :json, :yaml
-
-    # TODO: DEPRECATE or REFACTOR
-    def new_project_config(&block)
-      config = KManager::Configuration::ProjectConfig.new
-      block.call(config) if block_given?
-      config
-    end
 
     # ----------------------------------------------------------------------
     # Utilities
