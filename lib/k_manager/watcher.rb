@@ -20,7 +20,7 @@ module KManager
     # process_updated_file(filename) if event == :updated # || event == :created
     # process_deleted_file(filename) if event == :deleted
 
-    # rubocop:disable Lint/RescueException, Metrics/AbcSize
+    # rubocop:disable Lint/RescueException, Metrics/AbcSize, Metrics/MethodLength
     def start
       boot_up
 
@@ -66,7 +66,7 @@ module KManager
     rescue Exception => e
       log.exception(e)
     end
-    # rubocop:enable Lint/RescueException, Metrics/AbcSize
+    # rubocop:enable Lint/RescueException, Metrics/AbcSize, Metrics/MethodLength
 
     private
 

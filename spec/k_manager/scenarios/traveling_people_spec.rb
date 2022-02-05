@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe 'Simple Scenario' do
   it 'workflow' do
-    KBuilder.configure(:traveling_people_spec) do |config|
+    KConfig.configure(:traveling_people_spec) do |config|
       path = Dir.pwd
       config.target_folders.add(:app, File.join(path, '.output'))
       config.template_folders.add(:global , File.join(path, '.global_template'))
