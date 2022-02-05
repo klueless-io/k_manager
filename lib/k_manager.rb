@@ -4,7 +4,10 @@ require 'csv'
 require 'dry-struct'
 require 'forwardable'
 require 'k_log'
+require 'k_config'
 require 'k_doc'
+require 'k_domain'
+require 'k_director'
 require 'k_fileset'
 require 'k_builder'
 require 'k_ext/github'
@@ -96,7 +99,15 @@ module KManager
       @manager = Manager.new
     end
 
-    def_delegators :manager, :opts, :areas, :add_area, :find_document, :fire_actions, :resource_changed
+    def_delegators  :manager,
+                    :opts,
+                    :areas,
+                    :add_area,
+                    :find_document,
+                    :fire_actions,
+                    :resource_changed,
+                    :reboot,
+                    :debug
 
     # ----------------------------------------------------------------------
     # Document factory facade methods

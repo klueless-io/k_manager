@@ -28,7 +28,29 @@ module KManager
       yield(@current_resource)
     end
 
-    Options = Struct.new(:sleep, :exception_style)
+    # Usage
+    #
+    # KManager.opts.sleep                       = 10
+    # KManager.opts.reboot_on_kill              = 0
+    # KManager.opts.exception_style             = :short
+    # KManager.opts.show.time_taken             = true
+    # KManager.opts.show.finished               = true
+    # KManager.opts.show.finished_message       = 'FINISHED :)'
+    
+    Options = Struct.new(
+      :app_name,
+      :exception_style,
+      :reboot_on_kill,
+      :reboot_sleep,
+      :sleep,
+      :show
+    )
+
+    Show = Struct.new(
+      :time_taken,
+      :finished,
+      :finished_message
+    )
 
     # @param [Integer] sleep Seconds to sleep after running, 0 = no sleep
     # @param [Symbol] exception_style Format for exception messages caught by watcher.
@@ -36,7 +58,7 @@ module KManager
     #   :short - message and short backtrace
     #   :long - message and long backtrace
     def opts
-      @opts ||= Options.new(0, :message)
+      @opts ||= Options.new('', :message, false, 1, 0, Show.new(true, true, 'FINISHED :)'))
     end
 
     def areas
@@ -104,7 +126,15 @@ module KManager
       @active_uri = nil
     end
 
+    def reboot
+      puts 'Fire reboot'
+      KManager.opts.reboot_on_kill = 1
+      raise SystemExit
+    end
+
     def debug(*sections)
+      log.structure(KUtil.data.to_hash(opts))
+
       areas.each do |area|
         area.debug(*sections)
       end

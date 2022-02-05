@@ -45,7 +45,7 @@ module KManager
               { namespace:      { display_method: ->(row) { row.namespace } } },
               { status:         { display_method: ->(row) { row.status } } },
               { content_type:   { display_method: ->(row) { row.content_type } } },
-              { content:        { display_method: ->(row) { row.content } } },
+              { content:        { display_method: ->(row) { format_content(row.content, row.content_type) }, width: 50 } },
               { document_count: { display_method: ->(row) { blank_zero(row.document_count) } } },
               { valid:          { display_method: ->(row) { row.valid } } },
               { error_count:    { display_method: ->(row) { blank_zero(row.errors.length) } } },
@@ -117,6 +117,15 @@ module KManager
           graph: graph
         }
         log.structure(data, **opts)
+      end
+
+      def format_content(content, type)
+        formatted = content
+        case type
+        when :ruby
+          formatted = formatted&.sub(/\A# frozen_string_literal: true/, '')&.strip
+        end
+        formatted
       end
 
       def blank_zero(value)
