@@ -18,7 +18,7 @@ module KManager
       raise 'Area name is required' unless @name
 
       @namespace  = opts[:namespace] || @name
-      @config     = KBuilder.configuration(@name)
+      @config     = KConfig.configuration(@name)
     end
 
     def resource_manager

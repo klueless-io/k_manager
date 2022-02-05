@@ -34,25 +34,25 @@ module KManager
 
         private
 
+        # rubocop:disable Metrics/AbcSize
         def keep_watching(builder_folder, boot_file)
-          begin
-            Dir.chdir(builder_folder) do
-              watcher = KManager::Watcher.new(builder_folder, boot_file)
-              watcher.start
-            end
-            false
-          rescue Interrupt, SystemExit
-            if KManager.opts.reboot_on_kill == true || KManager.opts.reboot_on_kill == 1
-              puts "\nRebooting #{KManager.opts.app_name}..."
-              sleep KManager.opts.reboot_sleep unless KManager.opts.reboot_sleep == 0
-              
-              return true 
-            end
-            
-            puts "\nExiting..."
-            false
+          Dir.chdir(builder_folder) do
+            watcher = KManager::Watcher.new(builder_folder, boot_file)
+            watcher.start
           end
+          false
+        rescue Interrupt, SystemExit
+          if KManager.opts.reboot_on_kill == true || KManager.opts.reboot_on_kill == 1
+            puts "\nRebooting #{KManager.opts.app_name}..."
+            sleep KManager.opts.reboot_sleep unless KManager.opts.reboot_sleep.zero?
+
+            return true
+          end
+
+          puts "\nExiting..."
+          false
         end
+        # rubocop:enable Metrics/AbcSize
 
         def log_params(builder_folder, boot_file)
           log.section_heading('Watch project')

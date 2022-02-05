@@ -91,7 +91,6 @@ module KManager
           # end
         rescue Interrupt, SystemExit
           raise
-    
         rescue Exception => e
           # Report the error but still add the document so that you can see
           # it in the ResourceDocument list, it will be marked as Error
