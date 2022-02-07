@@ -14,45 +14,94 @@ module KManager
                   default: '.builders',
                   desc: 'The builder folder, defaults to (.builders)'
 
-        option    :boot_file,
-                  default: 'boot.rb',
-                  aliases: ['-b'],
-                  desc: 'The name of the boot file to create'
-
         option    :force,
                   default: false,
                   aliases: ['-f'],
                   desc: 'Force even if guard fails'
 
+        option    :template,
+                  default: false,
+                  aliases: ['-t'],
+                  desc: 'Starter template'
+
+        option    :log_level,
+                  default: nil,
+                  desc: 'Log level, use debug for more info'
+
         example [
           '                           # Project in current directory - will create a .builders folder and boot file at ./builders/boot.rb',
           '-b ../config/boot.rb       # Project in current directory - will create a .builders folder and boot file at ./config/boot.rb',
+          '-t ruby_gem                # Use starter template `ruby_gem` to setup the files in .builders/*',
           'my_project                 # will watch .xmen folder'
         ]
 
         # rubocop:disable Metrics/ParameterLists
-        def call(project_folder:, builder_folder:, boot_file:, log_level:, force:, **)
-          project_folder  = absolute_path(project_folder, Dir.pwd)
-          name            = File.basename(project_folder)
-          builder_folder  = absolute_path(builder_folder, project_folder)
-          boot_file       = absolute_path(boot_file, builder_folder)
+        def call(project_folder:, builder_folder:, log_level:, force:, template:, **)
+          project_folder        = absolute_path(project_folder, Dir.pwd)
+          name                  = File.basename(project_folder)
+          builder_folder        = absolute_path(builder_folder, project_folder)
+          template_root_folder  = File.expand_path('~/dev/kgems/k_templates/definitions/starter')
 
-          log_params(name, project_folder, builder_folder, boot_file, force) if log_level == 'debug'
+          log_params(name, project_folder, builder_folder, force, log_level, template_root_folder, template) if log_level == 'debug'
 
-          create_project(project_folder, builder_folder, boot_file) if can_create?(force, builder_folder)
+          create_project(name, project_folder, builder_folder, template_root_folder, template) if can_create?(force, builder_folder)
         end
         # rubocop:enable Metrics/ParameterLists
 
         private
 
-        def create_project(project_folder, builder_folder, boot_file)
+        def create_project(name, project_folder, builder_folder, template_root_folder, template)
           FileUtils.mkdir_p(project_folder)
           FileUtils.mkdir_p(builder_folder)
-          File.write(boot_file, '# Boot Sequence')
-          # Use a boot_file_template if needed
+
+          # handle_main_start_command
+
+          setup_builder_from_template(name, builder_folder, template_root_folder, 'default') unless setup_builder_from_template(name, builder_folder, template_root_folder, template)
 
           log.info 'Project created'
         end
+
+        def setup_builder_from_template(name, builder_folder, template_root_folder, template = nil)
+          return false unless template
+
+          # /Users/davidcruwys/dev/kgems/k_templates/definitions/starter/ruby_gem/.starter.json
+          template_folder = File.join(template_root_folder, template)
+          starter_config = template_starter_config(template_folder)
+
+          return false unless starter_config
+
+          builder = get_builder(builder_folder, template_folder)
+
+          return false if starter_config['files'].nil? || starter_config['files'].empty?
+
+          starter_config['files']&.each do |relative_file|
+            builder.add_file(relative_file, template_file: relative_file, name: name)
+          end
+        end
+
+        def template_starter_config(template_folder)
+          starter_file = File.join(template_folder, '.starter.json')
+
+          return nil unless File.exist?(starter_file)
+
+          JSON.parse(File.read(starter_file))
+        end
+
+        # rubocop:disable Metrics/AbcSize
+        def get_builder(builder_folder, template_folder)
+          Handlebars::Helpers.configure do |config|
+            config.helper_config_file = File.join(Gem.loaded_specs['handlebars-helpers'].full_gem_path, '.handlebars_helpers.json')
+            config.string_formatter_config_file = File.join(Gem.loaded_specs['handlebars-helpers'].full_gem_path, '.handlebars_string_formatters.json')
+          end
+
+          KConfig.configure(:starter_template) do |config|
+            config.target_folders.add(:builder              , builder_folder)
+            config.template_folders.add(:template           , template_folder)
+          end
+
+          KBuilder::BaseBuilder.init(KConfig.configuration(:starter_template))
+        end
+        # rubocop:enable Metrics/AbcSize
 
         def can_create?(force, builder_folder)
           return true if force
@@ -63,14 +112,18 @@ module KManager
           false
         end
 
-        def log_params(name, project_folder, builder_folder, boot_file, force)
+        # rubocop:disable Metrics/ParameterLists
+        def log_params(name, project_folder, builder_folder, force, log_level, template_root_folder, template)
           log.section_heading('Create new project')
-          log.kv 'name'           , name
-          log.kv 'project_folder' , project_folder
-          log.kv 'builder_folder' , builder_folder
-          log.kv 'boot_file'      , boot_file
-          log.kv 'force'          , force
+          log.kv 'name'                 , name
+          log.kv 'project_folder'       , project_folder
+          log.kv 'builder_folder'       , builder_folder
+          log.kv 'force'                , force
+          log.kv 'log_level'            , log_level
+          log.kv 'template_root_folder' , template_root_folder
+          log.kv 'template'             , template
         end
+        # rubocop:enable Metrics/ParameterLists
       end
     end
   end
