@@ -3,7 +3,6 @@
 # frozen_string_literal: true
 
 require 'pry'
-puts 'dddddddddddddddddddddd'
 
 lib_path = File.expand_path(File.join(File.dirname(__FILE__), '../lib'))
 gem_path = File.expand_path(File.join(File.dirname(__FILE__), '../Gemfile'))

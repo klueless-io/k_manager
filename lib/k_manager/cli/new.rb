@@ -28,6 +28,15 @@ module KManager
                   default: nil,
                   desc: 'Log level, use debug for more info'
 
+        option    :description,
+                  default: nil,
+                  aliases: ['-d'],
+                  desc: 'Application description'
+
+        option    :user_story,
+                  default: nil,
+                  desc: 'Main user story'
+
         example [
           '                           # Project in current directory - will create a .builders folder and boot file at ./builders/boot.rb',
           '-b ../config/boot.rb       # Project in current directory - will create a .builders folder and boot file at ./config/boot.rb',
@@ -36,32 +45,34 @@ module KManager
         ]
 
         # rubocop:disable Metrics/ParameterLists
-        def call(project_folder:, builder_folder:, log_level:, force:, template:, **)
+        def call(project_folder:, builder_folder:, log_level:, force:, template:, **opts)
           project_folder        = absolute_path(project_folder, Dir.pwd)
           name                  = File.basename(project_folder)
           builder_folder        = absolute_path(builder_folder, project_folder)
           template_root_folder  = File.expand_path('~/dev/kgems/k_templates/definitions/starter')
 
-          log_params(name, project_folder, builder_folder, force, log_level, template_root_folder, template) if log_level == 'debug'
+          log_params(name, project_folder, builder_folder, force, log_level, template_root_folder, template, **opts) if log_level == 'debug'
 
-          create_project(name, project_folder, builder_folder, template_root_folder, template) if can_create?(force, builder_folder)
+          create_project(name, project_folder, builder_folder, template_root_folder, template, **opts) if can_create?(force, builder_folder)
         end
         # rubocop:enable Metrics/ParameterLists
 
         private
 
-        def create_project(name, project_folder, builder_folder, template_root_folder, template)
+        # rubocop:disable Metrics/ParameterLists
+        def create_project(name, project_folder, builder_folder, template_root_folder, template, **opts)
           FileUtils.mkdir_p(project_folder)
           FileUtils.mkdir_p(builder_folder)
 
           # handle_main_start_command
 
-          setup_builder_from_template(name, builder_folder, template_root_folder, 'default') unless setup_builder_from_template(name, builder_folder, template_root_folder, template)
+          setup_builder_from_template(name, builder_folder, template_root_folder, 'default', **opts) unless setup_builder_from_template(name, builder_folder, template_root_folder, template, **opts)
 
           log.info 'Project created'
         end
+        # rubocop:enable Metrics/ParameterLists
 
-        def setup_builder_from_template(name, builder_folder, template_root_folder, template = nil)
+        def setup_builder_from_template(name, builder_folder, template_root_folder, template, **opts)
           return false unless template
 
           # /Users/davidcruwys/dev/kgems/k_templates/definitions/starter/ruby_gem/.starter.json
@@ -75,7 +86,7 @@ module KManager
           return false if starter_config['files'].nil? || starter_config['files'].empty?
 
           starter_config['files']&.each do |relative_file|
-            builder.add_file(relative_file, template_file: relative_file, name: name)
+            builder.add_file(relative_file, template_file: relative_file, **{ name: name }.merge(opts))
           end
         end
 
@@ -112,8 +123,8 @@ module KManager
           false
         end
 
-        # rubocop:disable Metrics/ParameterLists
-        def log_params(name, project_folder, builder_folder, force, log_level, template_root_folder, template)
+        # rubocop:disable Metrics/ParameterLists, Metrics/AbcSize
+        def log_params(name, project_folder, builder_folder, force, log_level, template_root_folder, template, **opts)
           log.section_heading('Create new project')
           log.kv 'name'                 , name
           log.kv 'project_folder'       , project_folder
@@ -122,8 +133,12 @@ module KManager
           log.kv 'log_level'            , log_level
           log.kv 'template_root_folder' , template_root_folder
           log.kv 'template'             , template
+
+          opts.each do |key, value|
+            log.kv key, value
+          end
         end
-        # rubocop:enable Metrics/ParameterLists
+        # rubocop:enable Metrics/ParameterLists, Metrics/AbcSize
       end
     end
   end
