@@ -37,6 +37,10 @@ module KManager
                   default: nil,
                   desc: 'Main user story'
 
+        option    :repo_organization,
+                  default: nil,
+                  desc: 'Repository organization'
+
         example [
           '                           # Project in current directory - will create a .builders folder and boot file at ./builders/boot.rb',
           '-b ../config/boot.rb       # Project in current directory - will create a .builders folder and boot file at ./config/boot.rb',
