@@ -19,7 +19,7 @@ KManager.model :global do
   end
 end
 
-KManager.model :admin_users do
+KManager.model :admin_users, namespace: %i[a b c] do
   table :users do
     fields :user_name, :user, :email
 
