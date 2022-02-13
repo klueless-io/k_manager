@@ -5,6 +5,8 @@ module KManager
   #
   # TODO: Write Tests
   class Manager
+    include KLog::Logging
+
     attr_accessor :active_uri
 
     # NOTE: rename current_resource to active_resource, focused_resource?
@@ -65,6 +67,24 @@ module KManager
       @areas ||= []
     end
 
+    # List of resources for an area.
+    #
+    # if area is nil, then return resources for the area matching the current_resource
+    def area_resources(area: nil)
+      area = resolve_area(area)
+
+      log.error 'Could not resolve area' if area.nil?
+
+      area&.resources
+    end
+
+    # List of documents for an area.
+    #
+    # if area is nil, for the area matching the current_resource
+    def area_documents(area: nil)
+      area_resources(area: area)&.flat_map(&:documents)
+    end
+
     def add_area(name, namespace: nil)
       area = find_area(name)
 
@@ -76,16 +96,7 @@ module KManager
     end
 
     def find_document(tag, area: nil)
-      area = resolve_area(area)
-
-      log.error 'Could not resolve area' if area.nil?
-
-      log.line
-      log.error(tag)
-      log.line
-
-      documents = area.resources.flat_map(&:documents)
-      documents.find { |d| d.tag == tag }
+      area_documents(area: area)&.find { |d| d.tag == tag }
     end
 
     def fire_actions(*actions)
@@ -101,14 +112,14 @@ module KManager
 
     def resolve_area(area)
       if area.nil?
-        return KManager.current_resource.area if KManager.current_resource
+        return current_resource.area if current_resource
 
-        return KManager.areas.first
+        return areas.first
       end
 
       return area if area.is_a?(Area)
 
-      find_area(name)
+      find_area(area)
     end
 
     # Return a list of resources for a URI.
