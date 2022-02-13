@@ -64,7 +64,9 @@ module KManager
       attribute :document_id              , Types::Strict::Integer
       attribute :document_data            , Types::Strict::Any.optional.default # Hash.optional.default(nil) | Types::Strict::Array.of(Types::Strict::Hash).optional.default(nil)
       attribute :document_key             , Types::Strict::String | Types::Strict::Symbol
-      attribute :document_namespace       , Types::Strict::String | Types::Strict::Array.of(Types::Strict::String).optional.default(nil) | Types::Strict::Symbol | Types::Strict::Array.of(Types::Strict::Symbol).optional.default(nil)
+      attribute :document_namespace       , Types::Strict::String | Types::Strict::Symbol |
+                                            Types::Strict::Array.of(Types::Strict::String).optional.default(nil) |
+                                            Types::Strict::Array.of(Types::Strict::Symbol).optional.default(nil)
       attribute :document_tag             , Types::Strict::String | Types::Strict::Symbol
       attribute :document_type            , Types::Strict::String | Types::Strict::Symbol
       # TODO: Write code to populate this with the resource line number
