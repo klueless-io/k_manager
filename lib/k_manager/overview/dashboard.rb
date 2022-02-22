@@ -83,6 +83,7 @@ module KManager
               # # { path:               { display_method: -> (row) { row.resource_path } } },
               # { exist:              { display_method: -> (row) { row.resource_exist } } },
               { document_id:        { display_method: ->(row) { blank_zero(row.document_id) } } },
+              { state:              { display_method: ->(row) { document_state(row.document_state) } } },
               { data:               { display_method: ->(row) { row.document_data } } },
               { error_count:        { display_method: ->(row) { blank_zero(row.document_errors.length) } } },
               { key:                { display_method: ->(row) { row.document_key } } },
@@ -132,6 +133,20 @@ module KManager
         return nil if value.nil? || (value.is_a?(Integer) && value.zero?)
 
         value
+      end
+
+      # Valid states are:
+      #   :new
+      #   :evaluated
+      #   :initialized
+      #   :children_evaluated
+      #   :actioned
+      def document_state(state)
+        return 'unknown'                  if state.nil?
+        return 'loaded (partially)'       if state == :evaluated # probably has unmet dependency
+        return 'loaded'                   if state == :children_evaluated
+
+        state.to_s
       end
 
       def lpad(size, value)

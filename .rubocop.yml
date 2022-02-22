@@ -1,4 +1,8 @@
 require: rubocop-rake
+inherit_mode:
+  merge:
+    - Exclude # see: https://stackoverflow.com/a/70818366/473923
+    - AllowedNames
 AllCops:
   TargetRubyVersion: 2.5
   DisplayCopNames: true
@@ -8,7 +12,6 @@ AllCops:
     - "_/**/*"
     - "spec/samples/**/*"
     - "spec/k_manager/scenarios/**/*"
-
 Metrics/BlockLength:
   Exclude:
     - "**/spec/**/*"
@@ -64,6 +67,9 @@ Naming/MemoizedInstanceVariableName:
 Naming/VariableNumber:
   Exclude:
     - "**/spec/**/*"
+Naming/MethodParameterName:
+  AllowedNames:
+    - as
 Style/EmptyMethod:    
   Exclude:
     - "**/spec/**/*"

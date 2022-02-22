@@ -8,8 +8,6 @@ RSpec.describe KManager::Resources::BaseResource do
   let(:uri) { KUtil.file.parse_uri(uri_value) }
   let(:opts) { {} }
 
-  # let(:project1) { KManager::Project.new(:project1) }
-
   context 'initialize' do
     subject { instance }
 
@@ -71,34 +69,6 @@ RSpec.describe KManager::Resources::BaseResource do
 
         it { is_expected.to be_empty }
       end
-
-      # context '.project' do
-      #   subject { instance.project }
-
-      #   it { is_expected.to be_nil }
-
-      #   context 'when project is provided during initialization' do
-      #     let(:opts) { { project: project1 } }
-
-      #     it { is_expected.not_to be_nil }
-
-      #     context 'project.resources' do
-      #       it { expect { subject }.to change(project1.resources, :length).from(0).to(1) }
-      #     end
-      #   end
-
-      #   describe '#attach_project' do
-      #     context '.project' do
-      #       before { instance.attach_project(project1) }
-
-      #       it { is_expected.not_to be_nil }
-      #     end
-
-      #     context 'project.resources' do
-      #       it { expect { instance.attach_project(project1) }.to change(project1.resources, :length).from(0).to(1) }
-      #     end
-      #   end
-      # end
     end
   end
 
@@ -173,12 +143,6 @@ RSpec.describe KManager::Resources::BaseResource do
             context 'advance the status' do
               it { is_expected.to have_attributes(status: :documents_registered) }
             end
-
-            # describe '#debug' do
-            #   subject { instance.debug }
-
-            #   it { subject }
-            # end
           end
         end
       end
@@ -201,19 +165,16 @@ RSpec.describe KManager::Resources::BaseResource do
           context '#fire_next_action' do
             before { instance.fire_next_action }
 
-            it { is_expected.to be_documents_loaded }
+            it { is_expected.to be_documents_preloaded }
+
+            context '#fire_next_action' do
+              before { instance.fire_next_action }
+
+              it { is_expected.to be_documents_loaded }
+            end
           end
         end
       end
     end
   end
 end
-# def alive?
-#   @status == :alive
-# end
-# def content_loaded?
-#   @status == :content_loaded
-# end
-# def documents_registered?
-#   @status == :documents_registered
-# end

@@ -25,7 +25,7 @@ module KManager
       include KLog::Logging
       include KDoc::Guarded
 
-      ACTIONS = %i[load_content register_document load_document].freeze
+      ACTIONS = %i[load_content register_document preload_document load_document].freeze
 
       class << self
         def valid_action?(action)
@@ -42,6 +42,8 @@ module KManager
       # - :content_loaded
       # - :documents_registering
       # - :documents_registered
+      # - :documents_preloading
+      # - :documents_preloaded
       # - :documents_loading
       # - :documents_loaded
       attr_reader :status
@@ -102,9 +104,9 @@ module KManager
       end
 
       # TODO: Is this really needed?
-      def document
-        @document ||= documents&.first
-      end
+      # def document
+      #   @document ||= documents&.first
+      # end
 
       def activated?
         # log.section_heading("Am I activated?")
@@ -120,7 +122,8 @@ module KManager
       # @param [Symbol] action what action is to be fired
       #  - :load_content for loading text content
       #  - :register_document for registering 1 or more documents (name and namespace) against the resource
-      #  - :load_document for parsing the content into a document
+      #  - :preload_document for parsing the content into a document
+      #  - :load_document for finalizing the document load with met dependencies and action execution if applicable
       # rubocop:disable Metrics/CyclomaticComplexity
       def fire_action(action)
         # TODO: Write test for valid
@@ -131,20 +134,25 @@ module KManager
           load_content_action if alive?
         when :register_document
           register_document_action if content_loaded?
+        when :preload_document
+          preload_document_action if documents_registered?
         when :load_document
-          load_document_action if documents_registered?
+          load_document_action if documents_preloaded?
         else
           log.warn "Action: '#{action}' is invalid for status: '#{status}'"
         end
       end
       # rubocop:enable Metrics/CyclomaticComplexity
 
+      # I don't think this is needed, it is never really used
       def fire_next_action
         if alive?
           fire_action(:load_content)
         elsif content_loaded?
           fire_action(:register_document)
         elsif documents_registered?
+          fire_action(:preload_document)
+        elsif documents_preloaded?
           fire_action(:load_document)
         end
       end
@@ -162,13 +170,22 @@ module KManager
       end
 
       def register_document
-        # log.warn 'you need to implement register_document'
         KManager::Resources::ResourceDocumentFactory.create_documents(self)
       end
 
       # rubocop:disable Lint/RescueException
+      def preload_document
+        documents.each(&:execute_block)
+      rescue Exception => e
+        guard(e.message)
+        debug
+        log.exception(e, style: KManager.opts.exception_style)
+        # log.exception(e, style: :short)
+      end
+      # rubocop:enable Lint/RescueException
+
+      # rubocop:disable Lint/RescueException
       def load_document
-        # log.warn 'you need to implement register_document'
         documents.each do |document|
           document.execute_block(run_actions: activated?)
         end
@@ -238,6 +255,10 @@ module KManager
 
       def documents_registered?
         @status == :documents_registered
+      end
+
+      def documents_preloaded?
+        @status == :documents_preloaded
       end
 
       def documents_loaded?
@@ -318,14 +339,18 @@ module KManager
       def register_document_action
         @status = :documents_registering
         register_document
-        # document_factory.create_documents
         @status = :documents_registered
+      end
+
+      def preload_document_action
+        @status = :documents_preloading
+        preload_document
+        @status = :documents_preloaded
       end
 
       def load_document_action
         @status = :documents_loading
         load_document
-        # document_factory.parse_content
         @status = :documents_loaded
       end
     end
