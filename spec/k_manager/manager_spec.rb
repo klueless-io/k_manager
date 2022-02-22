@@ -35,7 +35,7 @@ RSpec.describe KManager::Manager do
     resource_manager2.add_resource('https://gist.githubusercontent.com/klueless-io/32397b82f2ba607ce3dc452dcb357a99/raw/site_definition.rb', content_type: :ruby)
     resource_manager2.add_resource('https://gist.githubusercontent.com/klueless-io/0140db92d83714caba370fc311973068/raw/string_color.rb', content_type: :ruby)
 
-    KManager.fire_actions(:load_content, :register_document, :load_document)
+    KManager.fire_actions(:load_content, :register_document, :preload_document, :load_document)
 
     dashboard = KManager::Overview::Dashboard.new(KManager.manager)
     # dashboard.areas
@@ -47,7 +47,7 @@ RSpec.describe KManager::Manager do
 
     # log.error('-' * 74)
 
-    # KManager.fire_actions(:load_content, :register_document, :load_document)
+    # KManager.fire_actions(:load_content, :register_document, :preload_document, :load_document)
 
     # dashboard.areas
     # dashboard.resources
@@ -137,7 +137,7 @@ RSpec.describe KManager::Manager do
         rm2.add_resource_expand_path('spec/k_manager/scenarios/simple/traveling-people.json')
         rm2.add_resource_expand_path('spec/k_manager/scenarios/simple/countries.csv')
 
-        instance.fire_actions(:load_content, :register_document, :load_document)
+        instance.fire_actions(:load_content, :register_document, :preload_document, :load_document)
       end
 
       context 'when no area name provided' do
@@ -169,7 +169,7 @@ RSpec.describe KManager::Manager do
         rm2 = instance.add_area(:traveling_people).resource_manager
         rm2.add_resource_expand_path('spec/k_manager/scenarios/simple/traveling-people.json')
 
-        instance.fire_actions(:load_content, :register_document, :load_document)
+        instance.fire_actions(:load_content, :register_document, :preload_document, :load_document)
       end
 
       context 'when no area name provided' do

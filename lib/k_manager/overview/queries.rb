@@ -35,6 +35,7 @@ module KManager
                 **area.attribute_values('area_'),
                 **resource.attribute_values('resource_'),
                 document_id: document.object_id,
+                document_state: document.block_state,
                 document_data: document.data,
                 document_key: document.key,
                 document_namespace: document.namespace,
