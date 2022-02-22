@@ -146,6 +146,7 @@ module KManager
 
         load_content        if actions.include?(:load_content)
         register_documents  if actions.include?(:register_document)
+        preload_documents   if actions.include?(:preload_document)
         load_documents      if actions.include?(:load_document)
       end
 
@@ -167,10 +168,25 @@ module KManager
         end
       end
 
+      def preload_documents
+        # first pass will attempt to load every document, if a document has dependencies
+        # it will be loaded in a second pass after dependencies are available
+        resources.each do |resource|
+          resource.fire_action(:preload_document)
+        end
+
+        attach_dependencies
+      end
+
       def load_documents
+        # second pass will finalize any documents that were partially load due to dependencies
         resources.each do |resource|
           resource.fire_action(:load_document)
         end
+      end
+
+      def find_document(tag)
+        resources.flat_map(&:documents).find { |d| d.tag == tag }
       end
 
       def debug
@@ -178,6 +194,17 @@ module KManager
       end
 
       private
+
+      def attach_dependencies
+        documents_with_dependencies = resources.flat_map(&:documents).select { |d| { tag: d.tag, met: d.dependencies_met? } }
+
+        documents_with_dependencies.each do |document|
+          document.depend_on_tags.each do |tag|
+            dependant_document = find_document(tag)
+            document.resolve_dependency(dependant_document) if dependant_document
+          end
+        end
+      end
 
       def parse_uri(uri)
         return uri if uri.is_a?(URI)
