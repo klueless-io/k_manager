@@ -5,6 +5,10 @@ module KManager
     # Generate dashboard information on the console
     #
     # TODO: ConsoleDashboard and HtmlConsole
+    # dashboard = KManager::Overview::Dashboard.new(KManager.manager)
+    # dashboard.areas
+    # dashboard.resources
+    # dashboard.documents
     class Dashboard
       include KLog::Logging
 

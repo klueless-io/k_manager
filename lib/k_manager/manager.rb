@@ -137,6 +137,10 @@ module KManager
       @active_uri = nil
     end
 
+    def boot
+      KManager.fire_actions(:load_content, :register_document, :preload_document, :load_document)
+    end
+
     def reboot
       puts 'Fire reboot'
       KManager.opts.reboot_on_kill = 1

@@ -93,8 +93,13 @@ module KManager
         replace_resource = resource.recreate(resource)
         replace_resource.fire_action(:load_content)
         replace_resource.fire_action(:register_document)
+        replace_resource.fire_action(:preload_document)
         replace_resource.fire_action(:load_document)
         resource_set.replace(replace_resource)
+
+        # This is a bit of a hack, but it works for now
+        # TODO: I don't think is actually working.
+        attach_dependencies
       end
 
       def delete_resource(resource_uri)
@@ -191,14 +196,15 @@ module KManager
 
       def debug
         resources.each(&:debug)
+        nil
       end
 
       private
 
       def attach_dependencies
-        documents_with_dependencies = resources.flat_map(&:documents).select { |d| { tag: d.tag, met: d.dependencies_met? } }
+        documents_with_unmet_dependencies = resources.flat_map(&:documents).reject(&:dependencies_met?)
 
-        documents_with_dependencies.each do |document|
+        documents_with_unmet_dependencies.each do |document|
           document.depend_on_tags.each do |tag|
             dependant_document = find_document(tag)
             document.resolve_dependency(dependant_document) if dependant_document

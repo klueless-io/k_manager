@@ -1,16 +1,1 @@
-<mxfile host="65bd71144e">
-    <diagram id="AE9tsI4e_FXgj975v7li" name="Page-1">
-        <mxGraphModel dx="1087" dy="583" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
-            <root>
-                <mxCell id="0"/>
-                <mxCell id="1" parent="0"/>
-                <mxCell id="2" value="KManager" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="200" y="70" width="120" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="3" value="" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="390" y="210" width="120" height="60" as="geometry"/>
-                </mxCell>
-            </root>
-        </mxGraphModel>
-    </diagram>
-</mxfile>
+<mxfile host="Electron" modified="2022-03-15T20:30:15.594Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/16.5.1 Chrome/96.0.4664.110 Electron/16.0.7 Safari/537.36" version="16.5.1" etag="y7uUaI553n6FR_Tt1bNI" type="device"><diagram id="iz_p9EhzHe2lvTp9jl-W" name="Page-1">5VfbcpswEP0aP6YDEmD8mDrX3qadTCdt3xRYQLaMGCHbkK+vAGFucpq2TqYzxQ9mz2p1OWclLTO83BTXgmTJRx4CmyErLGb4YoaQbVue+quQskEWi3kDxIKGulEH3NFH0KCl0S0NIR80lJwzSbMhGPA0hUAOMCIE3w+bRZwNR81IDBPgLiBsit7TUCbturxF57gBGid6aB/p9T2QYB0Lvk31eDOEo/pp3BvS9qUXmick5PsehC9neCk4l83bplgCq7htaWviro54D/MWkMrnBDy+P7sqpFVE/vm7tZvdfvnhbM+0eLksWz4gVPRoM+Wp+ntbLxKqbixlcSETHvOUsA+cZwq0FbgCKUstLtlKrqBEbpj2QkHltyr8zdzV5vee66LQXddGqQ3FV1Z1FzEoziuhFRZRxpaccVHPFYcE/Cio2krB19DzeIEPD5HyNOurFnWUNg3lfCsC3QrpRCQiBvkEfc5BR7U/gG9AilLFCWBE0t1wSKITNT6068RSL1ovs3Z6PjvCttBm20i3oUj7hEq4y0i9oL3auUNB8jXIINHGiNTIrX5GUutHR7Q5knNWzfJtxFPZa9s8jYxN2tsHNQzk70BIKHrQlFTt9fR20seNo819t3fRQmNJb9vaLfg3MljFqkw+WSt7Z4v8+iu9dVdekwNPa6N6UccZPEOXPlkTkSaUj4RTj++bhMMeXuDwNPz7aCgAmgpgz00CeC8lgP+vCKBuBD/EJgEQdhz3RALYzkiA+VQB3yCA/1L8L/4v/p0x/97r8T89ay7ITjmRda+6RdYNCJiQ316katWEMWA8FmSjuMhAUDUDEGPf587xK70iWkBb1J3ogHfxkF8bG04YZCD4FAeM8ZZ3X7lIQv0i6VAXGYskRbMomyi3NQ+lVWV0YbXVxv1ZWXS8BhrWSuiVyqKn5nOyWulI/hrIOprSyB0VLYZLE1mmS9P9/ZxWZvdRUft6X2748ic=</diagram></mxfile>
