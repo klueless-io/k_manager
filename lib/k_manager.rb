@@ -11,6 +11,7 @@ require 'k_director'
 require 'k_fileset'
 require 'k_builder'
 require 'k_ext/github'
+require 'drawio_dsl'
 
 # IS THIS NEEDED? this was used for infer_key
 require 'handlebars/helpers/string_formatting/dasherize'
@@ -29,8 +30,6 @@ require 'k_manager/resources/mem_resource'
 require 'k_manager/resources/resource_document_factory'
 require 'k_manager/resources/resource_factory'
 require 'k_manager/resources/resource_manager'
-# require 'k_manager/document_import/importable'
-# require 'k_manager/document_import/build_tag'
 require 'k_manager/document_factory'
 require 'k_manager/manager'
 require 'k_manager/area'
@@ -109,6 +108,7 @@ module KManager
                     :find_document,
                     :fire_actions,
                     :resource_changed,
+                    :boot,
                     :reboot,
                     :debug
 

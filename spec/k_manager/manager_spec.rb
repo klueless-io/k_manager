@@ -35,7 +35,7 @@ RSpec.describe KManager::Manager do
     resource_manager2.add_resource('https://gist.githubusercontent.com/klueless-io/32397b82f2ba607ce3dc452dcb357a99/raw/site_definition.rb', content_type: :ruby)
     resource_manager2.add_resource('https://gist.githubusercontent.com/klueless-io/0140db92d83714caba370fc311973068/raw/string_color.rb', content_type: :ruby)
 
-    KManager.fire_actions(:load_content, :register_document, :preload_document, :load_document)
+    KManager.boot
 
     dashboard = KManager::Overview::Dashboard.new(KManager.manager)
     # dashboard.areas

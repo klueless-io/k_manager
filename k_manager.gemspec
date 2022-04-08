@@ -38,6 +38,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   # spec.extensions    = ['ext/k_manager/extconf.rb']
 
+  spec.add_dependency 'drawio_dsl', '~> 0.1'
   spec.add_dependency 'dry-struct', '~> 1'
   spec.add_dependency 'filewatcher', '~> 2.0.0.beta5'
   spec.add_dependency 'k_builder', '~> 0.0.0'
@@ -47,6 +48,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'k_ext-github', '~> 0.0.0'
   spec.add_dependency 'k_fileset', '~> 0.0.0'
   spec.add_dependency 'k_log', '~> 0.0.0'
+
   # spec.add_dependency 'k_type'                , '~> 0.0.0'
   # spec.add_dependency 'k_util'                , '~> 0.0.0'
   spec.add_dependency 'dry-cli', '~> 0.7.0'
