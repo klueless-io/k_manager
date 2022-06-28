@@ -133,7 +133,7 @@ module KManager
   end
 end
 
-if ENV['KLUE_DEBUG']&.to_s&.downcase == 'true'
+if ENV.fetch('KLUE_DEBUG', 'false').downcase == 'true'
   namespace = 'KManager::Version'
   file_path = $LOADED_FEATURES.find { |f| f.include?('k_manager/version') }
   version = KManager::VERSION.ljust(9)
