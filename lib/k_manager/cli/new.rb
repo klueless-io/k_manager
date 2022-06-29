@@ -83,6 +83,8 @@ module KManager
           template_folder = File.join(template_root_folder, template)
           starter_config = template_starter_config(template_folder)
 
+          log.error("Starter config not found for template: #{template}") unless starter_config
+
           return false unless starter_config
 
           builder = get_builder(builder_folder, template_folder)
