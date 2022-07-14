@@ -2,8 +2,6 @@
 
 module KManager
   module Resources
-    require 'handlebars/helpers/string_formatting/dasherize'
-
     # A web resource represents content that is loaded via a web URI.
     #
     # Web resources do not support watchers and so if you want to handle

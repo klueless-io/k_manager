@@ -6,35 +6,28 @@ CONFIG_KEY = :k_manager
 
 log.kv 'working folder', Dir.pwd
 
-Handlebars::Helpers.configure do |config|
-  config.helper_config_file = File.join(Gem.loaded_specs['handlebars-helpers'].full_gem_path, '.handlebars_helpers.json')
-  config.string_formatter_config_file = File.join(Gem.loaded_specs['handlebars-helpers'].full_gem_path, '.handlebars_string_formatters.json')
+KConfig.configure do |config|
+  config.handlebars.defaults.add_array_defaults
+  config.handlebars.defaults.add_case_defaults
+  config.handlebars.defaults.add_comparison_defaults
+  config.handlebars.defaults.add_inflection_defaults
 end
 
-def camel
-  require 'handlebars/helpers/string_formatting/camel'
-  Handlebars::Helpers::StringFormatting::Camel.new
-end
-
-def titleize
-  require 'handlebars/helpers/string_formatting/titleize'
-  Handlebars::Helpers::StringFormatting::Titleize.new
-end
-
-def pluralize
-  require 'handlebars/helpers/inflection/pluralize'
-  Handlebars::Helpers::Inflection::Pluralize.new
-end
-
-def singularize
-  require 'handlebars/helpers/inflection/singularize'
-  Handlebars::Helpers::Inflection::Singularize.new
-end
-
-def dasherize
-  require 'handlebars/helpers/string_formatting/dasherize'
-  Handlebars::Helpers::StringFormatting::Dasherize.new
-end
+# def camel
+#   Cmdlet::Case::Camel.new
+# end
+# def titleize
+#   Cmdlet::Case::Title.new
+# end
+# def pluralize
+#   Cmdlet::Case::Pluralize.new
+# end
+# def singularize
+#   Cmdlet::Case::Singularize.new
+# end
+# def dasherize
+#   Cmdlet::Case::Dash.new
+# end
 
 def k_builder
   @k_builder ||= KBuilder::BaseBuilder.init(KConfig.configuration(CONFIG_KEY))

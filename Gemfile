@@ -28,7 +28,8 @@ end
 if ENV['KLUE_LOCAL_GEMS']&.to_s&.downcase == 'true'
   group :development, :test do
     puts 'Using Local GEMs'
-    gem 'handlebars-helpers'      , path: '../handlebars-helpers'
+    # gem 'handlebars-helpers'      , path: '../handlebars-helpers'
+    gem 'handlebarsjs'            , path: '../handlebarsjs'
     gem 'k_builder'               , path: '../k_builder'
     gem 'k_builder-dotnet'        , path: '../k_builder-dotnet'
     # gem 'k_builder-package_json'  , path: '../k_builder-package_json'
