@@ -76,6 +76,7 @@ module KManager
         end
         # rubocop:enable Metrics/ParameterLists
 
+        # rubocop:disable Metrics/CyclomaticComplexity
         def setup_builder_from_template(name, builder_folder, template_root_folder, template, **opts)
           return false unless template
 
@@ -95,6 +96,7 @@ module KManager
             builder.add_file(relative_file, template_file: relative_file, **{ name: name }.merge(opts))
           end
         end
+        # rubocop:enable Metrics/CyclomaticComplexity
 
         def template_starter_config(template_folder)
           starter_file = File.join(template_folder, '.starter.json')

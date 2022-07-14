@@ -13,10 +13,6 @@ require 'k_builder'
 require 'k_ext/github'
 require 'drawio_dsl'
 
-# IS THIS NEEDED? this was used for infer_key
-require 'handlebars/helpers/string_formatting/dasherize'
-require 'handlebars/helpers/string_formatting/snake'
-
 require 'k_manager/version'
 require 'k_manager/overview/models'
 require 'k_manager/overview/queries'
