@@ -25,7 +25,9 @@ module KManager
       # Infer key is the file name without the extension stored in dash-case
       def infer_key
         file_name = Pathname.new(source_path).basename.sub_ext('').to_s
-        Handlebars::Helpers::StringFormatting::Snake.new.parse(file_name)
+
+        # Handlebars::Helpers::StringFormatting::Snake.new.parse(file_name)
+        Cmdlet::Case::Snake.new.call(file_name)
       end
 
       def default_scheme
