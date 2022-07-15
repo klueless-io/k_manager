@@ -14,7 +14,7 @@ RSpec.describe KManager::Resources::WebResource do
   context 'initialize' do
     subject { instance }
 
-    context 'minimal initialization' do
+    fcontext 'minimal initialization' do
       it { is_expected.not_to be_nil }
 
       it { is_expected.to be_alive }

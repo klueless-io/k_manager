@@ -7,10 +7,7 @@ CONFIG_KEY = :k_manager
 log.kv 'working folder', Dir.pwd
 
 KConfig.configure do |config|
-  config.handlebars.defaults.add_array_defaults
-  config.handlebars.defaults.add_case_defaults
-  config.handlebars.defaults.add_comparison_defaults
-  config.handlebars.defaults.add_inflection_defaults
+  config.handlebars.defaults.add_all_defaults
 end
 
 # def camel
