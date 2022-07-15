@@ -46,7 +46,7 @@ RSpec.describe KManager::Resources::ResourceDocumentFactory do
     before { instance.create_documents(resource) }
 
     describe '.document (first document in the array)' do
-      subject { resource.document }
+      subject { resource.documents.first }
 
       context 'when csv content' do
         context 'valid csv file' do
