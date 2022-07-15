@@ -81,7 +81,7 @@ RSpec.describe 'Import Workflows' do
       context 'when dependant upon another document' do
         let(:key) { :simple_dependency_kdoc }
 
-        fit do
+        it do
           dashboard = KManager::Overview::Dashboard.new(KManager.manager)
           dashboard.resources
           dashboard.documents
