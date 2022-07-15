@@ -19,7 +19,7 @@ module KManager
       # Infer key is the file name without the extension stored in dash-case
       def infer_key
         last_segment = uri.path.split('/').last
-        Handlebars::Helpers::StringFormatting::Snake.new.parse(last_segment)
+        Cmdlet::Case::Snake.new.call(last_segment)
       end
 
       def default_scheme

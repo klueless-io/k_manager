@@ -108,9 +108,16 @@ module KManager
 
         # rubocop:disable Metrics/AbcSize
         def get_builder(builder_folder, template_folder)
-          Handlebars::Helpers.configure do |config|
-            config.helper_config_file = File.join(Gem.loaded_specs['handlebars-helpers'].full_gem_path, '.handlebars_helpers.json')
-            config.string_formatter_config_file = File.join(Gem.loaded_specs['handlebars-helpers'].full_gem_path, '.handlebars_string_formatters.json')
+          # Handlebars::Helpers.configure do |config|
+          #   config.helper_config_file = File.join(Gem.loaded_specs['handlebars-helpers'].full_gem_path, '.handlebars_helpers.json')
+          #   config.string_formatter_config_file = File.join(Gem.loaded_specs['handlebars-helpers'].full_gem_path, '.handlebars_string_formatters.json')
+          # end
+
+          KConfig.configure do |config|
+            config.handlebars.defaults.add_array_defaults
+            config.handlebars.defaults.add_case_defaults
+            config.handlebars.defaults.add_comparison_defaults
+            config.handlebars.defaults.add_inflection_defaults
           end
 
           KConfig.configure(:starter_template) do |config|
