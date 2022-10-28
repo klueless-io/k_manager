@@ -13,6 +13,7 @@ require 'k_fileset'
 require 'k_builder'
 require 'k_ext/github'
 require 'drawio_dsl'
+require 'tailwind_dsl'
 
 require 'k_manager/version'
 require 'k_manager/overview/models'

@@ -46,5 +46,6 @@ if ENV['KLUE_LOCAL_GEMS']&.to_s&.downcase == 'true'
     gem 'k_type'                  , path: '../k_type'
     gem 'k_util'                  , path: '../k_util'
     gem 'peeky'                   , path: '../peeky'
+    gem 'tailwind_dsl'            , path: '../tailwind_dsl'
   end
 end
