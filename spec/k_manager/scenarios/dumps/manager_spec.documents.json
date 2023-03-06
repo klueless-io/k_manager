@@ -4,7 +4,7 @@
     "area_namespace": "xmen",
     "area_resource_count": 2,
     "area_document_count": 2,
-    "resource_id": 13740,
+    "resource_id": 12700,
     "resource_key": "countries",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -21,7 +21,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/countries.csv",
     "resource_relative_path": "spec/k_manager/scenarios/simple/countries.csv",
     "resource_exist": true,
-    "document_id": 14000,
+    "document_id": 12960,
     "document_state": "children_evaluated",
     "document_data": [
       {
@@ -61,7 +61,7 @@
     "area_namespace": "xmen",
     "area_resource_count": 2,
     "area_document_count": 2,
-    "resource_id": 13760,
+    "resource_id": 12720,
     "resource_key": "traveling_people",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -78,7 +78,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/traveling-people.json",
     "resource_relative_path": "spec/k_manager/scenarios/simple/traveling-people.json",
     "resource_exist": true,
-    "document_id": 14020,
+    "document_id": 12980,
     "document_state": "children_evaluated",
     "document_data": {
       "people": [
@@ -133,7 +133,7 @@
     "area_namespace": "tp",
     "area_resource_count": 11,
     "area_document_count": 12,
-    "resource_id": 13780,
+    "resource_id": 12740,
     "resource_key": "countries",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -150,7 +150,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/countries.csv",
     "resource_relative_path": "spec/k_manager/scenarios/simple/countries.csv",
     "resource_exist": true,
-    "document_id": 14040,
+    "document_id": 13000,
     "document_state": "children_evaluated",
     "document_data": [
       {
@@ -190,7 +190,7 @@
     "area_namespace": "tp",
     "area_resource_count": 11,
     "area_document_count": 12,
-    "resource_id": 13800,
+    "resource_id": 12760,
     "resource_key": "traveling_people",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -207,7 +207,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/traveling-people.json",
     "resource_relative_path": "spec/k_manager/scenarios/simple/traveling-people.json",
     "resource_exist": true,
-    "document_id": 14060,
+    "document_id": 13020,
     "document_state": "children_evaluated",
     "document_data": {
       "people": [
@@ -262,7 +262,7 @@
     "area_namespace": "tp",
     "area_resource_count": 11,
     "area_document_count": 12,
-    "resource_id": 13820,
+    "resource_id": 12780,
     "resource_key": "ben_dover",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -279,7 +279,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/ben-dover.jason",
     "resource_relative_path": "spec/k_manager/scenarios/simple/ben-dover.jason",
     "resource_exist": true,
-    "document_id": 14080,
+    "document_id": 13040,
     "document_state": "children_evaluated",
     "document_data": {
       "first": "Ben",
@@ -307,7 +307,7 @@
     "area_namespace": "tp",
     "area_resource_count": 11,
     "area_document_count": 12,
-    "resource_id": 13920,
+    "resource_id": 12880,
     "resource_key": "rich_data",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -324,7 +324,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_relative_path": "spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_exist": true,
-    "document_id": 14100,
+    "document_id": 13060,
     "document_state": "children_evaluated",
     "document_data": [
       {
@@ -364,7 +364,7 @@
     "area_namespace": "tp",
     "area_resource_count": 11,
     "area_document_count": 12,
-    "resource_id": 13920,
+    "resource_id": 12880,
     "resource_key": "rich_data",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -381,7 +381,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_relative_path": "spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_exist": true,
-    "document_id": 14120,
+    "document_id": 13080,
     "document_state": "children_evaluated",
     "document_data": {
       "people": [
@@ -436,7 +436,7 @@
     "area_namespace": "tp",
     "area_resource_count": 11,
     "area_document_count": 12,
-    "resource_id": 13920,
+    "resource_id": 12880,
     "resource_key": "rich_data",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -453,7 +453,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_relative_path": "spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_exist": true,
-    "document_id": 14140,
+    "document_id": 13100,
     "document_state": "children_evaluated",
     "document_data": {
     },
@@ -473,7 +473,7 @@
     "area_namespace": "tp",
     "area_resource_count": 11,
     "area_document_count": 12,
-    "resource_id": 13920,
+    "resource_id": 12880,
     "resource_key": "rich_data",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -490,7 +490,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_relative_path": "spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_exist": true,
-    "document_id": 14160,
+    "document_id": 13120,
     "document_state": "children_evaluated",
     "document_data": {
       "settings": {
@@ -514,7 +514,7 @@
     "area_namespace": "tp",
     "area_resource_count": 11,
     "area_document_count": 12,
-    "resource_id": 13920,
+    "resource_id": 12880,
     "resource_key": "rich_data",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -531,7 +531,7 @@
     "resource_path": "/Users/davidcruwys/dev/kgems/k_manager/spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_relative_path": "spec/k_manager/scenarios/simple/rich_data.rb",
     "resource_exist": true,
-    "document_id": 14180,
+    "document_id": 13140,
     "document_state": "children_evaluated",
     "document_data": {
       "users": {
@@ -589,7 +589,7 @@
     "area_namespace": "tp",
     "area_resource_count": 11,
     "area_document_count": 12,
-    "resource_id": 13940,
+    "resource_id": 12900,
     "resource_key": "people_csv",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -606,7 +606,7 @@
     "resource_path": "https://gist.githubusercontent.com/klueless-io/36a53ac9683866d923ce9fa99ccca436/raw/people.csv",
     "resource_relative_path": "/klueless-io/36a53ac9683866d923ce9fa99ccca436/raw/people.csv",
     "resource_exist": true,
-    "document_id": 14200,
+    "document_id": 13160,
     "document_state": "children_evaluated",
     "document_data": [
       {
@@ -636,7 +636,7 @@
     "area_namespace": "tp",
     "area_resource_count": 11,
     "area_document_count": 12,
-    "resource_id": 13960,
+    "resource_id": 12920,
     "resource_key": "site_definition_rb",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -653,7 +653,7 @@
     "resource_path": "https://gist.githubusercontent.com/klueless-io/32397b82f2ba607ce3dc452dcb357a99/raw/site_definition.rb",
     "resource_relative_path": "/klueless-io/32397b82f2ba607ce3dc452dcb357a99/raw/site_definition.rb",
     "resource_exist": true,
-    "document_id": 14220,
+    "document_id": 13180,
     "document_state": "children_evaluated",
     "document_data": {
       "settings": {
@@ -676,7 +676,7 @@
     "area_namespace": "tp",
     "area_resource_count": 11,
     "area_document_count": 12,
-    "resource_id": 13960,
+    "resource_id": 12920,
     "resource_key": "site_definition_rb",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -693,7 +693,7 @@
     "resource_path": "https://gist.githubusercontent.com/klueless-io/32397b82f2ba607ce3dc452dcb357a99/raw/site_definition.rb",
     "resource_relative_path": "/klueless-io/32397b82f2ba607ce3dc452dcb357a99/raw/site_definition.rb",
     "resource_exist": true,
-    "document_id": 14240,
+    "document_id": 13200,
     "document_state": "children_evaluated",
     "document_data": {
       "settings": {
@@ -716,7 +716,7 @@
     "area_namespace": "tp",
     "area_resource_count": 11,
     "area_document_count": 12,
-    "resource_id": 13960,
+    "resource_id": 12920,
     "resource_key": "site_definition_rb",
     "resource_namespace": null,
     "resource_status": "documents_loaded",
@@ -733,7 +733,7 @@
     "resource_path": "https://gist.githubusercontent.com/klueless-io/32397b82f2ba607ce3dc452dcb357a99/raw/site_definition.rb",
     "resource_relative_path": "/klueless-io/32397b82f2ba607ce3dc452dcb357a99/raw/site_definition.rb",
     "resource_exist": true,
-    "document_id": 14260,
+    "document_id": 13220,
     "document_state": "children_evaluated",
     "document_data": {
       "table": {

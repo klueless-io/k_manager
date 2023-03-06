@@ -25,7 +25,7 @@ module KManager
 
         # A regular ruby file would not add resource_documents
         # so create one manually
-        @document = super if documents.length.zero?
+        @document = super if documents.empty?
       end
     end
   end

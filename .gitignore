@@ -48,3 +48,5 @@ Gemfile.lock
 
 # ByeBug history
 .byebug_history
+.DS_Store
+.tool-versions
